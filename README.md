@@ -1,1 +1,1 @@
-# scala-js-react-virtualized
+# scalajs-react-virtualized
