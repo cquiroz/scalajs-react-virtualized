@@ -2,6 +2,8 @@ val reactJS = "15.6.1"
 val reactVirtualized = "9.10.1"
 val scalaJsReact = "1.1.0"
 
+parallelExecution in (ThisBuild, Test) := false
+
 val `scalajs-react-virtualized` =
   project.in(file("."))
     .aggregate(facade, demo)

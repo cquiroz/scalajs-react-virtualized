@@ -3,9 +3,13 @@ package react
 package virtualized
 
 import japgolly.scalajs.react._
+import japgolly.scalajs.react.component.Js.{RawMounted, UnmountedWithRawType}
+
 import scala.scalajs.js
 import js.JSConverters._
 import japgolly.scalajs.react.raw.{JsNumber, ReactNode}
+import japgolly.scalajs.react.vdom.VdomNode
+
 import scala.scalajs.js.annotation.{JSImport, ScalaJSDefined}
 
 object Column {
@@ -33,22 +37,45 @@ object Column {
 
   @ScalaJSDefined
   trait CellRendererParameter extends js.Object {
-    val cellData: js.Any
-    val columnData: js.Any
-    val dataKey: String
-    val rowData: js.Any
-    val rowIndex: JsNumber
+    var cellData: js.Any
+    var columnData: js.Any
+    var dataKey: String
+    var rowData: js.Any
+    var rowIndex: JsNumber
+  }
+  object CellRendererParameter {
+    def apply(cellData: js.Any, columnData: js.Any, dataKey: String, rowData: js.Any, rowIndex: JsNumber): CellRendererParameter = {
+      val p = (new js.Object).asInstanceOf[CellRendererParameter]
+      p.cellData = cellData
+      p.columnData = columnData
+      p.dataKey = dataKey
+      p.rowData = rowData
+      p.rowIndex = rowIndex
+      p
+    }
   }
   type CellRenderer = js.Function1[CellRendererParameter, ReactNode]
 
   @ScalaJSDefined
   trait HeaderRendererParameter extends js.Object {
-    val columnData: js.Any
-    val dataKey: String
-    val disableSort: Boolean
-    val label: ReactNode
-    val sortBy: String
-    val sortDirection: String
+    var columnData: js.Any
+    var dataKey: String
+    var disableSort: Boolean
+    var label: ReactNode
+    var sortBy: String
+    var sortDirection: String
+  }
+  object HeaderRendererParameter {
+    def apply(columnData: js.Any, dataKey: String, disableSort: Boolean, label: VdomNode, sortBy: String, sortDirection: String): HeaderRendererParameter = {
+      val p = (new js.Object).asInstanceOf[HeaderRendererParameter]
+      p.columnData = columnData
+      p.dataKey = dataKey
+      p.disableSort = disableSort
+      p.label = label.rawNode
+      p.sortBy = sortBy
+      p.sortDirection = sortDirection
+      p
+    }
   }
   type HeaderRenderer = js.Function1[HeaderRendererParameter, ReactNode]
 
@@ -115,22 +142,51 @@ object Column {
     var width: JsNumber = js.native
   }
 
+//  private def toRawNode(vdomNode: VdomNode): ReactNode = vdomNode.rawNode
+
   def props(
     width: Int,
     dataKey: String,
     ariaLabel: js.UndefOr[String] = js.undefined,
-    cellDataGetter: Option[CellDataGetter] = None
+    cellDataGetter: Option[CellDataGetter] = None,
+    cellRenderer: Option[CellRenderer] = None,
+    className: js.UndefOr[String] = js.undefined,
+    columnData: js.UndefOr[js.Object] = js.undefined,
+    disableSort: js.UndefOr[Boolean] = js.undefined,
+    flexGrow: js.UndefOr[JsNumber] = js.undefined,
+    flexShrink: js.UndefOr[JsNumber] = js.undefined,
+    headerClassName: js.UndefOr[String] = js.undefined,
+    headerRenderer: Option[HeaderRenderer] = None,
+    id: js.UndefOr[String] = js.undefined,
+    label: js.UndefOr[ReactNode] = js.undefined,
+    maxWidth: js.UndefOr[JsNumber] = js.undefined,
+    minWidth: js.UndefOr[JsNumber] = js.undefined,
+    style: js.UndefOr[js.Object] = js.undefined,
   ): Props = {
     val p = (new js.Object).asInstanceOf[Props]
     p.width = width
     p.dataKey = dataKey
     p.`aria-label` = ariaLabel
     p.cellDataGetter = cellDataGetter.orUndefined
+    p.cellRenderer = cellRenderer.orUndefined
+    p.className = className
+    p.columnData = columnData
+    p.disableSort = disableSort
+    p.flexGrow = flexGrow
+    p.flexShrink = flexShrink
+    p.headerClassName = headerClassName
+//    p.headerRenderer = headerRenderer.map(f => f.andThen(toRawNode)).orUndefined
+    p.headerRenderer = headerRenderer.orUndefined
+    p.id = id
+    p.label = label
+    p.maxWidth = maxWidth
+    p.minWidth = minWidth
+    p.style = style
     p
   }
 
-  val component = JsComponent[Props, Children.None, Null](RawComponent)
+  private val component = JsComponent[Props, Children.None, Null](RawComponent)
 
-  def apply(p: Props) = component(p)
+  def apply(p: Props): UnmountedWithRawType[Props, Null, RawMounted] = component(p)
 
 }
