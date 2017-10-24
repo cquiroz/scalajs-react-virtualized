@@ -2,15 +2,51 @@ package io.github.cquiroz.scalajs
 package react
 package virtualized
 
-import org.scalatest.{Assertion, FlatSpec, Matchers}
+import org.scalatest._
 import Column._
 import japgolly.scalajs.react.ReactDOMServer
 
 import scala.scalajs.js
 import js.JSConverters._
 import japgolly.scalajs.react.vdom.html_<^.{< => <<, _}
+import cats.Eq
+import cats.syntax.eq._
 
-class ColumnSpec extends FlatSpec with Matchers {
+trait TestUtils {
+  implicit def jsUndefOr[A: Eq]: Eq[js.UndefOr[A]] = Eq.instance { (a, b) =>
+    (a.toOption, b.toOption) match {
+      case (Some(a), Some(b)) => a === b
+      case _                  => false
+    }
+  }
+
+  implicit val jsObj: Eq[js.Object] = Eq.instance { (a, b) =>
+    val aDict = a.asInstanceOf[js.Dictionary[Any]]
+    val bDict = b.asInstanceOf[js.Dictionary[Any]]
+    (aDict.keySet == bDict.keySet) &&
+      aDict.keySet.forall(key => aDict(key) === bDict(key))
+  }
+
+  implicit val jsEq: Eq[Any] = Eq.instance { (a, b) =>
+    (a, b) match {
+      case (a: js.Array[_], b: js.Array[_]) =>
+        a.length == b.length &&
+          a.zip(b).forall{ x => jsEq.eqv(x._1, x._2) }
+
+      case _ if a.asInstanceOf[js.Dynamic].constructor == js.constructorOf[js.Object] &&
+        b.asInstanceOf[js.Dynamic].constructor == js.constructorOf[js.Object] =>
+        val aDict = a.asInstanceOf[js.Dictionary[Any]]
+        val bDict = b.asInstanceOf[js.Dictionary[Any]]
+        (aDict.keySet == bDict.keySet) &&
+          aDict.keySet.forall(key => aDict(key) === bDict(key))
+
+      case _ =>
+        a == b
+    }
+  }
+}
+
+class ColumnSpec extends FlatSpec with Matchers with NonImplicitAssertions with TestUtils {
   def assertRender(e: japgolly.scalajs.react.vdom.VdomElement, expected: String): Assertion =
     assertRender(e.rawElement, expected)
 
@@ -97,7 +133,7 @@ class ColumnSpec extends FlatSpec with Matchers {
     }
     it should "support style" in {
       val style = js.Dynamic.literal(foo = 42, bar = "foobar")
-//      Column(Column.props(200, "key")).props.style.isEmpty should be(js.Object.apply().toLocaleString())
+      Column(Column.props(200, "key")).props.style === Some(js.Object()).orUndefined should be(true)
       Column(Column.props(200, "key", style = style)).props.style should be(style)
     }
 }

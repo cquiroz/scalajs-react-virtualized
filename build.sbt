@@ -43,7 +43,8 @@ lazy val commonSettings = Seq(
   libraryDependencies ++= Seq(
     "com.github.japgolly.scalajs-react" %%% "core"      % scalaJsReact,
     "com.github.japgolly.scalajs-react" %%% "test"      % scalaJsReact % "test",
-    "org.scalatest"                     %%% "scalatest" % "3.0.3" % Test
+    "org.scalatest"                     %%% "scalatest" % "3.0.3" % Test,
+    "org.typelevel"                     %%% "cats-core" % "1.0.0-MF" % Test
   ),
   scalacOptions := Seq(
     "-deprecation",                      // Emit warning and location for usages of deprecated APIs.
