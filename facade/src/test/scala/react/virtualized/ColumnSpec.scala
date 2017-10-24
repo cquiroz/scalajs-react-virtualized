@@ -89,7 +89,8 @@ class ColumnSpec extends FlatSpec with Matchers with NonImplicitAssertions with 
       Column(Column.props(200, "key")).props.cellRenderer.toOption.map(_(CellRendererParameter("cellData", "col", "key", "row", 1))) should contain("cellData")
     }
     it should "support cellRenderer" in {
-      Column(Column.props(200, "key", cellRenderer = Some((x: CellRendererParameter) => "abc"))).props.cellRenderer.toOption.map(_(CellRendererParameter("cellData", "col", "key", "row", 1))) should contain("abc")
+      val r = Column(Column.props(200, "key", cellRenderer = Some((x: CellRendererParameter) => <<.div("abc")))).props.cellRenderer.toOption.map(_(CellRendererParameter("cellData", "col", "key", "row", 1)))
+      assertRenderNode(r, "<div><div>abc</div></div>")
     }
     it should "support className" in {
       Column(Column.props(200, "key")).props.className should be(())
@@ -126,7 +127,7 @@ class ColumnSpec extends FlatSpec with Matchers with NonImplicitAssertions with 
     it should "support headerRenderer" in {
       val label = <<.div("Label")
       val headerParam = HeaderRendererParameter(js.undefined, "key", disableSort = true, label, "key", "ASC")
-      val unmounted = Column(Column.props(200, "key", headerRenderer = Some(x => <<.div("header").render.rawNode))).props.headerRenderer.toOption.map(_(headerParam))
+      val unmounted = Column(Column.props(200, "key", headerRenderer = Some(x => <<.div("header")))).props.headerRenderer.toOption.map(_(headerParam))
       assertRenderNode(unmounted, """<div><div>header</div></div>""")
     }
     it should "support id" in {

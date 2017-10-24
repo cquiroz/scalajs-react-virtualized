@@ -54,7 +54,8 @@ object Column {
       p
     }
   }
-  type CellRenderer = js.Function1[CellRendererParameter, ReactNode]
+  type CellRenderer = js.Function1[CellRendererParameter, VdomNode]
+  type RawCellRenderer = js.Function1[CellRendererParameter, ReactNode]
 
   @ScalaJSDefined
   trait HeaderRendererParameter extends js.Object {
@@ -77,7 +78,8 @@ object Column {
       p
     }
   }
-  type HeaderRenderer = js.Function1[HeaderRendererParameter, ReactNode]
+  type HeaderRenderer = js.Function1[HeaderRendererParameter, VdomNode]
+  type RawHeaderRenderer = js.Function1[HeaderRendererParameter, ReactNode]
 
   @js.native
   trait Props extends js.Object {
@@ -94,7 +96,7 @@ object Column {
      * Callback responsible for rendering a cell's contents.
      * ({ cellData: any, columnData: any, dataKey: string, rowData: any, rowIndex: number }): node
      */
-    var cellRenderer: js.UndefOr[CellRenderer] = js.native
+    var cellRenderer: js.UndefOr[RawCellRenderer] = js.native
 
     /** Optional CSS class to apply to cell */
     var className: js.UndefOr[String] = js.native
@@ -121,7 +123,7 @@ object Column {
      * Optional callback responsible for rendering a column header contents.
      * ({ columnData: object, dataKey: string, disableSort: boolean, label: node, sortBy: string, sortDirection: string }): PropTypes.node
      */
-    var headerRenderer: js.UndefOr[HeaderRenderer] = js.native
+    var headerRenderer: js.UndefOr[RawHeaderRenderer] = js.native
 
     /** Optional id to set on the column header */
     var id: js.UndefOr[String] = js.native
@@ -142,7 +144,7 @@ object Column {
     var width: JsNumber = js.native
   }
 
-//  private def toRawNode(vdomNode: VdomNode): ReactNode = vdomNode.rawNode
+  private def toRawNode(vdomNode: VdomNode): ReactNode = vdomNode.rawNode
 
   def props(
     width: Int,
@@ -168,15 +170,14 @@ object Column {
     p.dataKey = dataKey
     p.`aria-label` = ariaLabel
     p.cellDataGetter = cellDataGetter.orUndefined
-    p.cellRenderer = cellRenderer.orUndefined
+    p.cellRenderer = cellRenderer.map(_.andThen(toRawNode): RawCellRenderer).orUndefined
     p.className = className
     p.columnData = columnData
     p.disableSort = disableSort
     p.flexGrow = flexGrow
     p.flexShrink = flexShrink
     p.headerClassName = headerClassName
-//    p.headerRenderer = headerRenderer.map(f => f.andThen(toRawNode)).orUndefined
-    p.headerRenderer = headerRenderer.orUndefined
+    p.headerRenderer = headerRenderer.map(f => f.andThen(toRawNode): RawHeaderRenderer).orUndefined
     p.id = id
     p.label = label.rawNode
     p.maxWidth = maxWidth
