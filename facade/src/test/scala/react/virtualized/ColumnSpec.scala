@@ -11,6 +11,8 @@ import js.JSConverters._
 import japgolly.scalajs.react.vdom.html_<^.{< => <<, _}
 import cats.Eq
 import cats.syntax.eq._
+import japgolly.scalajs.react.raw.{ReactElement, ReactNode}
+import japgolly.scalajs.react.vdom.{TagOf, TopNode}
 
 trait TestUtils {
   implicit def jsUndefOr[A: Eq]: Eq[js.UndefOr[A]] = Eq.instance { (a, b) =>
@@ -47,10 +49,22 @@ trait TestUtils {
 }
 
 class ColumnSpec extends FlatSpec with Matchers with NonImplicitAssertions with TestUtils {
-  def assertRender(e: japgolly.scalajs.react.vdom.VdomElement, expected: String): Assertion =
+  def assertRender(e: VdomElement, expected: String): Assertion =
     assertRender(e.rawElement, expected)
 
-  def assertRender(e: japgolly.scalajs.react.raw.ReactElement, expected: String): Assertion = {
+  def assertRenderNode[N <: TopNode](e: Option[ReactNode], expected: String): Assertion =
+    e.map(x => HtmlTag("div").apply(VdomNode(x))) match {
+      case Some(e) => assertRender(e.rawElement, expected)
+      case _       => fail()
+    }
+
+  def assertRender[N <: TopNode](e: Option[TagOf[N]], expected: String): Assertion =
+    e match {
+      case Some(e) => assertRender(e.rawElement, expected)
+      case _       => fail()
+    }
+
+  def assertRender(e: ReactElement, expected: String): Assertion = {
     val rendered: String = ReactDOMServer.raw.renderToStaticMarkup(e)
     rendered should be(expected)
   }
@@ -105,14 +119,15 @@ class ColumnSpec extends FlatSpec with Matchers with NonImplicitAssertions with 
     it should "have a default headerRenderer" in {
       val label = <<.div("Label")
       val headerParam = HeaderRendererParameter(js.undefined, "key", disableSort = true, label, "key", "ASC")
-      val unmounted = Column(Column.props(200, "key")).props.headerRenderer.toOption.map(_(headerParam)).map(x => HtmlTagOf("div").apply(VdomNode(x)))
-      assertRender(unmounted.get, """<div><span class="ReactVirtualized__Table__headerTruncatedText" title="[object Object]"><div>Label</div></span><svg class="ReactVirtualized__Table__sortableHeaderIcon ReactVirtualized__Table__sortableHeaderIcon--ASC" width="18" height="18" viewBox="0 0 24 24"><path d="M7 14l5-5 5 5z"></path><path d="M0 0h24v24H0z" fill="none"></path></svg></div>""")
+      val unmounted = Column(Column.props(200, "key")).props.headerRenderer.toOption.map(_(headerParam))
+      assertRenderNode(unmounted,
+        """<div><span class="ReactVirtualized__Table__headerTruncatedText" title="[object Object]"><div>Label</div></span><svg class="ReactVirtualized__Table__sortableHeaderIcon ReactVirtualized__Table__sortableHeaderIcon--ASC" width="18" height="18" viewBox="0 0 24 24"><path d="M7 14l5-5 5 5z"></path><path d="M0 0h24v24H0z" fill="none"></path></svg></div>""")
     }
     it should "support headerRenderer" in {
       val label = <<.div("Label")
       val headerParam = HeaderRendererParameter(js.undefined, "key", disableSort = true, label, "key", "ASC")
-      val unmounted = Column(Column.props(200, "key", headerRenderer = Some(x => <<.div("header").render.rawNode))).props.headerRenderer.toOption.map(_(headerParam)).map(x => HtmlTagOf("div").apply(VdomNode(x)))
-      assertRender(unmounted.get, """<div><div>header</div></div>""")
+      val unmounted = Column(Column.props(200, "key", headerRenderer = Some(x => <<.div("header").render.rawNode))).props.headerRenderer.toOption.map(_(headerParam))
+      assertRenderNode(unmounted, """<div><div>header</div></div>""")
     }
     it should "support id" in {
       Column(Column.props(200, "key")).props.id should be(())
