@@ -134,9 +134,9 @@ class ColumnSpec extends FlatSpec with Matchers with NonImplicitAssertions with 
       Column(Column.props(200, "key", id = "id")).props.id should be("id")
     }
     it should "support label" in {
-      val label = <<.div("id").render.rawNode
+      val label = <<.div("id")
       Column(Column.props(200, "key")).props.label should be(())
-      Column(Column.props(200, "key", label = label)).props.label should be(label)
+      Column(Column.props(200, "key", label = label)).props.label should be(label.rawNode)
     }
     it should "support maxWidth" in {
       Column(Column.props(200, "key")).props.maxWidth should be(())

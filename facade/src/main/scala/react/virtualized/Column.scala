@@ -158,7 +158,7 @@ object Column {
     headerClassName: js.UndefOr[String] = js.undefined,
     headerRenderer: Option[HeaderRenderer] = None,
     id: js.UndefOr[String] = js.undefined,
-    label: js.UndefOr[ReactNode] = js.undefined,
+    label: VdomNode = VdomNode.cast(()),
     maxWidth: js.UndefOr[JsNumber] = js.undefined,
     minWidth: js.UndefOr[JsNumber] = js.undefined,
     style: js.UndefOr[js.Object] = js.undefined,
@@ -178,7 +178,7 @@ object Column {
 //    p.headerRenderer = headerRenderer.map(f => f.andThen(toRawNode)).orUndefined
     p.headerRenderer = headerRenderer.orUndefined
     p.id = id
-    p.label = label
+    p.label = label.rawNode
     p.maxWidth = maxWidth
     p.minWidth = minWidth
     p.style = style
