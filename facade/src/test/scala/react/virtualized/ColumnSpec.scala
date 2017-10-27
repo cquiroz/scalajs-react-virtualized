@@ -105,6 +105,10 @@ class ColumnSpec extends FlatSpec with Matchers with NonImplicitAssertions with 
       Column(Column.props(200, "key")).props.disableSort should be(())
       Column(Column.props(200, "key", disableSort = true)).props.disableSort.toOption should be(Some(true))
     }
+    it should "support defaultSortDirection" in {
+      Column(Column.props(200, "key")).props.defaultSortDirection should be(SortDirection.ASC)
+      Column(Column.props(200, "key", defaultSortDirection = SortDirection.DESC)).props.defaultSortDirection should be(SortDirection.DESC)
+    }
     it should "support flexGrow" in {
       Column(Column.props(200, "key")).props.flexGrow should be(0)
       Column(Column.props(200, "key", disableSort = true, flexGrow = 1)).props.flexGrow should be(1)

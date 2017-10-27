@@ -13,6 +13,12 @@ import japgolly.scalajs.react.vdom.VdomNode
 import scala.scalajs.js.annotation.{JSImport, ScalaJSDefined}
 
 object Column {
+  @js.native
+  @JSImport("react-virtualized", "SortDirection")
+  object SortDirection extends js.Object {
+    val ASC: String = js.native
+    val DESC: String = js.native
+  }
 
   @js.native
   @JSImport("react-virtualized", "Column")
@@ -107,6 +113,9 @@ object Column {
     /** Uniquely identifies the row-data attribute corresponding to this cell */
     var dataKey: js.Any = js.native
 
+    /** Optional direction to be used when clicked the first time */
+    var defaultSortDirection: String = js.native
+
     /** If sort is enabled for the table at large, disable it for this column */
     var disableSort: js.UndefOr[Boolean] = js.native
 
@@ -155,6 +164,7 @@ object Column {
     className: js.UndefOr[String] = js.undefined,
     columnData: js.UndefOr[js.Object] = js.undefined,
     disableSort: js.UndefOr[Boolean] = js.undefined,
+    defaultSortDirection: String = SortDirection.ASC,
     flexGrow: js.UndefOr[JsNumber] = js.undefined,
     flexShrink: js.UndefOr[JsNumber] = js.undefined,
     headerClassName: js.UndefOr[String] = js.undefined,
@@ -174,6 +184,7 @@ object Column {
     p.className = className
     p.columnData = columnData
     p.disableSort = disableSort
+    p.defaultSortDirection = defaultSortDirection
     p.flexGrow = flexGrow
     p.flexShrink = flexShrink
     p.headerClassName = headerClassName
