@@ -3,12 +3,9 @@ package virtualized
 
 import org.scalatest._
 import Column._
-import japgolly.scalajs.react.ReactDOMServer
-
 import scala.scalajs.js
 import js.JSConverters._
 import japgolly.scalajs.react.vdom.html_<^.{< => <<, _}
-import cats.Eq
 import cats.syntax.eq._
 import japgolly.scalajs.react.raw.{ReactElement, ReactNode}
 import japgolly.scalajs.react.vdom.{TagOf, TopNode}
