@@ -2,7 +2,8 @@ package react
 package virtualized
 
 import japgolly.scalajs.react._
-import japgolly.scalajs.react.component.Js.{RawMounted, UnmountedWithRawType}
+import japgolly.scalajs.react.component.Js.{RawMounted, UnmountedMapped}
+import japgolly.scalajs.react.internal.Effect.Id
 
 import scala.scalajs.js
 import js.JSConverters._
@@ -10,6 +11,9 @@ import japgolly.scalajs.react.raw.{JsNumber, ReactNode}
 import japgolly.scalajs.react.vdom.VdomNode
 
 import scala.scalajs.js.annotation.{JSImport, ScalaJSDefined}
+
+@ScalaJSDefined
+trait Column extends js.Object
 
 object Column {
   @js.native
@@ -189,8 +193,8 @@ object Column {
     p
   }
 
-  private val component = JsComponent[Props, Children.None, Null](RawComponent)
+  private val component = JsComponent[Props, Children.None, Null](RawComponent).addFacade[Column]
 
-  def apply(p: Props): UnmountedWithRawType[Props, Null, RawMounted] = component(p)
+  def apply(p: Props): UnmountedMapped[Id, Props, Null, RawMounted with Column, Props, Null] = component(p)
 
 }

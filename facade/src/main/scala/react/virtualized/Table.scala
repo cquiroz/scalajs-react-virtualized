@@ -3,7 +3,8 @@ package react
 package virtualized
 
 import japgolly.scalajs.react._
-import japgolly.scalajs.react.component.Js.{RawMounted, UnmountedWithRawType}
+import japgolly.scalajs.react.component.Js.{RawMounted, UnmountedMapped, UnmountedWithRawType}
+import japgolly.scalajs.react.internal.Effect.Id
 
 import scala.scalajs.js
 // import js.JSConverters._
@@ -14,6 +15,9 @@ import japgolly.scalajs.react.raw.JsNumber
 import scala.scalajs.js.annotation.{JSImport, ScalaJSDefined}
 
 object Table {
+
+  type ColumnArg = UnmountedMapped[Id, Column.Props, Null, RawMounted with Column, Column.Props, Null]
+
   @js.native
   @JSImport("react-virtualized", "Table")
   object RawComponent extends js.Object
@@ -316,8 +320,8 @@ object Table {
     p
   }
 
-  private val component = JsComponent[Props, Children.None, Null](RawComponent)
+  private val component = JsComponent[Props, Children.Varargs, Null](RawComponent)
 
-  def apply(p: Props): UnmountedWithRawType[Props, Null, RawMounted] = component(p)
+  def apply(p: Props, children: ColumnArg*): UnmountedWithRawType[Props, Null, RawMounted] = component.apply(p)(children.map(_.vdomElement): _*)
 
 }
