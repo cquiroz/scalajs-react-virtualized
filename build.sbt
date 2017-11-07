@@ -13,7 +13,8 @@ lazy val demo =
     .enablePlugins(ScalaJSBundlerPlugin)
     .settings(commonSettings: _*)
     .settings(
-      scalaJSUseMainModuleInitializer := true
+      scalaJSUseMainModuleInitializer := true,
+      webpackBundlingMode := BundlingMode.LibraryOnly()
     )
     .dependsOn(facade)
 
