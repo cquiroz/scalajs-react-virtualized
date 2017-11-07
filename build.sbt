@@ -14,7 +14,9 @@ lazy val demo =
     .settings(commonSettings: _*)
     .settings(
       scalaJSUseMainModuleInitializer := true,
-      webpackBundlingMode := BundlingMode.LibraryOnly()
+      webpackBundlingMode := BundlingMode.LibraryOnly(),
+      webpackDevServerExtraArgs := Seq("--inline"),
+      webpackConfigFile in fastOptJS := Some(baseDirectory.value / "dev.webpack.config.js")
     )
     .dependsOn(facade)
 
