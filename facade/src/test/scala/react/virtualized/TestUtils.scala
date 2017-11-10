@@ -47,6 +47,15 @@ trait TestUtils extends Matchers with NonImplicitAssertions { self: FlatSpec =>
   def assertRender(e: VdomElement, expected: String): Assertion =
     assertRender(e.rawElement, expected)
 
+  def assertRender(e: ReactElement, expected: String): Assertion = {
+    val rendered: String = ReactDOMServer.raw.renderToStaticMarkup(e)
+    rendered should be(expected)
+  }
+
+  def assertRender(e: ReactNode, expected: String): Assertion = {
+    assertRenderNode(Some(e), expected)
+  }
+
   def assertRenderNode[N <: TopNode](e: Option[ReactNode], expected: String): Assertion =
     e.map(x => HtmlTag("div").apply(VdomNode(x))) match {
       case Some(e) => assertRender(e.rawElement, expected)
@@ -59,9 +68,5 @@ trait TestUtils extends Matchers with NonImplicitAssertions { self: FlatSpec =>
       case _       => fail()
     }
 
-  def assertRender(e: ReactElement, expected: String): Assertion = {
-    val rendered: String = ReactDOMServer.raw.renderToStaticMarkup(e)
-    rendered should be(expected)
-  }
 
 }

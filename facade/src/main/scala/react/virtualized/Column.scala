@@ -84,6 +84,13 @@ object Column {
   type RawHeaderRenderer = js.Function1[HeaderRendererParameter, ReactNode]
 
   @js.native
+  @JSImport("react-virtualized", "defaultTableHeaderRenderer", JSImport.Default)
+  object defaultHeaderRenderer extends js.Function1[HeaderRendererParameter, ReactNode] {
+    def apply(i: HeaderRendererParameter): ReactNode = js.native
+  }
+  private val defaultHeaderRendererS = defaultHeaderRenderer andThen VdomNode.apply
+
+  @js.native
   trait Props extends js.Object {
     /** Optional aria-label value to set on the column header */
     var `aria-label`: js.UndefOr[String] = js.native
@@ -128,7 +135,7 @@ object Column {
      * Optional callback responsible for rendering a column header contents.
      * ({ columnData: object, dataKey: string, disableSort: boolean, label: node, sortBy: string, sortDirection: string }): PropTypes.node
      */
-    var headerRenderer: js.UndefOr[RawHeaderRenderer] = js.native
+    var headerRenderer: RawHeaderRenderer = js.native
 
     /** Optional id to set on the column header */
     var id: js.UndefOr[String] = js.native
@@ -164,7 +171,7 @@ object Column {
     flexGrow: js.UndefOr[JsNumber] = js.undefined,
     flexShrink: js.UndefOr[JsNumber] = js.undefined,
     headerClassName: js.UndefOr[String] = js.undefined,
-    headerRenderer: Option[HeaderRenderer] = None,
+    headerRenderer: HeaderRenderer = defaultHeaderRendererS,
     id: js.UndefOr[String] = js.undefined,
     label: VdomNode = VdomNode.cast(()),
     maxWidth: js.UndefOr[JsNumber] = js.undefined,
@@ -184,7 +191,7 @@ object Column {
     p.flexGrow = flexGrow
     p.flexShrink = flexShrink
     p.headerClassName = headerClassName
-    p.headerRenderer = headerRenderer.map(f => f.andThen(toRawNode): RawHeaderRenderer).orUndefined
+    p.headerRenderer = (r: HeaderRendererParameter) => toRawNode(headerRenderer(r))
     p.id = id
     p.label = label.rawNode
     p.maxWidth = maxWidth
