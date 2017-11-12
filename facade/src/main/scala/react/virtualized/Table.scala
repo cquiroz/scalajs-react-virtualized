@@ -1,4 +1,3 @@
-package io.github.cquiroz.scalajs
 package react
 package virtualized
 
@@ -303,18 +302,22 @@ object Table {
   // private def toRawNode(vdomNode: VdomNode): ReactNode = vdomNode.rawNode
 
   def props(
+    headerHeight: Int,
     height: Int,
     rowCount: Int,
     rowGetter: RowGetter,
     rowHeight: Int,
-    width: Int
+    width: Int,
+    headerClassName: js.UndefOr[String] = js.undefined
   ): Props = {
     val p = (new js.Object).asInstanceOf[Props]
+    p.headerHeight = headerHeight
     p.height = height
     p.rowCount = rowCount
     p.rowGetter = rowGetter
     p.rowHeight = rowHeight
     p.width = width
+    p.headerClassName = headerClassName
     // p.headerHeight = headerHeight
     // println(headerHeight)
     p

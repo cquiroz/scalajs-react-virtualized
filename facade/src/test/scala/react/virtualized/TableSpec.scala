@@ -1,4 +1,3 @@
-package io.github.cquiroz.scalajs
 package react
 package virtualized
 
@@ -14,19 +13,19 @@ class TableSpec extends FlatSpec with Matchers with NonImplicitAssertions with T
   "Table" should
     "have some required properties" in {
       val rowGetterF = (x: IndexParameter) => x.index
-      Table(Table.props(height = 200, rowCount = 20, rowHeight = 40, width = 500, rowGetter = rowGetterF)).props.height should be (200)
-      Table(Table.props(height = 200, rowCount = 20, rowHeight = 40, width = 500, rowGetter = rowGetterF)).props.rowCount should be (20)
-      Table(Table.props(height = 200, rowCount = 20, rowHeight = 40, width = 500, rowGetter = rowGetterF)).props.rowHeight should be (40)
-      Table(Table.props(height = 200, rowCount = 20, rowHeight = 40, width = 500, rowGetter = rowGetterF)).props.width should be (500)
+      Table(Table.props(headerHeight = 10, height = 200, rowCount = 20, rowHeight = 40, width = 500, rowGetter = rowGetterF)).props.height should be (200)
+      Table(Table.props(headerHeight = 10, height = 200, rowCount = 20, rowHeight = 40, width = 500, rowGetter = rowGetterF)).props.rowCount should be (20)
+      Table(Table.props(headerHeight = 10, height = 200, rowCount = 20, rowHeight = 40, width = 500, rowGetter = rowGetterF)).props.rowHeight should be (40)
+      Table(Table.props(headerHeight = 10, height = 200, rowCount = 20, rowHeight = 40, width = 500, rowGetter = rowGetterF)).props.width should be (500)
     }
     it should "support rendering" in {
       val rowGetterF = (x: IndexParameter) => x.index
-      val table = Table(Table.props(height = 200, rowCount = 1, rowHeight = 40, width = 500, rowGetter = rowGetterF))
+      val table = Table(Table.props(headerHeight = 10, height = 200, rowCount = 1, rowHeight = 40, width = 500, rowGetter = rowGetterF))
       ReactTestUtils.withRenderedIntoDocument(table) { m =>
         val html =
           """<div class="ReactVirtualized__Table" role="grid">
-              |<div class="ReactVirtualized__Table__headerRow" role="row" style="height: 0px; overflow: hidden; padding-right: 0px; width: 500px;"></div>
-              |<div aria-label="grid" aria-readonly="true" class="ReactVirtualized__Grid ReactVirtualized__Table__Grid" role="rowgroup" tabindex="0" style="box-sizing: border-box; direction: ltr; height: 200px; position: relative; width: 500px; overflow-x: hidden; overflow-y: hidden;">
+              |<div class="ReactVirtualized__Table__headerRow" role="row" style="height: 10px; overflow: hidden; padding-right: 0px; width: 500px;"></div>
+              |<div aria-label="grid" aria-readonly="true" class="ReactVirtualized__Grid ReactVirtualized__Table__Grid" role="rowgroup" tabindex="0" style="box-sizing: border-box; direction: ltr; height: 190px; position: relative; width: 500px; overflow-x: hidden; overflow-y: hidden;">
                 |<div class="ReactVirtualized__Grid__innerScrollContainer" role="rowgroup" style="width: auto; height: 40px; max-width: 500px; max-height: 40px; overflow: hidden; position: relative;">
                   |<div class="ReactVirtualized__Table__row" role="row" style="height: 40px; left: 0px; position: absolute; top: 0px; width: 500px; overflow: hidden; padding-right: 0px;"></div>
                   |</div>
@@ -38,13 +37,13 @@ class TableSpec extends FlatSpec with Matchers with NonImplicitAssertions with T
     it should "support rendering with columns" in {
       val columns = List(Column(Column.props(200, "key")))
       val rowGetterF = (x: IndexParameter) => x.index
-      val table = Table(Table.props(height = 200, rowCount = 1, rowHeight = 40, width = 500, rowGetter = rowGetterF), columns: _*)
+      val table = Table(Table.props(headerHeight = 10, height = 200, rowCount = 1, rowHeight = 40, width = 500, rowGetter = rowGetterF), columns: _*)
       val html =
         """<div class="ReactVirtualized__Table" role="grid">
-            |<div class="ReactVirtualized__Table__headerRow" role="row" style="height: 0px; overflow: hidden; padding-right: 0px; width: 500px;">
+            |<div class="ReactVirtualized__Table__headerRow" role="row" style="height: 10px; overflow: hidden; padding-right: 0px; width: 500px;">
             |<div role="columnheader" class="ReactVirtualized__Table__headerColumn"><span class="ReactVirtualized__Table__headerTruncatedText"></span></div>
             |</div>
-            |<div aria-label="grid" aria-readonly="true" class="ReactVirtualized__Grid ReactVirtualized__Table__Grid" role="rowgroup" tabindex="0" style="box-sizing: border-box; direction: ltr; height: 200px; position: relative; width: 500px; overflow-x: hidden; overflow-y: hidden;">
+            |<div aria-label="grid" aria-readonly="true" class="ReactVirtualized__Grid ReactVirtualized__Table__Grid" role="rowgroup" tabindex="0" style="box-sizing: border-box; direction: ltr; height: 190px; position: relative; width: 500px; overflow-x: hidden; overflow-y: hidden;">
               |<div class="ReactVirtualized__Grid__innerScrollContainer" role="rowgroup" style="width: auto; height: 40px; max-width: 500px; max-height: 40px; overflow: hidden; position: relative;">
                 |<div class="ReactVirtualized__Table__row" role="row" style="height: 40px; left: 0px; position: absolute; top: 0px; width: 500px; overflow: hidden; padding-right: 0px;">
                   |<div role="gridcell" class="ReactVirtualized__Table__rowColumn" title="" style="overflow: hidden;"></div>

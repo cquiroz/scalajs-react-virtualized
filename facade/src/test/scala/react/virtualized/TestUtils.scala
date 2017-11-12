@@ -1,4 +1,3 @@
-package io.github.cquiroz.scalajs
 package react
 package virtualized
 
@@ -10,6 +9,7 @@ import cats.syntax.eq._
 import japgolly.scalajs.react.vdom.html_<^._
 import japgolly.scalajs.react.raw.{ReactElement, ReactNode}
 import japgolly.scalajs.react.vdom.{TagOf, TopNode}
+import org.scalajs.dom.Element
 
 trait TestUtils extends Matchers with NonImplicitAssertions { self: FlatSpec =>
   implicit def jsUndefOr[A: Eq]: Eq[js.UndefOr[A]] = Eq.instance { (a, b) =>
@@ -49,7 +49,7 @@ trait TestUtils extends Matchers with NonImplicitAssertions { self: FlatSpec =>
 
   def assertRender(e: ReactElement, expected: String): Assertion = {
     val rendered: String = ReactDOMServer.raw.renderToStaticMarkup(e)
-    rendered should be(expected)
+    rendered should be(expected.trim.replaceAll("\n", ""))
   }
 
   def assertRender(e: ReactNode, expected: String): Assertion = {
@@ -68,5 +68,12 @@ trait TestUtils extends Matchers with NonImplicitAssertions { self: FlatSpec =>
       case _       => fail()
     }
 
+  def assertOuterHTML(node: Element, expect: String): Assertion =
+    scrubReactHtml(node.outerHTML) should be(expect)
 
+  private val reactRubbish =
+  """\s+data-react\S*?\s*?=\s*?".*?"|<!--(?:.|[\r\n])*?-->""".r
+
+  def scrubReactHtml(html: String): String =
+    reactRubbish.replaceAllIn(html, "")
 }
