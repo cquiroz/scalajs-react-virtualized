@@ -1,4 +1,3 @@
-package io.github.cquiroz.scalajs
 package react
 package virtualized
 
@@ -13,8 +12,9 @@ import cats.Eq
 import cats.syntax.eq._
 import japgolly.scalajs.react.raw.{ReactElement, ReactNode}
 import japgolly.scalajs.react.vdom.{TagOf, TopNode}
+import org.scalajs.dom.Element
 
-trait TestUtils {
+trait TestUtils extends Matchers with NonImplicitAssertions { self: FlatSpec =>
   implicit def jsUndefOr[A: Eq]: Eq[js.UndefOr[A]] = Eq.instance { (a, b) =>
     (a.toOption, b.toOption) match {
       case (Some(a), Some(b)) => a === b
@@ -46,9 +46,7 @@ trait TestUtils {
         a == b
     }
   }
-}
 
-class ColumnSpec extends FlatSpec with Matchers with NonImplicitAssertions with TestUtils {
   def assertRender(e: VdomElement, expected: String): Assertion =
     assertRender(e.rawElement, expected)
 
@@ -66,8 +64,20 @@ class ColumnSpec extends FlatSpec with Matchers with NonImplicitAssertions with 
 
   def assertRender(e: ReactElement, expected: String): Assertion = {
     val rendered: String = ReactDOMServer.raw.renderToStaticMarkup(e)
-    rendered should be(expected)
+    rendered should be(expected.trim.replaceAll("\n", ""))
   }
+
+  def assertOuterHTML(node: Element, expect: String): Assertion =
+    scrubReactHtml(node.outerHTML) should be(expect)
+
+  private val reactRubbish =
+  """\s+data-react\S*?\s*?=\s*?".*?"|<!--(?:.|[\r\n])*?-->""".r
+
+  def scrubReactHtml(html: String): String =
+    reactRubbish.replaceAllIn(html, "")
+}
+
+class ColumnSpec extends FlatSpec with Matchers with NonImplicitAssertions with TestUtils {
 
   "Column" should
     "require width and dataKey" in {
@@ -106,8 +116,8 @@ class ColumnSpec extends FlatSpec with Matchers with NonImplicitAssertions with 
       Column(Column.props(200, "key", disableSort = true)).props.disableSort.toOption should be(Some(true))
     }
     it should "support defaultSortDirection" in {
-      Column(Column.props(200, "key")).props.defaultSortDirection should be(SortDirection.ASC)
-      Column(Column.props(200, "key", defaultSortDirection = SortDirection.DESC)).props.defaultSortDirection should be(SortDirection.DESC)
+      Column(Column.props(200, "key")).props.defaultSortDirection should be(SortDirection.ASC.toRaw)
+      Column(Column.props(200, "key", defaultSortDirection = SortDirection.DESC)).props.defaultSortDirection should be(SortDirection.DESC.toRaw)
     }
     it should "support flexGrow" in {
       Column(Column.props(200, "key")).props.flexGrow should be(0)
