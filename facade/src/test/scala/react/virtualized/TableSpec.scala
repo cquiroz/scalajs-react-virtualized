@@ -72,6 +72,14 @@ class TableSpec extends FlatSpec with Matchers with NonImplicitAssertions with T
       val table2 = Table(Table.props(noRowsRenderer = noRowsRenderer, headerHeight = 10, height = 200, rowCount = 1, rowHeight = 40, width = 500, rowGetter = rowGetterF), columns: _*)
       table2.props.disableHeader.toOption shouldBe defined
     }
+    it should "support overscanRowCount" in {
+      val columns = List(Column(Column.props(200, "key")))
+      val rowGetterF = (x: IndexParameter) => x.index
+      val table = Table(Table.props(headerHeight = 10, height = 200, rowCount = 1, rowHeight = 40, width = 500, rowGetter = rowGetterF), columns: _*)
+      table.props.overscanRowCount should be(10)
+      val table2 = Table(Table.props(overscanRowCount = 50, headerHeight = 10, height = 200, rowCount = 1, rowHeight = 40, width = 500, rowGetter = rowGetterF), columns: _*)
+      table2.props.overscanRowCount should be(50)
+    }
     /*it should "support ariaLabel" in {
       Table(Table.props(200, "key")).props.`aria-label` should be(())
       Table(Table.props(200, "key", ariaLabel = "Label")).props.`aria-label` should be("Label")

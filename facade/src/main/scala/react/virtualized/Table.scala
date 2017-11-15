@@ -8,7 +8,6 @@ import japgolly.scalajs.react.internal.Effect.Id
 import scala.scalajs.js
 import js.JSConverters._
 import japgolly.scalajs.react.raw.{JsNumber, ReactNode}
-import japgolly.scalajs.react.raw.JsNumber
 import japgolly.scalajs.react.vdom.Exports._
 
 import scala.scalajs.js.annotation.{JSImport, ScalaJSDefined}
@@ -313,7 +312,8 @@ object Table {
     width: Int,
     headerClassName: js.UndefOr[String] = js.undefined,
     disableHeader: js.UndefOr[Boolean] = js.undefined,
-    noRowsRenderer: NoRowsRenderer = () => null
+    noRowsRenderer: NoRowsRenderer = () => null, // default from react-virtualized
+    overscanRowCount: JsNumber = 10 // default from react-virtualized
   ): Props = {
     val p = (new js.Object).asInstanceOf[Props]
     p.headerHeight = headerHeight
@@ -325,6 +325,7 @@ object Table {
     p.headerClassName = headerClassName
     p.disableHeader = disableHeader
     p.noRowsRenderer = Some[RawNoRowsRenderer](() => noRowsRenderer.apply.rawNode).orUndefined
+    p.overscanRowCount = overscanRowCount
     p
   }
 

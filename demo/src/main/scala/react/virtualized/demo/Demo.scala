@@ -20,6 +20,7 @@ object TableDemo {
   val table = Table(Table.props(
     disableHeader = false,
     noRowsRenderer = () => <.div(^.cls := "noRows", "No rows"),
+    overscanRowCount = 10,
     height = 270, rowCount = 0, rowHeight = 40, width = 500, rowGetter = rowGetterF, headerClassName = "headerColumn", headerHeight = 30), columns: _*)
 
   val component = ScalaComponent.builder[Unit]("TableDemo")
