@@ -6,7 +6,7 @@ import japgolly.scalajs.react.test._
 import Table._
 // import scala.scalajs.js
 // import js.JSConverters._
-// import japgolly.scalajs.react.vdom.html_<^.{< => <<, _}
+import japgolly.scalajs.react.vdom.html_<^.{< => <<, _}
 // import cats.syntax.eq._
 
 class TableSpec extends FlatSpec with Matchers with NonImplicitAssertions with TestUtils {
@@ -62,6 +62,15 @@ class TableSpec extends FlatSpec with Matchers with NonImplicitAssertions with T
       table.props.disableHeader.toOption should contain(false)
       val table2 = Table(Table.props(disableHeader = true, headerHeight = 10, height = 200, rowCount = 1, rowHeight = 40, width = 500, rowGetter = rowGetterF), columns: _*)
       table2.props.disableHeader.toOption should contain(true)
+    }
+    it should "support noRowsRenderer" in {
+      val columns = List(Column(Column.props(200, "key")))
+      val rowGetterF = (x: IndexParameter) => x.index
+      val table = Table(Table.props(headerHeight = 10, height = 200, rowCount = 1, rowHeight = 40, width = 500, rowGetter = rowGetterF), columns: _*)
+      table.props.noRowsRenderer.toOption shouldBe defined
+      val noRowsRenderer: NoRowsRenderer = () => <<.div()
+      val table2 = Table(Table.props(noRowsRenderer = noRowsRenderer, headerHeight = 10, height = 200, rowCount = 1, rowHeight = 40, width = 500, rowGetter = rowGetterF), columns: _*)
+      table2.props.disableHeader.toOption shouldBe defined
     }
     /*it should "support ariaLabel" in {
       Table(Table.props(200, "key")).props.`aria-label` should be(())

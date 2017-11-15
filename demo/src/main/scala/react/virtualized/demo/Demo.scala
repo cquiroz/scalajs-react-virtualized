@@ -19,7 +19,8 @@ object TableDemo {
   val rowGetterF = (x: IndexParameter) => x.index
   val table = Table(Table.props(
     disableHeader = false,
-    height = 200, rowCount = 2, rowHeight = 40, width = 500, rowGetter = rowGetterF, headerClassName = "headerColumn", headerHeight = 30), columns: _*)
+    noRowsRenderer = () => <.div(^.cls := "noRows", "No rows"),
+    height = 270, rowCount = 0, rowHeight = 40, width = 500, rowGetter = rowGetterF, headerClassName = "headerColumn", headerHeight = 30), columns: _*)
 
   val component = ScalaComponent.builder[Unit]("TableDemo")
     .render_P(_ => table)

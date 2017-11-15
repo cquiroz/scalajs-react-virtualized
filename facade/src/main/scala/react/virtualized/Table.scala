@@ -6,10 +6,10 @@ import japgolly.scalajs.react.component.Js.{RawMounted, UnmountedMapped, Unmount
 import japgolly.scalajs.react.internal.Effect.Id
 
 import scala.scalajs.js
-// import js.JSConverters._
-// import japgolly.scalajs.react.raw.{JsNumber, ReactNode}
+import js.JSConverters._
+import japgolly.scalajs.react.raw.{JsNumber, ReactNode}
 import japgolly.scalajs.react.raw.JsNumber
-// import japgolly.scalajs.react.vdom.VdomNode
+import japgolly.scalajs.react.vdom.Exports._
 
 import scala.scalajs.js.annotation.{JSImport, ScalaJSDefined}
 
@@ -103,6 +103,9 @@ object Table {
   }
   type RowGetter = js.Function1[IndexParameter, Any]
 
+  type RawNoRowsRenderer = js.Function0[ReactNode]
+  type NoRowsRenderer = () => VdomNode
+
   @js.native
   trait Props extends js.Object {
     /** Optional aria-label value to set on the column header */
@@ -161,7 +164,7 @@ object Table {
     var id: js.UndefOr[String] = js.native
 
     /** Optional renderer to be used in place of table body rows when rowCount is 0 */
-    // noRowsRenderer: PropTypes.func,
+    var noRowsRenderer: js.UndefOr[RawNoRowsRenderer]
 
     /**
     * Optional callback when a column's header is clicked.
@@ -309,7 +312,8 @@ object Table {
     rowHeight: Int,
     width: Int,
     headerClassName: js.UndefOr[String] = js.undefined,
-    disableHeader: js.UndefOr[Boolean] = js.undefined
+    disableHeader: js.UndefOr[Boolean] = js.undefined,
+    noRowsRenderer: NoRowsRenderer = () => null
   ): Props = {
     val p = (new js.Object).asInstanceOf[Props]
     p.headerHeight = headerHeight
@@ -320,6 +324,7 @@ object Table {
     p.width = width
     p.headerClassName = headerClassName
     p.disableHeader = disableHeader
+    p.noRowsRenderer = Some[RawNoRowsRenderer](() => noRowsRenderer.apply.rawNode).orUndefined
     p
   }
 
