@@ -91,6 +91,13 @@ object Column {
   private val defaultHeaderRendererS = defaultHeaderRenderer andThen VdomNode.apply
 
   @js.native
+  @JSImport("react-virtualized", "defaultTableCellRenderer", JSImport.Default)
+  object defaultCellRenderer extends js.Function1[CellRendererParameter, ReactNode] {
+    def apply(i: CellRendererParameter): ReactNode = js.native
+  }
+  private val defaultCellRendererS = defaultCellRenderer andThen VdomNode.apply
+
+  @js.native
   trait Props extends js.Object {
     /** Optional aria-label value to set on the column header */
     var `aria-label`: js.UndefOr[String] = js.native
@@ -163,7 +170,7 @@ object Column {
     dataKey: String,
     ariaLabel: js.UndefOr[String] = js.undefined,
     cellDataGetter: Option[CellDataGetter] = None,
-    cellRenderer: Option[CellRenderer] = None,
+    cellRenderer: CellRenderer = defaultCellRendererS,
     className: js.UndefOr[String] = js.undefined,
     columnData: js.UndefOr[js.Object] = js.undefined,
     disableSort: js.UndefOr[Boolean] = js.undefined,
@@ -183,7 +190,7 @@ object Column {
     p.dataKey = dataKey
     p.`aria-label` = ariaLabel
     p.cellDataGetter = cellDataGetter.orUndefined
-    p.cellRenderer = cellRenderer.map(_.andThen(toRawNode): RawCellRenderer).orUndefined
+    p.cellRenderer = Some[RawCellRenderer]((r: CellRendererParameter) => toRawNode(cellRenderer(r))).orUndefined
     p.className = className
     p.columnData = columnData
     p.disableSort = disableSort

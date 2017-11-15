@@ -3,9 +3,9 @@ package react.virutalized.demo
 import japgolly.scalajs.react._
 import japgolly.scalajs.react.vdom.html_<^._
 import org.scalajs.dom.document
-import io.github.cquiroz.scalajs.react.virtualized._
-import io.github.cquiroz.scalajs.react.virtualized.Table._
-import io.github.cquiroz.scalajs.react.virtualized.Column._
+import react.virtualized._
+import react.virtualized.Table._
+import react.virtualized.Column._
 
 object TableDemo {
   def headerRenderer(p: HeaderRendererParameter): VdomNode =
@@ -13,7 +13,8 @@ object TableDemo {
 
   val columns = List(
     Column(Column.props(60, "index", label = "Index", disableSort = false)),
-    Column(Column.props(90, "name", disableSort = false, headerRenderer = headerRenderer))
+    Column(Column.props(90, "name", disableSort = false, headerRenderer = headerRenderer)),
+    Column(Column.props(210, "random", disableSort = true, className = "exampleColumn", label = "The description label is so long it will be truncated", flexGrow = 1, cellRenderer = c => c.cellData.toString))
   )
                 // <Column
                 //   dataKey="name"
