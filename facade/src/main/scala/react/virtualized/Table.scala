@@ -308,7 +308,8 @@ object Table {
     rowGetter: RowGetter,
     rowHeight: Int,
     width: Int,
-    headerClassName: js.UndefOr[String] = js.undefined
+    headerClassName: js.UndefOr[String] = js.undefined,
+    disableHeader: js.UndefOr[Boolean] = js.undefined
   ): Props = {
     val p = (new js.Object).asInstanceOf[Props]
     p.headerHeight = headerHeight
@@ -318,8 +319,7 @@ object Table {
     p.rowHeight = rowHeight
     p.width = width
     p.headerClassName = headerClassName
-    // p.headerHeight = headerHeight
-    // println(headerHeight)
+    p.disableHeader = disableHeader
     p
   }
 

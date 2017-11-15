@@ -55,6 +55,14 @@ class TableSpec extends FlatSpec with Matchers with NonImplicitAssertions with T
         assert(m.outerHtmlScrubbed() == html)
       }
     }
+    it should "support disableHeader" in {
+      val columns = List(Column(Column.props(200, "key")))
+      val rowGetterF = (x: IndexParameter) => x.index
+      val table = Table(Table.props(headerHeight = 10, height = 200, rowCount = 1, rowHeight = 40, width = 500, rowGetter = rowGetterF), columns: _*)
+      table.props.disableHeader.toOption should contain(false)
+      val table2 = Table(Table.props(disableHeader = true, headerHeight = 10, height = 200, rowCount = 1, rowHeight = 40, width = 500, rowGetter = rowGetterF), columns: _*)
+      table2.props.disableHeader.toOption should contain(true)
+    }
     /*it should "support ariaLabel" in {
       Table(Table.props(200, "key")).props.`aria-label` should be(())
       Table(Table.props(200, "key", ariaLabel = "Label")).props.`aria-label` should be("Label")
