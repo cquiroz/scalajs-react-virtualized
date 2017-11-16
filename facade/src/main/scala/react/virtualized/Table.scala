@@ -112,6 +112,11 @@ object Table {
   type RowClassName = Int => String
   type RowClassNameParam = String | RawRowClassName
 
+  // Types for RowHeight
+  type RawRowHeight = js.Function1[IndexParameter, JsNumber]
+  type RowHeight = Int => Int
+  type RowHeightParam = JsNumber | RawRowHeight
+
   @js.native
   trait Props extends js.Object {
     /** Optional aria-label value to set on the column header */
@@ -235,7 +240,7 @@ object Table {
      * This property can be a CSS class name (string) or a function that returns a class name.
      * If a function is provided its signature should be: ({ index: number }): string
      */
-    var rowClassName: RowClassNameParam = js.native// PropTypes.oneOfType([PropTypes.string, PropTypes.func]),
+    var rowClassName: RowClassNameParam = js.native
 
     /**
      * Callback responsible for returning a data row given an index.
@@ -248,9 +253,7 @@ object Table {
      * Either a fixed row height (number) or a function that returns the height of a row given its index.
      * ({ index: number }): number
      */
-    // rowHeight: PropTypes.oneOfType([PropTypes.number, PropTypes.func])
-    //   .isRequired,
-    var rowHeight: JsNumber = js.native
+    var rowHeight: RowHeightParam = js.native
 
     /** Number of rows in table. */
     var rowCount: JsNumber = js.native
@@ -315,7 +318,7 @@ object Table {
     height: Int,
     rowCount: Int,
     rowGetter: RowGetter,
-    rowHeight: Int,
+    rowHeight: JsNumber | RowHeight,
     width: Int,
     headerClassName: js.UndefOr[String] = js.undefined,
     disableHeader: js.UndefOr[Boolean] = js.undefined,
@@ -328,7 +331,6 @@ object Table {
     p.height = height
     p.rowCount = rowCount
     p.rowGetter = rowGetter
-    p.rowHeight = rowHeight
     p.width = width
     p.headerClassName = headerClassName
     p.disableHeader = disableHeader
@@ -341,6 +343,13 @@ object Table {
         p.rowClassName = s
       case f =>
         p.rowClassName = ((i: IndexParameter) => f.asInstanceOf[RowClassName](i.index.asInstanceOf[Int])): RawRowClassName
+    }
+    (rowHeight: Any) match {
+      case null =>
+      case s: Int =>
+        p.rowHeight = s
+      case f =>
+        p.rowHeight = ((i: IndexParameter) => f.asInstanceOf[RowHeight](i.index.asInstanceOf[Int])): RawRowHeight
     }
     p
   }

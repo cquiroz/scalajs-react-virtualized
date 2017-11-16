@@ -96,4 +96,12 @@ class TableSpec extends FlatSpec with Matchers with NonImplicitAssertions with T
       table2.props.rowClassName.asInstanceOf[RawRowClassName](IndexParameter(0)) should be("even")
       table2.props.rowClassName.asInstanceOf[RawRowClassName](IndexParameter(1)) should be("odd")
     }
+    it should "support rowClassName as a function 2" in {
+      val columns = List(Column(Column.props(200, "key")))
+      val rowGetterF = (x: IndexParameter) => x.index
+      val rowHeightFn = (x: Int) => x * 2
+      val table2 = Table(Table.props(rowHeight = rowHeightFn, headerHeight = 10, height = 200, rowCount = 1, width = 500, rowGetter = rowGetterF), columns: _*)
+      table2.props.rowHeight.asInstanceOf[RawRowHeight](IndexParameter(0)) should be(0)
+      table2.props.rowHeight.asInstanceOf[RawRowHeight](IndexParameter(1)) should be(2)
+    }
 }

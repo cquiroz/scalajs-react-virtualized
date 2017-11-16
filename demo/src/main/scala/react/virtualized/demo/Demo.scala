@@ -8,6 +8,8 @@ import react.virtualized.Table._
 import react.virtualized.Column._
 
 object TableDemo {
+  final case class Props(useDynamicRowHeight: Boolean)
+
   def headerRenderer(p: HeaderRendererParameter): VdomNode =
     <.div("Full Name")
 
@@ -22,22 +24,30 @@ object TableDemo {
     case x if x % 2 == 0 => "evenRow"
     case _               => "oddRow"
   }
-  val table = Table(Table.props(
-    disableHeader = false,
-    noRowsRenderer = () => <.div(^.cls := "noRows", "No rows"),
-    overscanRowCount = 10,
-    rowClassName = rowClassName _,
-    height = 270, rowCount = 1000, rowHeight = 40, width = 500, rowGetter = rowGetterF, headerClassName = "headerColumn", headerHeight = 30), columns: _*)
+  def table(props: Props) =
+    Table(
+      Table.props(
+        disableHeader = false,
+        noRowsRenderer = () => <.div(^.cls := "noRows", "No rows"),
+        overscanRowCount = 10,
+        rowClassName = rowClassName _,
+        height = 270,
+        rowCount = 1000,
+        rowHeight = if (props.useDynamicRowHeight) 10 else 40,
+        width = 500,
+        rowGetter = rowGetterF,
+        headerClassName = "headerColumn",
+        headerHeight = 30), columns: _*)
 
-  val component = ScalaComponent.builder[Unit]("TableDemo")
-    .render_P(_ => table)
+  val component = ScalaComponent.builder[Props]("TableDemo")
+    .render_P(table)
     .build
 
-  def apply() = component()
+  def apply(p: Props) = component(p)
 }
 object Demo {
   def main(args: Array[String]): Unit = {
-    TableDemo().renderIntoDOM(document.getElementById("root"))
+    TableDemo(TableDemo.Props(true)).renderIntoDOM(document.getElementById("root"))
     println("dem")
   }
 }
