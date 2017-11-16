@@ -4,22 +4,21 @@ package virtualized
 import org.scalatest._
 import japgolly.scalajs.react.test._
 import Table._
-// import scala.scalajs.js
+import scala.scalajs.js
 // import js.JSConverters._
 import japgolly.scalajs.react.vdom.html_<^.{< => <<, _}
 // import cats.syntax.eq._
 
 class TableSpec extends FlatSpec with Matchers with NonImplicitAssertions with TestUtils {
+  val rowGetterF = (x: Int) => new js.Object()
   "Table" should
     "have some required properties" in {
-      val rowGetterF = (x: IndexParameter) => x.index
       Table(Table.props(headerHeight = 10, height = 200, rowCount = 20, rowHeight = 40, width = 500, rowGetter = rowGetterF)).props.height should be (200)
       Table(Table.props(headerHeight = 10, height = 200, rowCount = 20, rowHeight = 40, width = 500, rowGetter = rowGetterF)).props.rowCount should be (20)
       Table(Table.props(headerHeight = 10, height = 200, rowCount = 20, rowHeight = 40, width = 500, rowGetter = rowGetterF)).props.rowHeight should be (40)
       Table(Table.props(headerHeight = 10, height = 200, rowCount = 20, rowHeight = 40, width = 500, rowGetter = rowGetterF)).props.width should be (500)
     }
     it should "support rendering" in {
-      val rowGetterF = (x: IndexParameter) => x.index
       val table = Table(Table.props(headerHeight = 10, height = 200, rowCount = 1, rowHeight = 40, width = 500, rowGetter = rowGetterF))
       ReactTestUtils.withRenderedIntoDocument(table) { m =>
         val html =
@@ -36,7 +35,6 @@ class TableSpec extends FlatSpec with Matchers with NonImplicitAssertions with T
     }
     it should "support rendering with columns" in {
       val columns = List(Column(Column.props(200, "key")))
-      val rowGetterF = (x: IndexParameter) => x.index
       val table = Table(Table.props(headerHeight = 10, height = 200, rowCount = 1, rowHeight = 40, width = 500, rowGetter = rowGetterF), columns: _*)
       val html =
         """<div class="ReactVirtualized__Table" role="grid">
@@ -57,7 +55,6 @@ class TableSpec extends FlatSpec with Matchers with NonImplicitAssertions with T
     }
     it should "support disableHeader" in {
       val columns = List(Column(Column.props(200, "key")))
-      val rowGetterF = (x: IndexParameter) => x.index
       val table = Table(Table.props(headerHeight = 10, height = 200, rowCount = 1, rowHeight = 40, width = 500, rowGetter = rowGetterF), columns: _*)
       table.props.disableHeader.toOption should contain(false)
       val table2 = Table(Table.props(disableHeader = true, headerHeight = 10, height = 200, rowCount = 1, rowHeight = 40, width = 500, rowGetter = rowGetterF), columns: _*)
@@ -65,7 +62,6 @@ class TableSpec extends FlatSpec with Matchers with NonImplicitAssertions with T
     }
     it should "support noRowsRenderer" in {
       val columns = List(Column(Column.props(200, "key")))
-      val rowGetterF = (x: IndexParameter) => x.index
       val table = Table(Table.props(headerHeight = 10, height = 200, rowCount = 1, rowHeight = 40, width = 500, rowGetter = rowGetterF), columns: _*)
       table.props.noRowsRenderer.toOption shouldBe defined
       val noRowsRenderer: NoRowsRenderer = () => <<.div()
@@ -74,7 +70,6 @@ class TableSpec extends FlatSpec with Matchers with NonImplicitAssertions with T
     }
     it should "support overscanRowCount" in {
       val columns = List(Column(Column.props(200, "key")))
-      val rowGetterF = (x: IndexParameter) => x.index
       val table = Table(Table.props(headerHeight = 10, height = 200, rowCount = 1, rowHeight = 40, width = 500, rowGetter = rowGetterF), columns: _*)
       table.props.overscanRowCount should be(10)
       val table2 = Table(Table.props(overscanRowCount = 50, headerHeight = 10, height = 200, rowCount = 1, rowHeight = 40, width = 500, rowGetter = rowGetterF), columns: _*)
@@ -82,7 +77,6 @@ class TableSpec extends FlatSpec with Matchers with NonImplicitAssertions with T
     }
     it should "support rowClassName as string" in {
       val columns = List(Column(Column.props(200, "key")))
-      val rowGetterF = (x: IndexParameter) => x.index
       val table = Table(Table.props(headerHeight = 10, height = 200, rowCount = 1, rowHeight = 40, width = 500, rowGetter = rowGetterF), columns: _*)
       table.props.rowClassName should be(())
       val table2 = Table(Table.props(rowClassName = "class", headerHeight = 10, height = 200, rowCount = 1, rowHeight = 40, width = 500, rowGetter = rowGetterF), columns: _*)
@@ -90,7 +84,6 @@ class TableSpec extends FlatSpec with Matchers with NonImplicitAssertions with T
     }
     it should "support rowClassName as a function" in {
       val columns = List(Column(Column.props(200, "key")))
-      val rowGetterF = (x: IndexParameter) => x.index
       val rowClassNameFn = (x: Int) => if (x % 2 == 0) "even" else "odd"
       val table2 = Table(Table.props(rowClassName = rowClassNameFn, headerHeight = 10, height = 200, rowCount = 1, rowHeight = 40, width = 500, rowGetter = rowGetterF), columns: _*)
       table2.props.rowClassName.asInstanceOf[RawRowClassName](IndexParameter(0)) should be("even")
@@ -98,7 +91,6 @@ class TableSpec extends FlatSpec with Matchers with NonImplicitAssertions with T
     }
     it should "support rowClassName as a function 2" in {
       val columns = List(Column(Column.props(200, "key")))
-      val rowGetterF = (x: IndexParameter) => x.index
       val rowHeightFn = (x: Int) => x * 2
       val table2 = Table(Table.props(rowHeight = rowHeightFn, headerHeight = 10, height = 200, rowCount = 1, width = 500, rowGetter = rowGetterF), columns: _*)
       table2.props.rowHeight.asInstanceOf[RawRowHeight](IndexParameter(0)) should be(0)

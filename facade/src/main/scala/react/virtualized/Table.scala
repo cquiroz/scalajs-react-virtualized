@@ -21,87 +21,20 @@ object Table {
   @JSImport("react-virtualized", "Table")
   object RawComponent extends js.Object
 
-  /*@js.native
-  @JSImport("react-virtualized", "SortDirection")
-  object SortDirection extends js.Object {
-    val ASC: String = js.native
-    val DESC: String = js.native
-  }
-
-  @ScalaJSDefined
-  trait CellDataParameter extends js.Object {
-    var columnData: js.Any
-    var dataKey: String
-    var rowData: js.Any
-  }
-  object CellDataParameter {
-    def apply(columnData: js.Any, dataKey: String, rowData: js.Any): CellDataParameter = {
-      val p = (new js.Object).asInstanceOf[CellDataParameter]
-      p.columnData = columnData
-      p.dataKey = dataKey
-      p.rowData = rowData
-      p
-    }
-  }
-  type CellDataGetter = js.Function1[CellDataParameter, Any]
-
-  @ScalaJSDefined
-  trait CellRendererParameter extends js.Object {
-    var cellData: js.Any
-    var columnData: js.Any
-    var dataKey: String
-    var rowData: js.Any
-    var rowIndex: JsNumber
-  }
-  object CellRendererParameter {
-    def apply(cellData: js.Any, columnData: js.Any, dataKey: String, rowData: js.Any, rowIndex: JsNumber): CellRendererParameter = {
-      val p = (new js.Object).asInstanceOf[CellRendererParameter]
-      p.cellData = cellData
-      p.columnData = columnData
-      p.dataKey = dataKey
-      p.rowData = rowData
-      p.rowIndex = rowIndex
-      p
-    }
-  }
-  type CellRenderer = js.Function1[CellRendererParameter, VdomNode]
-  type RawCellRenderer = js.Function1[CellRendererParameter, ReactNode]
-
-  @ScalaJSDefined
-  trait HeaderRendererParameter extends js.Object {
-    var columnData: js.Any
-    var dataKey: String
-    var disableSort: Boolean
-    var label: ReactNode
-    var sortBy: String
-    var sortDirection: String
-  }
-  object HeaderRendererParameter {
-    def apply(columnData: js.Any, dataKey: String, disableSort: Boolean, label: VdomNode, sortBy: String, sortDirection: String): HeaderRendererParameter = {
-      val p = (new js.Object).asInstanceOf[HeaderRendererParameter]
-      p.columnData = columnData
-      p.dataKey = dataKey
-      p.disableSort = disableSort
-      p.label = label.rawNode
-      p.sortBy = sortBy
-      p.sortDirection = sortDirection
-      p
-    }
-  }
-  type HeaderRenderer = js.Function1[HeaderRendererParameter, VdomNode]
-  type RawHeaderRenderer = js.Function1[HeaderRendererParameter, ReactNode]*/
   @ScalaJSDefined
   trait IndexParameter extends js.Object {
-    var index: JsNumber
+    var index: Int
   }
   object IndexParameter {
-    def apply(index: JsNumber): IndexParameter = {
+    def apply(index: Int): IndexParameter = {
       val p = (new js.Object).asInstanceOf[IndexParameter]
       p.index = index
       p
     }
   }
-  type RowGetter = js.Function1[IndexParameter, Any]
+  // Types for row getter
+  type RawRowGetter = js.Function1[IndexParameter, Any]
+  type RowGetter = Int => js.Object
 
   // Types for NoRowsRenderer
   private type RawNoRowsRenderer = js.Function0[ReactNode]
@@ -246,8 +179,7 @@ object Table {
      * Callback responsible for returning a data row given an index.
      * ({ index: number }): any
      */
-    // rowGetter: PropTypes.func.isRequired,
-    var rowGetter: RowGetter = js.native
+    var rowGetter: RawRowGetter = js.native
 
     /**
      * Either a fixed row height (number) or a function that returns the height of a row given its index.
@@ -330,7 +262,7 @@ object Table {
     p.headerHeight = headerHeight
     p.height = height
     p.rowCount = rowCount
-    p.rowGetter = rowGetter
+    p.rowGetter = (i: IndexParameter) => rowGetter(i.index)
     p.width = width
     p.headerClassName = headerClassName
     p.disableHeader = disableHeader

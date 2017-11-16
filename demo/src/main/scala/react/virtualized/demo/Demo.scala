@@ -4,10 +4,14 @@ import japgolly.scalajs.react._
 import japgolly.scalajs.react.vdom.html_<^._
 import org.scalajs.dom.document
 import react.virtualized._
-import react.virtualized.Table._
 import react.virtualized.Column._
 
 object TableDemo {
+  val data = Data.generateRandomList
+
+  def datum(i: Int) = data(i % data.length)
+  def rowheight(i: Int) = datum(i).size
+
   final case class Props(useDynamicRowHeight: Boolean)
 
   def headerRenderer(p: HeaderRendererParameter): VdomNode =
@@ -18,7 +22,6 @@ object TableDemo {
     Column(Column.props(90, "name", disableSort = false, headerRenderer = headerRenderer)),
     Column(Column.props(210, "random", disableSort = true, className = "exampleColumn", label = "The description label is so long it will be truncated", flexGrow = 1, cellRenderer = c => c.cellData.toString))
   )
-  val rowGetterF = (x: IndexParameter) => x.index
   def rowClassName(i: Int): String = i match {
     case x if x < 0      => "headerRow"
     case x if x % 2 == 0 => "evenRow"
@@ -33,9 +36,9 @@ object TableDemo {
         rowClassName = rowClassName _,
         height = 270,
         rowCount = 1000,
-        rowHeight = if (props.useDynamicRowHeight) 10 else 40,
+        rowHeight = if (props.useDynamicRowHeight) rowheight _ else 40,
         width = 500,
-        rowGetter = rowGetterF,
+        rowGetter = datum,
         headerClassName = "headerColumn",
         headerHeight = 30), columns: _*)
 
