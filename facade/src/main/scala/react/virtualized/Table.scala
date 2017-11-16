@@ -6,6 +6,7 @@ import japgolly.scalajs.react.component.Js.{RawMounted, UnmountedMapped, Unmount
 import japgolly.scalajs.react.internal.Effect.Id
 
 import scala.scalajs.js
+import scala.scalajs.js.|
 import js.JSConverters._
 import japgolly.scalajs.react.raw.{JsNumber, ReactNode}
 import japgolly.scalajs.react.vdom.Exports._
@@ -102,8 +103,14 @@ object Table {
   }
   type RowGetter = js.Function1[IndexParameter, Any]
 
-  type RawNoRowsRenderer = js.Function0[ReactNode]
+  // Types for NoRowsRenderer
+  private type RawNoRowsRenderer = js.Function0[ReactNode]
   type NoRowsRenderer = () => VdomNode
+
+  // Types for RowClassName
+  type RawRowClassName = js.Function1[IndexParameter, String]
+  type RowClassName = Int => String
+  type RowClassNameParam = String | RawRowClassName
 
   @js.native
   trait Props extends js.Object {
@@ -228,7 +235,7 @@ object Table {
      * This property can be a CSS class name (string) or a function that returns a class name.
      * If a function is provided its signature should be: ({ index: number }): string
      */
-    // rowClassName: PropTypes.oneOfType([PropTypes.string, PropTypes.func]),
+    var rowClassName: RowClassNameParam = js.native// PropTypes.oneOfType([PropTypes.string, PropTypes.func]),
 
     /**
      * Callback responsible for returning a data row given an index.
@@ -313,7 +320,8 @@ object Table {
     headerClassName: js.UndefOr[String] = js.undefined,
     disableHeader: js.UndefOr[Boolean] = js.undefined,
     noRowsRenderer: NoRowsRenderer = () => null, // default from react-virtualized
-    overscanRowCount: JsNumber = 10 // default from react-virtualized
+    overscanRowCount: JsNumber = 10, // default from react-virtualized
+    rowClassName: String | RowClassName = null
   ): Props = {
     val p = (new js.Object).asInstanceOf[Props]
     p.headerHeight = headerHeight
@@ -326,6 +334,14 @@ object Table {
     p.disableHeader = disableHeader
     p.noRowsRenderer = Some[RawNoRowsRenderer](() => noRowsRenderer.apply.rawNode).orUndefined
     p.overscanRowCount = overscanRowCount
+    // some uglies to get scala and js to talk
+    (rowClassName: Any) match {
+      case null =>
+      case s: String =>
+        p.rowClassName = s
+      case f =>
+        p.rowClassName = ((i: IndexParameter) => f.asInstanceOf[RowClassName](i.index.asInstanceOf[Int])): RawRowClassName
+    }
     p
   }
 
