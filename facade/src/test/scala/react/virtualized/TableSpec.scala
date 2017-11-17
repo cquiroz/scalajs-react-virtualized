@@ -125,4 +125,11 @@ class TableSpec extends FlatSpec with Matchers with NonImplicitAssertions with T
       val table2 = Table(Table.props(scrollTop = 1, rowHeight = 20, headerHeight = 10, height = 200, rowCount = 1, width = 500, rowGetter = rowGetterF), columns: _*)
       table2.props.scrollTop should be(1)
     }
+    it should "support sortDirection" in {
+      val columns = List(Column(Column.props(200, "key")))
+      val table = Table(Table.props(rowHeight = 20, headerHeight = 10, height = 200, rowCount = 1, width = 500, rowGetter = rowGetterF), columns: _*)
+      table.props.sortDirection should be(())
+      val table2 = Table(Table.props(sortDirection = SortDirection.DESC, rowHeight = 20, headerHeight = 10, height = 200, rowCount = 1, width = 500, rowGetter = rowGetterF), columns: _*)
+      table2.props.sortDirection should be(raw.RawSortDirection.DESC)
+    }
 }

@@ -41,6 +41,7 @@ object TableDemo {
         rowGetter = datum,
         headerClassName = "headerColumn",
         sortBy = props.sortBy,
+        sortDirection = SortDirection.ASC,
         headerHeight = 30), columns: _*)
   }
 

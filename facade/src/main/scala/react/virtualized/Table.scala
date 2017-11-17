@@ -231,7 +231,7 @@ object Table {
     var sortBy: js.UndefOr[String] = js.native
 
     /** Table data is currently sorted in this direction (if it is sorted at all) */
-    // sortDirection: PropTypes.oneOf([SortDirection.ASC, SortDirection.DESC]),
+    var sortDirection: js.UndefOr[String] = js.native
 
     /** Optional inline style */
     var style: js.UndefOr[js.Object] = js.native
@@ -261,7 +261,8 @@ object Table {
     tabIndex: js.UndefOr[Int] = js.undefined,
     sortBy: js.UndefOr[String] = js.undefined,
     scrollToIndex: JsNumber = -1,
-    scrollTop: js.UndefOr[Int] = js.undefined
+    scrollTop: js.UndefOr[Int] = js.undefined,
+    sortDirection: js.UndefOr[SortDirection] = js.undefined
   ): Props = {
     val p = (new js.Object).asInstanceOf[Props]
     p.headerHeight = headerHeight
@@ -278,6 +279,7 @@ object Table {
     p.sortBy = sortBy
     p.scrollToIndex = scrollToIndex
     p.scrollTop = scrollTop
+    p.sortDirection = sortDirection.map(_.toRaw)
     // some uglies to get scala and js to talk
     (rowClassName: Any) match {
       case null =>
