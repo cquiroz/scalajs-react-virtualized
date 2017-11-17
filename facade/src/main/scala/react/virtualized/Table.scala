@@ -237,7 +237,7 @@ object Table {
     var style: js.UndefOr[js.Object] = js.native
 
     /** Tab index for focus */
-    var tabIndex: JsNumber = js.native
+    var tabIndex: js.UndefOr[JsNumber] = js.native
 
     /** Width of list */
     var width: JsNumber = js.native
@@ -256,7 +256,9 @@ object Table {
     disableHeader: js.UndefOr[Boolean] = js.undefined,
     noRowsRenderer: NoRowsRenderer = () => null, // default from react-virtualized
     overscanRowCount: JsNumber = 10, // default from react-virtualized
-    rowClassName: String | RowClassName = null
+    rowClassName: String | RowClassName = null,
+    style: js.UndefOr[js.Object] = js.undefined,
+    tabIndex: js.UndefOr[Int] = js.undefined
   ): Props = {
     val p = (new js.Object).asInstanceOf[Props]
     p.headerHeight = headerHeight
@@ -268,6 +270,8 @@ object Table {
     p.disableHeader = disableHeader
     p.noRowsRenderer = Some[RawNoRowsRenderer](() => noRowsRenderer.apply.rawNode).orUndefined
     p.overscanRowCount = overscanRowCount
+    p.style = style
+    p.tabIndex = tabIndex
     // some uglies to get scala and js to talk
     (rowClassName: Any) match {
       case null =>

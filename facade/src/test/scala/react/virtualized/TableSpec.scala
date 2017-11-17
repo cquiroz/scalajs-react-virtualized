@@ -5,9 +5,9 @@ import org.scalatest._
 import japgolly.scalajs.react.test._
 import Table._
 import scala.scalajs.js
-// import js.JSConverters._
+import js.JSConverters._
 import japgolly.scalajs.react.vdom.html_<^.{< => <<, _}
-// import cats.syntax.eq._
+import cats.syntax.eq._
 
 class TableSpec extends FlatSpec with Matchers with NonImplicitAssertions with TestUtils {
   val rowGetterF = (x: Int) => new js.Object()
@@ -89,11 +89,19 @@ class TableSpec extends FlatSpec with Matchers with NonImplicitAssertions with T
       table2.props.rowClassName.asInstanceOf[RawRowClassName](IndexParameter(0)) should be("even")
       table2.props.rowClassName.asInstanceOf[RawRowClassName](IndexParameter(1)) should be("odd")
     }
-    it should "support rowClassName as a function 2" in {
+    it should "support style" in {
       val columns = List(Column(Column.props(200, "key")))
-      val rowHeightFn = (x: Int) => x * 2
-      val table2 = Table(Table.props(rowHeight = rowHeightFn, headerHeight = 10, height = 200, rowCount = 1, width = 500, rowGetter = rowGetterF), columns: _*)
-      table2.props.rowHeight.asInstanceOf[RawRowHeight](IndexParameter(0)) should be(0)
-      table2.props.rowHeight.asInstanceOf[RawRowHeight](IndexParameter(1)) should be(2)
+      val table = Table(Table.props(rowHeight = 20, headerHeight = 10, height = 200, rowCount = 1, width = 500, rowGetter = rowGetterF), columns: _*)
+      table.props.style === Some(js.Object()).orUndefined should be(true)
+      val style = js.Dynamic.literal(foo = 42, bar = "foobar")
+      val table2 = Table(Table.props(style = style, rowHeight = 20, headerHeight = 10, height = 200, rowCount = 1, width = 500, rowGetter = rowGetterF), columns: _*)
+      table2.props.style === Some(style).orUndefined should be(true)
+    }
+    it should "support tabindex" in {
+      val columns = List(Column(Column.props(200, "key")))
+      val table = Table(Table.props(rowHeight = 20, headerHeight = 10, height = 200, rowCount = 1, width = 500, rowGetter = rowGetterF), columns: _*)
+      table.props.tabIndex should be(())
+      val table2 = Table(Table.props(tabIndex = 1, rowHeight = 20, headerHeight = 10, height = 200, rowCount = 1, width = 500, rowGetter = rowGetterF), columns: _*)
+      table2.props.tabIndex should be(1)
     }
 }
