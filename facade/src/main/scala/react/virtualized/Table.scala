@@ -258,7 +258,8 @@ object Table {
     overscanRowCount: JsNumber = 10, // default from react-virtualized
     rowClassName: String | RowClassName = null,
     style: js.UndefOr[js.Object] = js.undefined,
-    tabIndex: js.UndefOr[Int] = js.undefined
+    tabIndex: js.UndefOr[Int] = js.undefined,
+    sortBy: js.UndefOr[String] = js.undefined
   ): Props = {
     val p = (new js.Object).asInstanceOf[Props]
     p.headerHeight = headerHeight
@@ -272,6 +273,7 @@ object Table {
     p.overscanRowCount = overscanRowCount
     p.style = style
     p.tabIndex = tabIndex
+    p.sortBy = sortBy
     // some uglies to get scala and js to talk
     (rowClassName: Any) match {
       case null =>

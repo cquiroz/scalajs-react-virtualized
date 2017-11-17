@@ -12,22 +12,22 @@ object TableDemo {
   def datum(i: Int) = data(i % data.length)
   def rowheight(i: Int) = datum(i).size
 
-  final case class Props(useDynamicRowHeight: Boolean)
+  final case class Props(useDynamicRowHeight: Boolean, sortBy: String)
 
-  def headerRenderer(p: HeaderRendererParameter): VdomNode =
-    <.div("Full Name")
+  def headerRenderer(sortBy: String)(p: HeaderRendererParameter): VdomNode =
+    <.div("Full Name", SortIndicator(SortDirection.ASC).when(sortBy == p.dataKey))
 
-  val columns = List(
-    Column(Column.props(60, "index", label = "Index", disableSort = false)),
-    Column(Column.props(90, "name", disableSort = false, headerRenderer = headerRenderer)),
-    Column(Column.props(210, "random", disableSort = true, className = "exampleColumn", label = "The description label is so long it will be truncated", flexGrow = 1, cellRenderer = c => c.cellData.toString))
-  )
   def rowClassName(i: Int): String = i match {
     case x if x < 0      => "headerRow"
     case x if x % 2 == 0 => "evenRow"
     case _               => "oddRow"
   }
-  def table(props: Props) =
+  def table(props: Props) = {
+    val columns = List(
+      Column(Column.props(60, "index", label = "Index", disableSort = false)),
+      Column(Column.props(90, "name", disableSort = false, headerRenderer = headerRenderer(props.sortBy))),
+      Column(Column.props(210, "random", disableSort = true, className = "exampleColumn", label = "The description label is so long it will be truncated", flexGrow = 1, cellRenderer = c => c.cellData.toString))
+    )
     Table(
       Table.props(
         disableHeader = false,
@@ -40,7 +40,9 @@ object TableDemo {
         width = 500,
         rowGetter = datum,
         headerClassName = "headerColumn",
+        sortBy = props.sortBy,
         headerHeight = 30), columns: _*)
+  }
 
   val component = ScalaComponent.builder[Props]("TableDemo")
     .render_P(table)
@@ -50,7 +52,7 @@ object TableDemo {
 }
 object Demo {
   def main(args: Array[String]): Unit = {
-    TableDemo(TableDemo.Props(true)).renderIntoDOM(document.getElementById("root"))
+    TableDemo(TableDemo.Props(true, "index")).renderIntoDOM(document.getElementById("root"))
     println("dem")
   }
 }
