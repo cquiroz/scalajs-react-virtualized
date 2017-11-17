@@ -50,6 +50,23 @@ object Table {
   type RowHeight = Int => Int
   type RowHeightParam = JsNumber | RawRowHeight
 
+  // Types for Sort
+  type RawSort = js.Function1[RawSortParam, Unit]
+  @ScalaJSDefined
+  trait RawSortParam extends js.Object {
+    var sortBy: String
+    var sortDirection: String
+  }
+  object RawSortParam {
+      def apply(sortBy: String, sortDirection: String): RawSortParam = {
+      val p = (new js.Object).asInstanceOf[RawSortParam]
+      p.sortBy = sortBy
+      p.sortDirection = sortDirection
+      p
+    }
+  }
+  type Sort = (String, SortDirection) => Callback
+
   @js.native
   trait Props extends js.Object {
     /** Optional aria-label value to set on the column header */
@@ -225,7 +242,7 @@ object Table {
      * Sort function to be called if a sortable header is clicked.
      * ({ sortBy: string, sortDirection: SortDirection }): void
      */
-    // sort: PropTypes.func,
+    var sort: js.UndefOr[RawSort] = js.native
 
     /** Table data is currently sorted by this :dataKey (if it is sorted at all) */
     var sortBy: js.UndefOr[String] = js.native
@@ -259,6 +276,7 @@ object Table {
     rowClassName: String | RowClassName = null,
     style: js.UndefOr[js.Object] = js.undefined,
     tabIndex: js.UndefOr[Int] = js.undefined,
+    sort: js.UndefOr[Sort] = js.undefined,
     sortBy: js.UndefOr[String] = js.undefined,
     scrollToIndex: JsNumber = -1,
     scrollTop: js.UndefOr[Int] = js.undefined,
@@ -280,6 +298,7 @@ object Table {
     p.scrollToIndex = scrollToIndex
     p.scrollTop = scrollTop
     p.sortDirection = sortDirection.map(_.toRaw)
+    p.sort = sort.map { f => (i: RawSortParam) => f(i.sortBy, SortDirection.fromRaw(i.sortDirection)).runNow()}
     // some uglies to get scala and js to talk
     (rowClassName: Any) match {
       case null =>

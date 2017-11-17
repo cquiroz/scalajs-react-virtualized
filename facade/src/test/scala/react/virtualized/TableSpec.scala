@@ -3,6 +3,7 @@ package virtualized
 
 import org.scalatest._
 import japgolly.scalajs.react.test._
+import japgolly.scalajs.react.Callback
 import Table._
 import scala.scalajs.js
 import js.JSConverters._
@@ -131,5 +132,13 @@ class TableSpec extends FlatSpec with Matchers with NonImplicitAssertions with T
       table.props.sortDirection should be(())
       val table2 = Table(Table.props(sortDirection = SortDirection.DESC, rowHeight = 20, headerHeight = 10, height = 200, rowCount = 1, width = 500, rowGetter = rowGetterF), columns: _*)
       table2.props.sortDirection should be(raw.RawSortDirection.DESC)
+    }
+    it should "support sort" in {
+      val columns = List(Column(Column.props(200, "key")))
+      val table = Table(Table.props(rowHeight = 20, headerHeight = 10, height = 200, rowCount = 1, width = 500, rowGetter = rowGetterF), columns: _*)
+      table.props.sort should be(())
+      def sortFunction(s: String, d: SortDirection): Callback = Callback.empty
+      val table2 = Table(Table.props(sort = sortFunction _, rowHeight = 20, headerHeight = 10, height = 200, rowCount = 1, width = 500, rowGetter = rowGetterF), columns: _*)
+      table2.props.sort.toOption.map(_(RawSortParam("key", "ASC"))) should contain(())
     }
 }
