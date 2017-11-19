@@ -50,6 +50,11 @@ object Table {
   type RowHeight = Int => Int
   type RowHeightParam = JsNumber | RawRowHeight
 
+  // Types for RowStyle
+  type RawRowStyle = js.Function1[IndexParameter, js.Object]
+  type RowStyle = Int => Style
+  type RowStyleParam = js.Object | RawRowStyle
+
   // Types for Sort
   type RawSort = js.Function1[RawSortParam, Unit]
   @ScalaJSDefined
@@ -66,6 +71,21 @@ object Table {
     }
   }
   type Sort = (String, SortDirection) => Callback
+
+  sealed trait ScrollToAlignment
+  object ScrollToAlignment {
+    case object Auto extends ScrollToAlignment
+    case object End extends ScrollToAlignment
+    case object Start extends ScrollToAlignment
+    case object Center extends ScrollToAlignment
+
+    def toRaw(s: ScrollToAlignment): String = s match {
+      case Auto   => "auto"
+      case End    => "end"
+      case Start  => "start"
+      case Center => "center"
+    }
+  }
 
   @js.native
   trait Props extends js.Object {
@@ -225,12 +245,10 @@ object Table {
     // rowRenderer: PropTypes.func,
 
     /** Optional custom inline style to attach to table rows. */
-    // rowStyle: PropTypes.oneOfType([PropTypes.object, PropTypes.func])
-    //   .isRequired,
+    var rowStyle: RowStyleParam = js.native
 
     /** See Grid#scrollToAlignment */
-    // scrollToAlignment: PropTypes.oneOf(['auto', 'end', 'start', 'center'])
-    //   .isRequired,
+    var scrollToAlignment: String = js.native
 
     /** Row index to ensure visible (by forcefully scrolling if necessary) */
     var scrollToIndex: JsNumber = js.native
@@ -260,8 +278,6 @@ object Table {
     var width: JsNumber = js.native
   }
 
-  // private def toRawNode(vdomNode: VdomNode): ReactNode = vdomNode.rawNode
-
   def props(
     headerHeight: Int,
     height: Int,
@@ -274,13 +290,15 @@ object Table {
     noRowsRenderer: NoRowsRenderer = () => null, // default from react-virtualized
     overscanRowCount: JsNumber = 10, // default from react-virtualized
     rowClassName: String | RowClassName = null,
-    style: js.UndefOr[js.Object] = js.undefined,
+    style: js.UndefOr[Style] = js.undefined,
     tabIndex: js.UndefOr[Int] = js.undefined,
     sort: js.UndefOr[Sort] = js.undefined,
     sortBy: js.UndefOr[String] = js.undefined,
     scrollToIndex: JsNumber = -1,
     scrollTop: js.UndefOr[Int] = js.undefined,
-    sortDirection: js.UndefOr[SortDirection] = js.undefined
+    sortDirection: js.UndefOr[SortDirection] = js.undefined,
+    scrollToAlignment: ScrollToAlignment = ScrollToAlignment.Auto,
+    rowStyle: Style | RowStyle = Style(Map.empty)
   ): Props = {
     val p = (new js.Object).asInstanceOf[Props]
     p.headerHeight = headerHeight
@@ -292,27 +310,33 @@ object Table {
     p.disableHeader = disableHeader
     p.noRowsRenderer = Some[RawNoRowsRenderer](() => noRowsRenderer.apply.rawNode).orUndefined
     p.overscanRowCount = overscanRowCount
-    p.style = style
+    p.style = style.map(Style.toJsObject)
     p.tabIndex = tabIndex
     p.sortBy = sortBy
     p.scrollToIndex = scrollToIndex
     p.scrollTop = scrollTop
     p.sortDirection = sortDirection.map(_.toRaw)
     p.sort = sort.map { f => (i: RawSortParam) => f(i.sortBy, SortDirection.fromRaw(i.sortDirection)).runNow()}
+    p.scrollToAlignment = ScrollToAlignment.toRaw(scrollToAlignment)
     // some uglies to get scala and js to talk
+    p.rowStyle = (rowStyle: Any) match {
+      case o: Style => Style.toJsObject(o)
+      case f =>
+        ((i: IndexParameter) => Style.toJsObject(f.asInstanceOf[RowStyle](i.index))): RawRowStyle
+    }
     (rowClassName: Any) match {
       case null =>
       case s: String =>
         p.rowClassName = s
       case f =>
-        p.rowClassName = ((i: IndexParameter) => f.asInstanceOf[RowClassName](i.index.asInstanceOf[Int])): RawRowClassName
+        p.rowClassName = ((i: IndexParameter) => f.asInstanceOf[RowClassName](i.index)): RawRowClassName
     }
     (rowHeight: Any) match {
       case null =>
       case s: Int =>
         p.rowHeight = s
       case f =>
-        p.rowHeight = ((i: IndexParameter) => f.asInstanceOf[RowHeight](i.index.asInstanceOf[Int])): RawRowHeight
+        p.rowHeight = ((i: IndexParameter) => f.asInstanceOf[RowHeight](i.index)): RawRowHeight
     }
     p
   }

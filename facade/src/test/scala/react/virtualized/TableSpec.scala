@@ -6,6 +6,7 @@ import japgolly.scalajs.react.test._
 import japgolly.scalajs.react.Callback
 import Table._
 import scala.scalajs.js
+import scala.scalajs.js.|
 import js.JSConverters._
 import japgolly.scalajs.react.vdom.html_<^.{< => <<, _}
 import cats.syntax.eq._
@@ -95,7 +96,8 @@ class TableSpec extends FlatSpec with Matchers with NonImplicitAssertions with T
       val table = Table(Table.props(rowHeight = 20, headerHeight = 10, height = 200, rowCount = 1, width = 500, rowGetter = rowGetterF), columns: _*)
       table.props.style === Some(js.Object()).orUndefined should be(true)
       val style = js.Dynamic.literal(foo = 42, bar = "foobar")
-      val table2 = Table(Table.props(style = style, rowHeight = 20, headerHeight = 10, height = 200, rowCount = 1, width = 500, rowGetter = rowGetterF), columns: _*)
+      val styleMap = Map[String, String | Int]("foo" -> 42, "bar" -> "foobar")
+      val table2 = Table(Table.props(style = Style(styleMap), rowHeight = 20, headerHeight = 10, height = 200, rowCount = 1, width = 500, rowGetter = rowGetterF), columns: _*)
       table2.props.style === Some(style).orUndefined should be(true)
     }
     it should "support tabIndex" in {
@@ -140,5 +142,29 @@ class TableSpec extends FlatSpec with Matchers with NonImplicitAssertions with T
       def sortFunction(s: String, d: SortDirection): Callback = Callback.empty
       val table2 = Table(Table.props(sort = sortFunction _, rowHeight = 20, headerHeight = 10, height = 200, rowCount = 1, width = 500, rowGetter = rowGetterF), columns: _*)
       table2.props.sort.toOption.map(_(RawSortParam("key", "ASC"))) should contain(())
+    }
+    it should "support scrollToAlignment" in {
+      val columns = List(Column(Column.props(200, "key")))
+      val table = Table(Table.props(rowHeight = 20, headerHeight = 10, height = 200, rowCount = 1, width = 500, rowGetter = rowGetterF), columns: _*)
+      table.props.scrollToAlignment should be("auto")
+      val table2 = Table(Table.props(scrollToAlignment = ScrollToAlignment.Center, rowHeight = 20, headerHeight = 10, height = 200, rowCount = 1, width = 500, rowGetter = rowGetterF), columns: _*)
+      table2.props.scrollToAlignment should be("center")
+    }
+    it should "support rowStyle as object" in {
+      val columns = List(Column(Column.props(200, "key")))
+      val table = Table(Table.props(rowHeight = 20, headerHeight = 10, height = 200, rowCount = 1, width = 500, rowGetter = rowGetterF), columns: _*)
+      table.props.rowStyle.asInstanceOf[js.Object] === js.Object() should be(true)
+      val style = js.Dynamic.literal(foo = 42, bar = "foobar")
+      val styleMap = Map[String, String | Int]("foo" -> 42, "bar" -> "foobar")
+      val table2 = Table(Table.props(rowStyle = Style(styleMap), rowHeight = 20, headerHeight = 10, height = 200, rowCount = 1, width = 500, rowGetter = rowGetterF), columns: _*)
+      table2.props.rowStyle.asInstanceOf[js.Object] === style should be(true)
+    }
+    it should "support rowStyle as function" in {
+      val columns = List(Column(Column.props(200, "key")))
+      val style = js.Dynamic.literal(foo = 42, bar = "foobar")
+      val styleMap = Map[String, String | Int]("foo" -> 42, "bar" -> "foobar")
+      val rowStyleF = (i: Int) => Style(styleMap)
+      val table = Table(Table.props(rowStyle = rowStyleF, rowHeight = 20, headerHeight = 10, height = 200, rowCount = 1, width = 500, rowGetter = rowGetterF), columns: _*)
+      table.props.rowStyle.asInstanceOf[RawRowStyle](IndexParameter(1)) === style should be(true)
     }
 }

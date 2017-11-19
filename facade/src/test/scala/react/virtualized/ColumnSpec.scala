@@ -4,6 +4,7 @@ package virtualized
 import org.scalatest._
 import Column._
 import scala.scalajs.js
+import scala.scalajs.js.|
 import js.JSConverters._
 import japgolly.scalajs.react.vdom.html_<^.{< => <<, _}
 import cats.syntax.eq._
@@ -94,7 +95,8 @@ class ColumnSpec extends FlatSpec with Matchers with NonImplicitAssertions with 
     }
     it should "support style" in {
       val style = js.Dynamic.literal(foo = 42, bar = "foobar")
+      val styleMap = Map[String, String | Int]("foo" -> 42, "bar" -> "foobar")
       Column(Column.props(200, "key")).props.style === Some(js.Object()).orUndefined should be(true)
-      Column(Column.props(200, "key", style = style)).props.style should be(style)
+      Column(Column.props(200, "key", style = Style(styleMap))).props.style.toOption.map(_ === style) should be(Some(true))
     }
 }
