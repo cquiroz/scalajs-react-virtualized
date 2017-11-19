@@ -167,4 +167,64 @@ class TableSpec extends FlatSpec with Matchers with NonImplicitAssertions with T
       val table = Table(Table.props(rowStyle = rowStyleF, rowHeight = 20, headerHeight = 10, height = 200, rowCount = 1, width = 500, rowGetter = rowGetterF), columns: _*)
       table.props.rowStyle.asInstanceOf[RawRowStyle](IndexParameter(1)) === style should be(true)
     }
+    it should "support aria-label" in {
+      val columns = List(Column(Column.props(200, "key")))
+      val table = Table(Table.props(rowHeight = 20, headerHeight = 10, height = 200, rowCount = 1, width = 500, rowGetter = rowGetterF), columns: _*)
+      table.props.`aria-label` should be(())
+      val table2 = Table(Table.props(ariaLabel = "label", rowHeight = 20, headerHeight = 10, height = 200, rowCount = 1, width = 500, rowGetter = rowGetterF), columns: _*)
+      table2.props.`aria-label` should be("label")
+    }
+    it should "support auto-height" in {
+      val columns = List(Column(Column.props(200, "key")))
+      val table = Table(Table.props(rowHeight = 20, headerHeight = 10, height = 200, rowCount = 1, width = 500, rowGetter = rowGetterF), columns: _*)
+      table.props.autoHeight should be(())
+      val table2 = Table(Table.props(autoHeight = true, rowHeight = 20, headerHeight = 10, height = 200, rowCount = 1, width = 500, rowGetter = rowGetterF), columns: _*)
+      table2.props.autoHeight.toOption should contain(true)
+    }
+    it should "support className" in {
+      val columns = List(Column(Column.props(200, "key")))
+      val table = Table(Table.props(rowHeight = 20, headerHeight = 10, height = 200, rowCount = 1, width = 500, rowGetter = rowGetterF), columns: _*)
+      table.props.className should be(())
+      val table2 = Table(Table.props(className = "class", autoHeight = true, rowHeight = 20, headerHeight = 10, height = 200, rowCount = 1, width = 500, rowGetter = rowGetterF), columns: _*)
+      table2.props.className should be("class")
+    }
+    it should "support estimatedRowSize " in {
+      val columns = List(Column(Column.props(200, "key")))
+      val table = Table(Table.props(rowHeight = 20, headerHeight = 10, height = 200, rowCount = 1, width = 500, rowGetter = rowGetterF), columns: _*)
+      table.props.estimatedRowSize should be(30)
+      val table2 = Table(Table.props(estimatedRowSize = 10, autoHeight = true, rowHeight = 20, headerHeight = 10, height = 200, rowCount = 1, width = 500, rowGetter = rowGetterF), columns: _*)
+      table2.props.estimatedRowSize should be(10)
+    }
+    it should "support gridClassName " in {
+      val columns = List(Column(Column.props(200, "key")))
+      val table = Table(Table.props(rowHeight = 20, headerHeight = 10, height = 200, rowCount = 1, width = 500, rowGetter = rowGetterF), columns: _*)
+      table.props.gridClassName should be(())
+      val table2 = Table(Table.props(gridClassName = "class", autoHeight = true, rowHeight = 20, headerHeight = 10, height = 200, rowCount = 1, width = 500, rowGetter = rowGetterF), columns: _*)
+      table2.props.gridClassName should be("class")
+    }
+    it should "support gridStyle " in {
+      val columns = List(Column(Column.props(200, "key")))
+      val table = Table(Table.props(rowHeight = 20, headerHeight = 10, height = 200, rowCount = 1, width = 500, rowGetter = rowGetterF), columns: _*)
+      table.props.gridStyle should be(())
+      val style = js.Dynamic.literal(foo = 42, bar = "foobar")
+      val styleMap = Map[String, String | Int]("foo" -> 42, "bar" -> "foobar")
+      val table2 = Table(Table.props(gridStyle = Style(styleMap), autoHeight = true, rowHeight = 20, headerHeight = 10, height = 200, rowCount = 1, width = 500, rowGetter = rowGetterF), columns: _*)
+      table2.props.gridStyle.toOption.map(_ === style) should contain(true)
+    }
+    it should "support headerStyle " in {
+      val columns = List(Column(Column.props(200, "key")))
+      val table = Table(Table.props(rowHeight = 20, headerHeight = 10, height = 200, rowCount = 1, width = 500, rowGetter = rowGetterF), columns: _*)
+      table.props.headerStyle.toOption.map(_ === js.Object()) should contain(true)
+      val style = js.Dynamic.literal(foo = 42, bar = "foobar")
+      val styleMap = Map[String, String | Int]("foo" -> 42, "bar" -> "foobar")
+      val table2 = Table(Table.props(headerStyle = Style(styleMap), autoHeight = true, rowHeight = 20, headerHeight = 10, height = 200, rowCount = 1, width = 500, rowGetter = rowGetterF), columns: _*)
+      table2.props.headerStyle.toOption.map(_ === style) should contain(true)
+    }
+    it should "support id " in {
+      val columns = List(Column(Column.props(200, "key")))
+      val table = Table(Table.props(rowHeight = 20, headerHeight = 10, height = 200, rowCount = 1, width = 500, rowGetter = rowGetterF), columns: _*)
+      table.props.id should be(())
+      val table2 = Table(Table.props(id = "id", autoHeight = true, rowHeight = 20, headerHeight = 10, height = 200, rowCount = 1, width = 500, rowGetter = rowGetterF), columns: _*)
+      table2.props.id should be("id")
+    }
 }

@@ -111,19 +111,19 @@ object Table {
      * Used to estimate the total height of a Table before all of its rows have actually been measured.
      * The estimated total height is adjusted as rows are rendered.
      */
-    var estimatedRowSize: js.UndefOr[JsNumber] = js.native
+    var estimatedRowSize: Int = js.native
 
     /** Optional custom CSS class name to attach to inner Grid element. */
     var gridClassName: js.UndefOr[String] = js.native
 
     /** Optional inline style to attach to inner Grid element. */
-    var gridStyle: js.UndefOr[String] = js.native
+    var gridStyle: js.UndefOr[js.Object] = js.native
 
     /** Optional CSS class to apply to all column headers */
     var headerClassName: js.UndefOr[String] = js.native
 
     /** Fixed height of header row */
-    var headerHeight: JsNumber = js.native
+    var headerHeight: Int = js.native
 
     /**
      * Responsible for rendering a table row given an array of columns:
@@ -285,8 +285,16 @@ object Table {
     rowGetter: RowGetter,
     rowHeight: JsNumber | RowHeight,
     width: Int,
-    headerClassName: js.UndefOr[String] = js.undefined,
+    ariaLabel: js.UndefOr[String] = js.undefined,
+    autoHeight: js.UndefOr[Boolean] = js.undefined,
+    className: js.UndefOr[String] = js.undefined,
     disableHeader: js.UndefOr[Boolean] = js.undefined,
+    estimatedRowSize: Int = 30,
+    gridClassName: js.UndefOr[String] = js.undefined,
+    gridStyle: js.UndefOr[Style] = js.undefined,
+    headerClassName: js.UndefOr[String] = js.undefined,
+    headerStyle: js.UndefOr[Style] = js.undefined,
+    id: js.UndefOr[String] = js.undefined,
     noRowsRenderer: NoRowsRenderer = () => null, // default from react-virtualized
     overscanRowCount: JsNumber = 10, // default from react-virtualized
     rowClassName: String | RowClassName = null,
@@ -306,8 +314,16 @@ object Table {
     p.rowCount = rowCount
     p.rowGetter = (i: IndexParameter) => rowGetter(i.index)
     p.width = width
-    p.headerClassName = headerClassName
+    p.`aria-label` = ariaLabel
+    p.autoHeight = autoHeight
+    p.className = className
     p.disableHeader = disableHeader
+    p.estimatedRowSize = estimatedRowSize
+    p.gridClassName = gridClassName
+    p.gridStyle = gridStyle.map(Style.toJsObject)
+    p.headerClassName = headerClassName
+    p.headerStyle = headerStyle.map(Style.toJsObject)
+    p.id = id
     p.noRowsRenderer = Some[RawNoRowsRenderer](() => noRowsRenderer.apply.rawNode).orUndefined
     p.overscanRowCount = overscanRowCount
     p.style = style.map(Style.toJsObject)
