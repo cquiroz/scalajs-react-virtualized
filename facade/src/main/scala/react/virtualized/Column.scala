@@ -1,16 +1,16 @@
 package react
 package virtualized
 
+import scala.scalajs.js
+import js.annotation.{JSImport, ScalaJSDefined}
+import js.JSConverters._
 import japgolly.scalajs.react._
 import japgolly.scalajs.react.component.Js.{RawMounted, UnmountedMapped}
 import japgolly.scalajs.react.internal.Effect.Id
-
-import scala.scalajs.js
-import js.JSConverters._
 import japgolly.scalajs.react.raw.{JsNumber, ReactNode}
 import japgolly.scalajs.react.vdom.VdomNode
-
-import scala.scalajs.js.annotation.{JSImport, ScalaJSDefined}
+import raw._
+import defs._
 
 @ScalaJSDefined
 trait Column extends js.Object
@@ -37,65 +37,6 @@ object Column {
   }
   type CellDataGetter = js.Function1[CellDataParameter, Any]
 
-  @ScalaJSDefined
-  trait CellRendererParameter extends js.Object {
-    var cellData: js.Any
-    var columnData: js.Any
-    var dataKey: String
-    var rowData: js.Any
-    var rowIndex: JsNumber
-  }
-  object CellRendererParameter {
-    def apply(cellData: js.Any, columnData: js.Any, dataKey: String, rowData: js.Any, rowIndex: JsNumber): CellRendererParameter = {
-      val p = (new js.Object).asInstanceOf[CellRendererParameter]
-      p.cellData = cellData
-      p.columnData = columnData
-      p.dataKey = dataKey
-      p.rowData = rowData
-      p.rowIndex = rowIndex
-      p
-    }
-  }
-  type CellRenderer = js.Function1[CellRendererParameter, VdomNode]
-  type RawCellRenderer = js.Function1[CellRendererParameter, ReactNode]
-
-  @ScalaJSDefined
-  trait HeaderRendererParameter extends js.Object {
-    var columnData: js.Any
-    var dataKey: String
-    var disableSort: Boolean
-    var label: ReactNode
-    var sortBy: String
-    var sortDirection: String
-  }
-  object HeaderRendererParameter {
-    def apply(columnData: js.Any, dataKey: String, disableSort: Boolean, label: VdomNode, sortBy: String, sortDirection: String): HeaderRendererParameter = {
-      val p = (new js.Object).asInstanceOf[HeaderRendererParameter]
-      p.columnData = columnData
-      p.dataKey = dataKey
-      p.disableSort = disableSort
-      p.label = label.rawNode
-      p.sortBy = sortBy
-      p.sortDirection = sortDirection
-      p
-    }
-  }
-  type HeaderRenderer = js.Function1[HeaderRendererParameter, VdomNode]
-  type RawHeaderRenderer = js.Function1[HeaderRendererParameter, ReactNode]
-
-  @js.native
-  @JSImport("react-virtualized", "defaultTableHeaderRenderer", JSImport.Default)
-  object defaultHeaderRenderer extends js.Function1[HeaderRendererParameter, ReactNode] {
-    def apply(i: HeaderRendererParameter): ReactNode = js.native
-  }
-  private val defaultHeaderRendererS = defaultHeaderRenderer andThen VdomNode.apply
-
-  @js.native
-  @JSImport("react-virtualized", "defaultTableCellRenderer", JSImport.Default)
-  object defaultCellRenderer extends js.Function1[CellRendererParameter, ReactNode] {
-    def apply(i: CellRendererParameter): ReactNode = js.native
-  }
-  private val defaultCellRendererS = defaultCellRenderer andThen VdomNode.apply
 
   @js.native
   trait Props extends js.Object {
