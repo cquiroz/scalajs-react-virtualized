@@ -8,12 +8,21 @@ import japgolly.scalajs.react.raw.ReactNode
 import japgolly.scalajs.react.vdom.VdomNode
 
 package virtualized {
+
   final case class Style(styles: Map[String, String | Int])
 
   object Style {
-    def toJsObject(style: Style): js.Object = {
+    def toJsObject(style: Style): js.Object =
       style.styles.toJSDictionary.asInstanceOf[js.Object]
+
+
+    def fromJsObject(o: js.Object): Style = {
+      val xDict = o.asInstanceOf[js.Dictionary[String | Int]]
+      val map = (for ((prop, value) <- xDict) yield
+        prop -> value).toMap
+      Style(map)
     }
+
   }
 
   @ScalaJSDefined
@@ -57,30 +66,30 @@ package virtualized {
       p
     }
   }
-     /* Should implement the following interface: ({
-     *   className: string,
-     *   columns: any[],
-     *   style: any
-     * }): PropTypes.node
-     */
 
   @ScalaJSDefined
-  trait HeaderRowRendererParameter extends js.Object {
-    var index: Int
+  trait RawHeaderRowRendererParameter extends js.Object {
+    var className: String
+    var columns: js.Array[ReactNode]
+    var style: js.Object
   }
-  object HeaderRowRendererParameter {
-    def apply(index: Int): HeaderRowRendererParameter = {
-      val p = (new js.Object).asInstanceOf[HeaderRowRendererParameter]
-      p.index = index
+  object RawHeaderRowRendererParameter {
+    def apply(className: String, columns: js.Array[ReactNode], style: js.Object): RawHeaderRowRendererParameter = {
+      val p = (new js.Object).asInstanceOf[RawHeaderRowRendererParameter]
+      p.className = className
+      p.columns = columns
+      p.style = style
       p
     }
   }
 
   object defs {
+    def toRawNode(vdomNode: VdomNode): ReactNode = vdomNode.rawNode
+
     type CellRenderer = js.Function1[CellRendererParameter, VdomNode]
     type HeaderRenderer = js.Function1[HeaderRendererParameter, VdomNode]
-    type RawHeaderRowRenderer = js.Function1[HeaderRowRendererParameter, ReactNode]
-    type HeaderRowRenderer = (String, Array[Any], Any) => VdomNode
+    type RawHeaderRowRenderer = js.Function1[RawHeaderRowRendererParameter, ReactNode]
+    type HeaderRowRenderer = (String, Array[VdomNode], Style) => VdomNode
   }
 
   private[virtualized] object raw {
@@ -109,11 +118,11 @@ package virtualized {
     val defaultCellRendererS = defaultCellRenderer andThen VdomNode.apply
 
     @js.native
-    @JSImport("react-virtualized", "defaultHeaderRowRenderer", JSImport.Default)
-    object defaultHeaderRowRenderer extends js.Function1[HeaderRowRendererParameter, ReactNode] {
-      def apply(i: HeaderRowRendererParameter): ReactNode = js.native
+    @JSImport("react-virtualized", "defaultTableHeaderRowRenderer", JSImport.Default)
+    object defaultHeaderRowRenderer extends js.Function1[RawHeaderRowRendererParameter, ReactNode] {
+      def apply(i: RawHeaderRowRendererParameter): ReactNode = js.native
     }
-    val defaultRowHeaderRendererS = defaultHeaderRowRenderer andThen VdomNode.apply
+    val defaultHeaderRowRendererS: defs.HeaderRowRenderer = (className: String, columns: Array[VdomNode], style: Style) => VdomNode(defaultHeaderRowRenderer(RawHeaderRowRendererParameter(className, columns.map(_.rawNode).toJSArray, Style.toJsObject(style))))
   }
 
 }

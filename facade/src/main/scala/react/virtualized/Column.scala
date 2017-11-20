@@ -104,8 +104,6 @@ object Column {
     var width: JsNumber = js.native
   }
 
-  private def toRawNode(vdomNode: VdomNode): ReactNode = vdomNode.rawNode
-
   def props(
     width: Int,
     dataKey: String,

@@ -12,6 +12,8 @@ import japgolly.scalajs.react.raw.{JsNumber, ReactNode}
 import japgolly.scalajs.react.vdom.Exports._
 
 import scala.scalajs.js.annotation.{JSImport, ScalaJSDefined}
+import defs._
+import raw._
 
 object Table {
 
@@ -133,7 +135,7 @@ object Table {
      *   style: any
      * }): PropTypes.node
      */
-    // headerRowRenderer: PropTypes.func,
+    var headerRowRenderer: RawHeaderRowRenderer = js.native
 
     /** Optional custom inline style to attach to table header columns. */
     var headerStyle: js.UndefOr[js.Object] = js.native
@@ -294,6 +296,7 @@ object Table {
     gridStyle: js.UndefOr[Style] = js.undefined,
     headerClassName: js.UndefOr[String] = js.undefined,
     headerStyle: js.UndefOr[Style] = js.undefined,
+    headerRowRenderer: HeaderRowRenderer = defaultHeaderRowRendererS,
     id: js.UndefOr[String] = js.undefined,
     noRowsRenderer: NoRowsRenderer = () => null, // default from react-virtualized
     overscanRowCount: JsNumber = 10, // default from react-virtualized
@@ -323,6 +326,7 @@ object Table {
     p.gridStyle = gridStyle.map(Style.toJsObject)
     p.headerClassName = headerClassName
     p.headerStyle = headerStyle.map(Style.toJsObject)
+    p.headerRowRenderer = (r: RawHeaderRowRendererParameter) => toRawNode(headerRowRenderer(r.className, r.columns.map(VdomNode.apply).toArray, Style.fromJsObject(r.style)))
     p.id = id
     p.noRowsRenderer = Some[RawNoRowsRenderer](() => noRowsRenderer.apply.rawNode).orUndefined
     p.overscanRowCount = overscanRowCount
