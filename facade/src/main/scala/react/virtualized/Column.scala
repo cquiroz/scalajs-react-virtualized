@@ -2,7 +2,7 @@ package react
 package virtualized
 
 import scala.scalajs.js
-import js.annotation.{JSImport, ScalaJSDefined}
+import js.annotation.JSImport
 import js.JSConverters._
 import japgolly.scalajs.react._
 import japgolly.scalajs.react.component.Js.{RawMounted, UnmountedMapped}
@@ -12,7 +12,6 @@ import japgolly.scalajs.react.vdom.VdomNode
 import raw._
 import defs._
 
-@ScalaJSDefined
 trait Column extends js.Object
 
 object Column {
@@ -20,7 +19,6 @@ object Column {
   @JSImport("react-virtualized", "Column")
   object RawComponent extends js.Object
 
-  @ScalaJSDefined
   trait CellDataParameter extends js.Object {
     var columnData: js.Any
     var dataKey: String
@@ -36,7 +34,6 @@ object Column {
     }
   }
   type CellDataGetter = js.Function1[CellDataParameter, Any]
-
 
   @js.native
   trait Props extends js.Object {

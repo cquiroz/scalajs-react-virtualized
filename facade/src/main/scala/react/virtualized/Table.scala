@@ -11,7 +11,7 @@ import js.JSConverters._
 import japgolly.scalajs.react.raw.{JsNumber, ReactNode}
 import japgolly.scalajs.react.vdom.Exports._
 
-import scala.scalajs.js.annotation.{JSImport, ScalaJSDefined}
+import scala.scalajs.js.annotation.JSImport
 import defs._
 import raw._
 
@@ -23,7 +23,6 @@ object Table {
   @JSImport("react-virtualized", "Table")
   object RawComponent extends js.Object
 
-  @ScalaJSDefined
   trait IndexParameter extends js.Object {
     var index: Int
   }
@@ -59,7 +58,6 @@ object Table {
 
   // Types for Sort
   type RawSort = js.Function1[RawSortParam, Unit]
-  @ScalaJSDefined
   trait RawSortParam extends js.Object {
     var sortBy: String
     var sortDirection: String

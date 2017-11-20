@@ -2,10 +2,8 @@ package react.virutalized.demo
 
 import scala.util.Random._
 import scala.scalajs.js
-import scala.scalajs.js.annotation.ScalaJSDefined
 
 object Data {
-  @ScalaJSDefined
   trait DataRow extends js.Object {
     var color: String
     var index: Int

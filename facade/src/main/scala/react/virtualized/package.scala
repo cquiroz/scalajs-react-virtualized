@@ -2,7 +2,7 @@ package react
 
 import scala.scalajs.js
 import scala.scalajs.js.|
-import js.annotation.{JSImport, ScalaJSDefined}
+import js.annotation.JSImport
 import js.JSConverters._
 import japgolly.scalajs.react.raw.ReactNode
 import japgolly.scalajs.react.vdom.VdomNode
@@ -25,7 +25,6 @@ package virtualized {
 
   }
 
-  @ScalaJSDefined
   trait HeaderRendererParameter extends js.Object {
     var columnData: js.Any
     var dataKey: String
@@ -47,7 +46,6 @@ package virtualized {
     }
   }
 
-  @ScalaJSDefined
   trait CellRendererParameter extends js.Object {
     var cellData: js.Any
     var columnData: js.Any
@@ -67,7 +65,6 @@ package virtualized {
     }
   }
 
-  @ScalaJSDefined
   trait RawHeaderRowRendererParameter extends js.Object {
     var className: String
     var columns: js.Array[ReactNode]

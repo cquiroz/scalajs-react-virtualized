@@ -25,6 +25,7 @@ lazy val facade =
     .enablePlugins(ScalaJSBundlerPlugin)
     .settings(commonSettings: _*)
     .settings(
+      name := "scalajs-react-virtualized",
       npmDependencies in Compile ++= Seq(
         "react" -> reactJS,
         "react-dom" -> reactJS,
@@ -42,7 +43,23 @@ lazy val facade =
 
 lazy val commonSettings = Seq(
   scalaVersion := "2.12.4",
-  version := "0.1.0-SNAPSHOT",
+  version := "0.0.1",
+  organization := "io.github.cquiroz",
+  description  := "scala.js facade for react-virtualized",
+  homepage     := Some(url("https://github.com/cquiroz/scalajs-react-virtualized")),
+  licenses     := Seq("BSD 3-Clause License" -> url("https://opensource.org/licenses/BSD-3-Clause")),
+  useGpg := true,
+  publishArtifact in Test := false,
+  publishMavenStyle := true,
+  publishTo := {
+    val nexus = "https://oss.sonatype.org/"
+    if (isSnapshot.value)
+      Some("snapshots" at nexus + "content/repositories/snapshots")
+    else
+      Some("releases"  at nexus + "service/local/staging/deploy/maven2")
+    },
+  pomExtra := pomData,
+  pomIncludeRepository := { _ => false },
   libraryDependencies ++= Seq(
     "com.github.japgolly.scalajs-react" %%% "core"      % scalaJsReact,
     "com.github.japgolly.scalajs-react" %%% "test"      % scalaJsReact % "test",
@@ -93,6 +110,22 @@ lazy val commonSettings = Seq(
     // "-Ywarn-unused:params",              // Warn if a value parameter is unused.
     // "-Ywarn-unused:patvars",             // Warn if a variable bound in a pattern is unused.
     "-Ywarn-unused:privates",            // Warn if a private member is unused.
-    "-Ywarn-value-discard"               // Warn when non-Unit expression results are unused.
+    "-Ywarn-value-discard",              // Warn when non-Unit expression results are unused.
+    "-P:scalajs:sjsDefinedByDefault"
   )
 )
+lazy val pomData =
+  <scm>
+    <url>git@github.com:cquiroz/scalajs-react-virtualized.git</url>
+    <connection>scm:git:git@github.com:cquiroz/scalajs-react-virtualized.git</connection>
+  </scm>
+  <developers>
+    <developer>
+      <id>cquiroz</id>
+      <name>Carlos Quiroz</name>
+      <url>https://github.com/cquiroz</url>
+      <roles>
+        <role>Project Lead (current Scala version)</role>
+      </roles>
+    </developer>
+  </developers>
