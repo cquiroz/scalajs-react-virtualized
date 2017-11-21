@@ -1,12 +1,22 @@
 val reactJS = "15.6.1"
 val reactVirtualized = "9.12.0"
-val scalaJsReact = "1.1.0"
+val scalaJsReact = "1.1.1"
 
 parallelExecution in (ThisBuild, Test) := false
 
 val `scalajs-react-virtualized` =
   project.in(file("."))
+    .settings(commonSettings: _*)
     .aggregate(facade, demo)
+    .settings(
+      name                 := "root",
+      // No, SBT, we don't want any artifacts for root.
+      // No, not even an empty jar.
+      publish              := {},
+      publishLocal         := {},
+      publishArtifact      := false,
+      Keys.`package`       := file(""))
+
 
 lazy val demo =
   project.in(file("demo"))
@@ -43,7 +53,7 @@ lazy val facade =
 
 lazy val commonSettings = Seq(
   scalaVersion := "2.12.4",
-  version := "0.0.1",
+  version      := "0.0.2-SNAPSHOT",
   organization := "io.github.cquiroz",
   description  := "scala.js facade for react-virtualized",
   homepage     := Some(url("https://github.com/cquiroz/scalajs-react-virtualized")),
