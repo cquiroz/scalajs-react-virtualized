@@ -126,7 +126,7 @@ object Column {
     p.dataKey = dataKey
     p.`aria-label` = ariaLabel
     p.cellDataGetter = cellDataGetter.orUndefined
-    p.cellRenderer = Some[RawCellRenderer]((r: CellRendererParameter) => toRawNode(cellRenderer(r))).orUndefined
+    p.cellRenderer = Some[RawCellRenderer]((r: CellRendererParameter) => cellRenderer(r).toRaw).orUndefined
     p.className = className
     p.columnData = columnData
     p.disableSort = disableSort
@@ -134,7 +134,7 @@ object Column {
     p.flexGrow = flexGrow
     p.flexShrink = flexShrink
     p.headerClassName = headerClassName
-    p.headerRenderer = (r: HeaderRendererParameter) => toRawNode(headerRenderer(r))
+    p.headerRenderer = (r: HeaderRendererParameter) => headerRenderer(r).toRaw
     p.id = id
     p.label = label.rawNode
     p.maxWidth = maxWidth

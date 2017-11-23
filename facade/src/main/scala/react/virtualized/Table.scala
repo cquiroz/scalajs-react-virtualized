@@ -324,7 +324,7 @@ object Table {
     p.gridStyle = gridStyle.map(Style.toJsObject)
     p.headerClassName = headerClassName
     p.headerStyle = headerStyle.map(Style.toJsObject)
-    p.headerRowRenderer = (r: RawHeaderRowRendererParameter) => toRawNode(headerRowRenderer(r.className, r.columns.map(VdomNode.apply).toArray, Style.fromJsObject(r.style)))
+    p.headerRowRenderer = (r: RawHeaderRowRendererParameter) => headerRowRenderer(r.className, r.columns.map(VdomNode.apply).toArray, Style.fromJsObject(r.style)).toRaw
     p.id = id
     p.noRowsRenderer = Some[RawNoRowsRenderer](() => noRowsRenderer.apply.rawNode).orUndefined
     p.overscanRowCount = overscanRowCount

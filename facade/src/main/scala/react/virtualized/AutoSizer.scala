@@ -50,7 +50,7 @@ object AutoSizer {
     p.disableWidth = disableWidth
     p.nonce = nonce
     p.onResize = (s: Size) => onResize(s).runNow
-    p.children = (s: Size) => {println(s);toRawNode(children(s))}
+    p.children = (s: Size) => children(s).toRaw
     p
   }
 

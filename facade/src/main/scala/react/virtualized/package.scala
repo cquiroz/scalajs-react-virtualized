@@ -94,7 +94,9 @@ package virtualized {
   }
 
   object defs {
-    def toRawNode(vdomNode: VdomNode): ReactNode = vdomNode.rawNode
+    implicit class VdomToRaw(val node: VdomNode) extends AnyVal {
+      def toRaw: ReactNode = node.rawNode
+    }
 
     type CellRenderer = js.Function1[CellRendererParameter, VdomNode]
     type HeaderRenderer = js.Function1[HeaderRendererParameter, VdomNode]
