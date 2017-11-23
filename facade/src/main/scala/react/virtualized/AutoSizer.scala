@@ -3,8 +3,10 @@ package virtualized
 
 import japgolly.scalajs.react._
 import japgolly.scalajs.react.vdom.VdomNode
+import japgolly.scalajs.react.raw.ReactNode
 import japgolly.scalajs.react.component.Js.{RawMounted, UnmountedMapped}
 import japgolly.scalajs.react.internal.Effect.Id
+import defs._
 
 import scala.scalajs.js
 import scala.scalajs.js.annotation.JSImport
@@ -15,11 +17,13 @@ object AutoSizer {
   object RawComponent extends js.Object
 
   type OnResize = js.Function1[Size, Unit]
+  type RawChildren = js.Function1[Size, ReactNode]
+  type Children = js.Function1[Size, VdomNode]
 
   @js.native
   trait Props extends js.Object {
     /** Function responsible for rendering children.*/
-    // children: (warams: Size) => React.Element<*>, = js.native
+    var children: RawChildren = js.native
 
     /** Disable dynamic :height property */
     var disableHeight: js.UndefOr[Boolean] = js.native
@@ -35,6 +39,7 @@ object AutoSizer {
   }
 
   def props(
+    children: Children,
     disableHeight: js.UndefOr[Boolean] = js.undefined,
     disableWidth: js.UndefOr[Boolean] = js.undefined,
     nonce: js.UndefOr[String] = js.undefined,
@@ -45,6 +50,7 @@ object AutoSizer {
     p.disableWidth = disableWidth
     p.nonce = nonce
     p.onResize = (s: Size) => onResize(s).runNow
+    p.children = (s: Size) => {println(s);toRawNode(children(s))}
     p
   }
 
