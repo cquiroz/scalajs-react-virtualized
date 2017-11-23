@@ -11,7 +11,7 @@ object TableDemo {
   def datum(data: List[DataRow])(i: Int) = data(i % data.length)
   def rowheight(data: List[DataRow])(i: Int) = datum(data)(i).size
 
-  final case class Props(useDynamicRowHeight: Boolean, sortBy: String)
+  final case class Props(useDynamicRowHeight: Boolean, sortBy: String, s: Size)
   final case class State(sortDirection: SortDirection, data: List[DataRow])
 
   def headerRenderer(sortBy: String)(p: HeaderRendererParameter): VdomNode =
@@ -27,7 +27,6 @@ object TableDemo {
     .initialState(State(SortDirection.ASC, Data.generateRandomList))
     .renderPS{($, props, state) =>
       def sort(index: String, sortDirection: SortDirection): Callback = {
-        println(state.data.head.index)
         val sorted = state.data.sortBy(_.index)
         $.setState(state.copy(data = if (sortDirection == SortDirection.ASC) sorted else sorted.reverse, sortDirection = sortDirection))
       }
@@ -45,7 +44,7 @@ object TableDemo {
           height = 270,
           rowCount = 1000,
           rowHeight = if (props.useDynamicRowHeight) rowheight(state.data) _ else 40,
-          width = 500,
+          width = props.s.width.toInt,
           rowGetter = datum(state.data),
           headerClassName = "headerColumn",
           sort = sort _,
@@ -57,9 +56,13 @@ object TableDemo {
 
   def apply(p: Props) = component(p)
 }
+
 object Demo {
   def main(args: Array[String]): Unit = {
-    TableDemo(TableDemo.Props(true, "index")).renderIntoDOM(document.getElementById("root"))
+    val tableF = (s: Size) =>
+      TableDemo(TableDemo.Props(true, "index", s)).vdomElement
+
+    AutoSizer(AutoSizer.props(tableF, disableHeight = true)).renderIntoDOM(document.getElementById("root"))
     println("dem")
   }
 }
