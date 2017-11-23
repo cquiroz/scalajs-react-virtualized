@@ -4,7 +4,7 @@ val scalaJsReact = "1.1.1"
 
 parallelExecution in (ThisBuild, Test) := false
 
-val `scalajs-react-virtualized` =
+val root =
   project.in(file("."))
     .settings(commonSettings: _*)
     .aggregate(facade, demo)
@@ -24,9 +24,14 @@ lazy val demo =
     .settings(commonSettings: _*)
     .settings(
       scalaJSUseMainModuleInitializer := true,
-      webpackBundlingMode := BundlingMode.LibraryOnly(),
-      webpackDevServerExtraArgs := Seq("--inline"),
-      webpackConfigFile in fastOptJS := Some(baseDirectory.value / "dev.webpack.config.js")
+      webpackBundlingMode             := BundlingMode.LibraryOnly(),
+      webpackDevServerExtraArgs       := Seq("--inline"),
+      webpackConfigFile in fastOptJS  := Some(baseDirectory.value / "dev.webpack.config.js"),
+      // don't publish the demo
+      publish                         := {},
+      publishLocal                    := {},
+      publishArtifact                 := false,
+      Keys.`package`                  := file("")
     )
     .dependsOn(facade)
 
@@ -35,48 +40,48 @@ lazy val facade =
     .enablePlugins(ScalaJSBundlerPlugin)
     .settings(commonSettings: _*)
     .settings(
-      name := "scalajs-react-virtualized",
-      npmDependencies in Compile ++= Seq(
+      name                            := "scalajs-react-virtualized",
+      npmDependencies in Compile     ++= Seq(
         "react" -> reactJS,
         "react-dom" -> reactJS,
         "react-virtualized" -> reactVirtualized
       ),
       // Requires the DOM for tests
-      requiresDOM in Test := true,
+      requiresDOM in Test             := true,
       // Use yarn as it is faster than npm
-      useYarn := true,
-      version in webpack := "3.5.5",
+      useYarn                         := true,
+      version in webpack              := "3.5.5",
       scalaJSUseMainModuleInitializer := false,
       // Compile tests to JS using fast-optimisation
-      scalaJSStage in Test := FastOptStage
+      scalaJSStage in Test            := FastOptStage
     )
 
 lazy val commonSettings = Seq(
-  scalaVersion := "2.12.4",
-  version      := "0.0.2-SNAPSHOT",
-  organization := "io.github.cquiroz",
-  description  := "scala.js facade for react-virtualized",
-  homepage     := Some(url("https://github.com/cquiroz/scalajs-react-virtualized")),
-  licenses     := Seq("BSD 3-Clause License" -> url("https://opensource.org/licenses/BSD-3-Clause")),
-  useGpg := true,
+  scalaVersion            := "2.12.4",
+  version                 := "0.0.2-SNAPSHOT",
+  organization            := "io.github.cquiroz",
+  description             := "scala.js facade for react-virtualized",
+  homepage                := Some(url("https://github.com/cquiroz/scalajs-react-virtualized")),
+  licenses                := Seq("BSD 3-Clause License" -> url("https://opensource.org/licenses/BSD-3-Clause")),
+  useGpg                  := true,
   publishArtifact in Test := false,
-  publishMavenStyle := true,
-  publishTo := {
+  publishMavenStyle       := true,
+  publishTo               := {
     val nexus = "https://oss.sonatype.org/"
     if (isSnapshot.value)
       Some("snapshots" at nexus + "content/repositories/snapshots")
     else
       Some("releases"  at nexus + "service/local/staging/deploy/maven2")
     },
-  pomExtra := pomData,
-  pomIncludeRepository := { _ => false },
-  libraryDependencies ++= Seq(
+  pomExtra                := pomData,
+  pomIncludeRepository    := { _ => false },
+  libraryDependencies    ++= Seq(
     "com.github.japgolly.scalajs-react" %%% "core"      % scalaJsReact,
     "com.github.japgolly.scalajs-react" %%% "test"      % scalaJsReact % "test",
     "org.scalatest"                     %%% "scalatest" % "3.0.3" % Test,
     "org.typelevel"                     %%% "cats-core" % "1.0.0-MF" % Test
   ),
-  scalacOptions := Seq(
+  scalacOptions           := Seq(
     "-deprecation",                      // Emit warning and location for usages of deprecated APIs.
     "-encoding", "utf-8",                // Specify character encoding used by source files.
     "-explaintypes",                     // Explain type errors in more detail.
