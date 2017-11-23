@@ -15,7 +15,6 @@ package virtualized {
     def toJsObject(style: Style): js.Object =
       style.styles.toJSDictionary.asInstanceOf[js.Object]
 
-
     def fromJsObject(o: js.Object): Style = {
       val xDict = o.asInstanceOf[js.Dictionary[String | Int]]
       val map = (for ((prop, value) <- xDict) yield
@@ -23,6 +22,20 @@ package virtualized {
       Style(map)
     }
 
+  }
+
+  @js.native
+  trait Size extends js.Object {
+    var height: Double = js.native
+    var width: Double = js.native
+  }
+  object Size {
+    def apply(height: Double, width: Double): Size = {
+      val p = (new js.Object).asInstanceOf[Size]
+      p.height = height
+      p.width = width
+      p
+    }
   }
 
   trait HeaderRendererParameter extends js.Object {
