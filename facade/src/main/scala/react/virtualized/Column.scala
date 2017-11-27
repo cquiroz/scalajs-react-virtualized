@@ -82,6 +82,9 @@ object Column {
      */
     var headerRenderer: RawHeaderRenderer = js.native
 
+    /** Optional inline style to apply to this column's header */
+    var headerStyle: js.UndefOr[js.Object] = js.native
+
     /** Optional id to set on the column header */
     var id: js.UndefOr[String] = js.native
 
@@ -115,6 +118,7 @@ object Column {
     flexShrink: js.UndefOr[JsNumber] = js.undefined,
     headerClassName: js.UndefOr[String] = js.undefined,
     headerRenderer: HeaderRenderer = defaultHeaderRendererS,
+    headerStyle: js.UndefOr[Style] = js.undefined,
     id: js.UndefOr[String] = js.undefined,
     label: VdomNode = VdomNode.cast(()),
     maxWidth: js.UndefOr[JsNumber] = js.undefined,
@@ -135,6 +139,7 @@ object Column {
     p.flexShrink = flexShrink
     p.headerClassName = headerClassName
     p.headerRenderer = (r: HeaderRendererParameter) => headerRenderer(r).toRaw
+    p.headerStyle = headerStyle.map(Style.toJsObject)
     p.id = id
     p.label = label.rawNode
     p.maxWidth = maxWidth

@@ -99,4 +99,10 @@ class ColumnSpec extends FlatSpec with Matchers with NonImplicitAssertions with 
       Column(Column.props(200, "key")).props.style === Some(js.Object()).orUndefined should be(true)
       Column(Column.props(200, "key", style = Style(styleMap))).props.style.toOption.map(_ === style) should be(Some(true))
     }
+    it should "support header style" in {
+      val style = js.Dynamic.literal(foo = 42, bar = "foobar")
+      val styleMap = Map[String, String | Int]("foo" -> 42, "bar" -> "foobar")
+      Column(Column.props(200, "key")).props.headerStyle should be(())
+      Column(Column.props(200, "key", headerStyle = Style(styleMap))).props.headerStyle.toOption.map(_ === style) should be(Some(true))
+    }
 }

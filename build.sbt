@@ -1,5 +1,5 @@
 val reactJS = "15.6.1"
-val reactVirtualized = "9.12.0"
+val reactVirtualized = "9.13.0"
 val scalaJsReact = "1.1.1"
 
 parallelExecution in (ThisBuild, Test) := false
@@ -58,7 +58,7 @@ lazy val facade =
 
 lazy val commonSettings = Seq(
   scalaVersion            := "2.12.4",
-  version                 := "0.0.2",
+  version                 := "0.0.3",
   organization            := "io.github.cquiroz",
   description             := "scala.js facade for react-virtualized",
   homepage                := Some(url("https://github.com/cquiroz/scalajs-react-virtualized")),
