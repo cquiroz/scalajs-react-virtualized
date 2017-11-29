@@ -87,6 +87,9 @@ object Table {
     }
   }
 
+  type RawOnRowClick = js.Function1[IndexParameter, Unit]
+  type OnRowClick = Int => Callback
+
   @js.native
   trait Props extends js.Object {
     /** Optional aria-label value to set on the column header */
@@ -145,19 +148,19 @@ object Table {
     var id: js.UndefOr[String] = js.native
 
     /** Optional renderer to be used in place of table body rows when rowCount is 0 */
-    var noRowsRenderer: js.UndefOr[RawNoRowsRenderer]
+    var noRowsRenderer: js.UndefOr[RawNoRowsRenderer] = js.native
 
     /**
     * Optional callback when a column's header is clicked.
     * ({ columnData: any, dataKey: string }): void
     */
-    // onHeaderClick: PropTypes.func,
+    // var onHeaderClick: PropTypes.func,
 
     /**
      * Callback invoked when a user clicks on a table row.
      * ({ index: number }): void
      */
-    // onRowClick: PropTypes.func,
+    var onRowClick: RawOnRowClick = js.native
 
     /**
      * Callback invoked when a user double-clicks on a table row.
@@ -297,6 +300,7 @@ object Table {
     headerRowRenderer: HeaderRowRenderer = defaultHeaderRowRendererS,
     id: js.UndefOr[String] = js.undefined,
     noRowsRenderer: NoRowsRenderer = () => null, // default from react-virtualized
+    onRowClick: OnRowClick = _ => Callback.empty,
     overscanRowCount: JsNumber = 10, // default from react-virtualized
     rowClassName: String | RowClassName = null,
     style: js.UndefOr[Style] = js.undefined,
@@ -327,6 +331,7 @@ object Table {
     p.headerRowRenderer = (r: RawHeaderRowRendererParameter) => headerRowRenderer(r.className, r.columns.map(VdomNode.apply).toArray, Style.fromJsObject(r.style)).toRaw
     p.id = id
     p.noRowsRenderer = Some[RawNoRowsRenderer](() => noRowsRenderer.apply.rawNode).orUndefined
+    p.onRowClick = (x: IndexParameter) => onRowClick(x.index).runNow()
     p.overscanRowCount = overscanRowCount
     p.style = style.map(Style.toJsObject)
     p.tabIndex = tabIndex

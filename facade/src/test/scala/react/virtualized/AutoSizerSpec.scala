@@ -37,6 +37,6 @@ class AutoSizerSpec extends FlatSpec with Matchers with NonImplicitAssertions wi
     }
     it should "support onResize" in {
       val size = Size(height = 10, width = 20)
-      AutoSizer(AutoSizer.props(children = children, onResize = x => Callback.log(x))).props.onResize(size) should be(())
+      AutoSizer(AutoSizer.props(children = children, onResize = x => Callback.empty)).props.onResize(size) should be(())
     }
 }

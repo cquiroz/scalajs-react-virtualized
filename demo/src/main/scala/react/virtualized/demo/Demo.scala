@@ -44,6 +44,7 @@ object TableDemo {
           height = 270,
           rowCount = 1000,
           rowHeight = if (props.useDynamicRowHeight) rowheight(state.data) _ else 40,
+          onRowClick = x => Callback.log(x),
           width = props.s.width.toInt,
           rowGetter = datum(state.data),
           headerClassName = "headerColumn",
