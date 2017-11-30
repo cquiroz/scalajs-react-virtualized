@@ -120,6 +120,23 @@ object Table {
   type RawRowsRendererEvent = js.Function1[RawRowsRendererParam, Unit]
   type OnRowsRenderer = (Int, Int) => Callback
 
+  trait RawScrollParam extends js.Object {
+    var clientHeight: Int
+    var scrollHeight: Int
+    var scrollTop: Int
+  }
+  object RawScrollParam {
+    def apply(clientHeight: Int, scrollHeight: Int, scrollTop: Int): RawScrollParam = {
+      val p = (new js.Object).asInstanceOf[RawScrollParam]
+      p.clientHeight = clientHeight
+      p.scrollHeight = scrollHeight
+      p.scrollTop = scrollTop
+      p
+    }
+  }
+  type RawScrollEvent = js.Function1[RawScrollParam, Unit]
+  type OnScroll = (Int, Int, Int) => Callback
+
   @js.native
   trait Props extends js.Object {
     /** Optional aria-label value to set on the column header */
@@ -227,7 +244,7 @@ object Table {
      * This callback can be used to sync scrolling between lists, tables, or grids.
      * ({ clientHeight, scrollHeight, scrollTop }): void
      */
-    // onScroll: PropTypes.func.isRequired,
+    var onScroll: RawScrollEvent = js.native
 
     /** See Grid#overscanIndicesGetter */
     // overscanIndicesGetter: PropTypes.func.isRequired,
@@ -337,6 +354,7 @@ object Table {
     onRowMouseOver: OnRowClick = _ => Callback.empty,
     onRowRightClick: OnRowClick = _ => Callback.empty,
     onRowsRendered: OnRowsRenderer = (_, _) => Callback.empty,
+    onScroll: OnScroll = (_, _, _) => Callback.empty,
     overscanRowCount: JsNumber = 10, // default from react-virtualized
     rowClassName: String | RowClassName = null,
     style: js.UndefOr[Style] = js.undefined,
@@ -374,6 +392,7 @@ object Table {
     p.onRowMouseOver = (x: IndexParameter) => onRowMouseOver(x.index).runNow()
     p.onRowRightClick = (x: IndexParameter) => onRowRightClick(x.index).runNow()
     p.onRowsRendered = (x: RawRowsRendererParam) => onRowsRendered(x.startIndex, x.stopIndex).runNow()
+    p.onScroll = (x: RawScrollParam) => onScroll(x.clientHeight, x.scrollHeight, x.scrollTop).runNow()
     p.overscanRowCount = overscanRowCount
     p.style = style.map(Style.toJsObject)
     p.tabIndex = tabIndex

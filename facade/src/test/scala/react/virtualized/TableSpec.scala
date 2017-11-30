@@ -328,4 +328,11 @@ class TableSpec extends FlatSpec with Matchers with NonImplicitAssertions with T
       val table2 = Table(Table.props(onRowsRendered = (_, _) => Callback.empty, rowHeight = 20, headerHeight = 10, height = 200, rowCount = 1, width = 500, rowGetter = rowGetterF), columns: _*)
       table2.props.onRowsRendered(RawRowsRendererParam(1, 10)) should be(())
     }
+    it should "support on scroll callback" in {
+      val columns = List(Column(Column.props(200, "key")))
+      val table = Table(Table.props(rowHeight = 20, headerHeight = 10, height = 200, rowCount = 1, width = 500, rowGetter = rowGetterF), columns: _*)
+      table.props.onScroll(RawScrollParam(1, 10, 1)) should be(())
+      val table2 = Table(Table.props(onScroll = (_, _, _) => Callback.empty, rowHeight = 20, headerHeight = 10, height = 200, rowCount = 1, width = 500, rowGetter = rowGetterF), columns: _*)
+      table2.props.onScroll(RawScrollParam(1, 10, 1)) should be(())
+    }
 }

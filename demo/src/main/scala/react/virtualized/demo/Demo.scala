@@ -45,6 +45,7 @@ object TableDemo {
           rowCount = 1000,
           rowHeight = if (props.useDynamicRowHeight) rowheight(state.data) _ else 40,
           onRowClick = x => Callback.log(x),
+          onScroll = (c, s, t) => Callback.log(s"$c $s $t"),
           width = props.s.width.toInt,
           rowGetter = datum(state.data),
           headerClassName = "headerColumn",
@@ -64,6 +65,6 @@ object Demo {
       TableDemo(TableDemo.Props(true, "index", s)).vdomElement
 
     AutoSizer(AutoSizer.props(tableF, disableHeight = true)).renderIntoDOM(document.getElementById("root"))
-    println("dem")
+    ()
   }
 }
