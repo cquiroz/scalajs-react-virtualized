@@ -286,4 +286,32 @@ class TableSpec extends FlatSpec with Matchers with NonImplicitAssertions with T
       val table2 = Table(Table.props(onRowClick = x => Callback.empty, rowHeight = 20, headerHeight = 10, height = 200, rowCount = 1, width = 500, rowGetter = rowGetterF), columns: _*)
       table2.props.onRowClick(IndexParameter(1)) should be(())
     }
+    it should "support a row double click callback" in {
+      val columns = List(Column(Column.props(200, "key")))
+      val table = Table(Table.props(rowHeight = 20, headerHeight = 10, height = 200, rowCount = 1, width = 500, rowGetter = rowGetterF), columns: _*)
+      table.props.onRowDoubleClick(IndexParameter(1)) should be(())
+      val table2 = Table(Table.props(onRowDoubleClick = x => Callback.empty, rowHeight = 20, headerHeight = 10, height = 200, rowCount = 1, width = 500, rowGetter = rowGetterF), columns: _*)
+      table2.props.onRowDoubleClick(IndexParameter(1)) should be(())
+    }
+    it should "support a row mouse out callback" in {
+      val columns = List(Column(Column.props(200, "key")))
+      val table = Table(Table.props(rowHeight = 20, headerHeight = 10, height = 200, rowCount = 1, width = 500, rowGetter = rowGetterF), columns: _*)
+      table.props.onRowMouseOut(IndexParameter(1)) should be(())
+      val table2 = Table(Table.props(onRowMouseOut = x => Callback.empty, rowHeight = 20, headerHeight = 10, height = 200, rowCount = 1, width = 500, rowGetter = rowGetterF), columns: _*)
+      table2.props.onRowMouseOut(IndexParameter(1)) should be(())
+    }
+    it should "support a row mouse over callback" in {
+      val columns = List(Column(Column.props(200, "key")))
+      val table = Table(Table.props(rowHeight = 20, headerHeight = 10, height = 200, rowCount = 1, width = 500, rowGetter = rowGetterF), columns: _*)
+      table.props.onRowMouseOver(IndexParameter(1)) should be(())
+      val table2 = Table(Table.props(onRowMouseOver = x => Callback.empty, rowHeight = 20, headerHeight = 10, height = 200, rowCount = 1, width = 500, rowGetter = rowGetterF), columns: _*)
+      table2.props.onRowMouseOver(IndexParameter(1)) should be(())
+    }
+    it should "support a row right click callback" in {
+      val columns = List(Column(Column.props(200, "key")))
+      val table = Table(Table.props(rowHeight = 20, headerHeight = 10, height = 200, rowCount = 1, width = 500, rowGetter = rowGetterF), columns: _*)
+      table.props.onRowRightClick(IndexParameter(1)) should be(())
+      val table2 = Table(Table.props(onRowRightClick = x => Callback.empty, rowHeight = 20, headerHeight = 10, height = 200, rowCount = 1, width = 500, rowGetter = rowGetterF), columns: _*)
+      table2.props.onRowRightClick(IndexParameter(1)) should be(())
+    }
 }

@@ -87,7 +87,7 @@ object Table {
     }
   }
 
-  type RawOnRowClick = js.Function1[IndexParameter, Unit]
+  type RawOnRowEvent = js.Function1[IndexParameter, Unit]
   type OnRowClick = Int => Callback
 
   @js.native
@@ -160,31 +160,31 @@ object Table {
      * Callback invoked when a user clicks on a table row.
      * ({ index: number }): void
      */
-    var onRowClick: RawOnRowClick = js.native
+    var onRowClick: RawOnRowEvent = js.native
 
     /**
      * Callback invoked when a user double-clicks on a table row.
      * ({ index: number }): void
      */
-    // onRowDoubleClick: PropTypes.func,
+    var onRowDoubleClick: RawOnRowEvent = js.native
 
     /**
      * Callback invoked when the mouse leaves a table row.
      * ({ index: number }): void
      */
-    // onRowMouseOut: PropTypes.func,
+    var onRowMouseOut: RawOnRowEvent = js.native
 
     /**
      * Callback invoked when a user moves the mouse over a table row.
      * ({ index: number }): void
      */
-    // onRowMouseOver: PropTypes.func,
+    var onRowMouseOver: RawOnRowEvent = js.native
 
     /**
      * Callback invoked when a user right-clicks on a table row.
      * ({ index: number }): void
      */
-    // onRowRightClick: PropTypes.func,
+    var onRowRightClick: RawOnRowEvent = js.native
 
     /**
      * Callback invoked with information about the slice of rows that were just rendered.
@@ -301,6 +301,10 @@ object Table {
     id: js.UndefOr[String] = js.undefined,
     noRowsRenderer: NoRowsRenderer = () => null, // default from react-virtualized
     onRowClick: OnRowClick = _ => Callback.empty,
+    onRowDoubleClick: OnRowClick = _ => Callback.empty,
+    onRowMouseOut: OnRowClick = _ => Callback.empty,
+    onRowMouseOver: OnRowClick = _ => Callback.empty,
+    onRowRightClick: OnRowClick = _ => Callback.empty,
     overscanRowCount: JsNumber = 10, // default from react-virtualized
     rowClassName: String | RowClassName = null,
     style: js.UndefOr[Style] = js.undefined,
@@ -332,6 +336,10 @@ object Table {
     p.id = id
     p.noRowsRenderer = Some[RawNoRowsRenderer](() => noRowsRenderer.apply.rawNode).orUndefined
     p.onRowClick = (x: IndexParameter) => onRowClick(x.index).runNow()
+    p.onRowDoubleClick = (x: IndexParameter) => onRowDoubleClick(x.index).runNow()
+    p.onRowMouseOut = (x: IndexParameter) => onRowMouseOut(x.index).runNow()
+    p.onRowMouseOver = (x: IndexParameter) => onRowMouseOver(x.index).runNow()
+    p.onRowRightClick = (x: IndexParameter) => onRowRightClick(x.index).runNow()
     p.overscanRowCount = overscanRowCount
     p.style = style.map(Style.toJsObject)
     p.tabIndex = tabIndex
