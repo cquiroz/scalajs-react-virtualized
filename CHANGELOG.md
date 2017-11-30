@@ -1,5 +1,8 @@
 # Changes
 
+## 0.0.4
+- Support table callbacks
+
 ## 0.0.3
 - Updated to version 9.13.0
 - Support for headerStyle on columns

@@ -90,6 +90,21 @@ object Table {
   type RawOnRowEvent = js.Function1[IndexParameter, Unit]
   type OnRowClick = Int => Callback
 
+  trait RawHeaderClickParam extends js.Object {
+    var columnData: js.Object
+    var dataKey: String
+  }
+  object RawHeaderClickParam {
+    def apply(columnData: js.Object, dataKey: String): RawHeaderClickParam = {
+      val p = (new js.Object).asInstanceOf[RawHeaderClickParam]
+      p.columnData = columnData
+      p.dataKey = dataKey
+      p
+    }
+  }
+  type RawHeaderClickEvent = js.Function1[RawHeaderClickParam, Unit]
+  type OnHeaderClick = (js.Object, String) => Callback
+
   @js.native
   trait Props extends js.Object {
     /** Optional aria-label value to set on the column header */
@@ -154,7 +169,7 @@ object Table {
     * Optional callback when a column's header is clicked.
     * ({ columnData: any, dataKey: string }): void
     */
-    // var onHeaderClick: PropTypes.func,
+    var onHeaderClick: RawHeaderClickEvent = js.native
 
     /**
      * Callback invoked when a user clicks on a table row.
@@ -300,6 +315,7 @@ object Table {
     headerRowRenderer: HeaderRowRenderer = defaultHeaderRowRendererS,
     id: js.UndefOr[String] = js.undefined,
     noRowsRenderer: NoRowsRenderer = () => null, // default from react-virtualized
+    onHeaderClick: OnHeaderClick = (_, _) => Callback.empty,
     onRowClick: OnRowClick = _ => Callback.empty,
     onRowDoubleClick: OnRowClick = _ => Callback.empty,
     onRowMouseOut: OnRowClick = _ => Callback.empty,
@@ -335,6 +351,7 @@ object Table {
     p.headerRowRenderer = (r: RawHeaderRowRendererParameter) => headerRowRenderer(r.className, r.columns.map(VdomNode.apply).toArray, Style.fromJsObject(r.style)).toRaw
     p.id = id
     p.noRowsRenderer = Some[RawNoRowsRenderer](() => noRowsRenderer.apply.rawNode).orUndefined
+    p.onHeaderClick = (x: RawHeaderClickParam) => onHeaderClick(x.columnData, x.dataKey).runNow()
     p.onRowClick = (x: IndexParameter) => onRowClick(x.index).runNow()
     p.onRowDoubleClick = (x: IndexParameter) => onRowDoubleClick(x.index).runNow()
     p.onRowMouseOut = (x: IndexParameter) => onRowMouseOut(x.index).runNow()
