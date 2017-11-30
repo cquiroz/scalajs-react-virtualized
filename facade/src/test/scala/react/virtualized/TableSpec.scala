@@ -321,4 +321,11 @@ class TableSpec extends FlatSpec with Matchers with NonImplicitAssertions with T
       val table2 = Table(Table.props(onHeaderClick = (_, _) => Callback.empty, rowHeight = 20, headerHeight = 10, height = 200, rowCount = 1, width = 500, rowGetter = rowGetterF), columns: _*)
       table2.props.onHeaderClick(RawHeaderClickParam(js.Object(), "key")) should be(())
     }
+    it should "support on rows renderer callback" in {
+      val columns = List(Column(Column.props(200, "key")))
+      val table = Table(Table.props(rowHeight = 20, headerHeight = 10, height = 200, rowCount = 1, width = 500, rowGetter = rowGetterF), columns: _*)
+      table.props.onRowsRendered(RawRowsRendererParam(1, 10)) should be(())
+      val table2 = Table(Table.props(onRowsRendered = (_, _) => Callback.empty, rowHeight = 20, headerHeight = 10, height = 200, rowCount = 1, width = 500, rowGetter = rowGetterF), columns: _*)
+      table2.props.onRowsRendered(RawRowsRendererParam(1, 10)) should be(())
+    }
 }

@@ -105,6 +105,21 @@ object Table {
   type RawHeaderClickEvent = js.Function1[RawHeaderClickParam, Unit]
   type OnHeaderClick = (js.Object, String) => Callback
 
+  trait RawRowsRendererParam extends js.Object {
+    var startIndex: Int
+    var stopIndex: Int
+  }
+  object RawRowsRendererParam {
+    def apply(startIndex: Int, stopIndex: Int): RawRowsRendererParam = {
+      val p = (new js.Object).asInstanceOf[RawRowsRendererParam]
+      p.startIndex = startIndex
+      p.stopIndex = stopIndex
+      p
+    }
+  }
+  type RawRowsRendererEvent = js.Function1[RawRowsRendererParam, Unit]
+  type OnRowsRenderer = (Int, Int) => Callback
+
   @js.native
   trait Props extends js.Object {
     /** Optional aria-label value to set on the column header */
@@ -205,7 +220,7 @@ object Table {
      * Callback invoked with information about the slice of rows that were just rendered.
      * ({ startIndex, stopIndex }): void
      */
-    // onRowsRendered: PropTypes.func,
+    var onRowsRendered: RawRowsRendererEvent = js.native
 
     /**
      * Callback invoked whenever the scroll offset changes within the inner scrollable region.
@@ -321,6 +336,7 @@ object Table {
     onRowMouseOut: OnRowClick = _ => Callback.empty,
     onRowMouseOver: OnRowClick = _ => Callback.empty,
     onRowRightClick: OnRowClick = _ => Callback.empty,
+    onRowsRendered: OnRowsRenderer = (_, _) => Callback.empty,
     overscanRowCount: JsNumber = 10, // default from react-virtualized
     rowClassName: String | RowClassName = null,
     style: js.UndefOr[Style] = js.undefined,
@@ -357,6 +373,7 @@ object Table {
     p.onRowMouseOut = (x: IndexParameter) => onRowMouseOut(x.index).runNow()
     p.onRowMouseOver = (x: IndexParameter) => onRowMouseOver(x.index).runNow()
     p.onRowRightClick = (x: IndexParameter) => onRowRightClick(x.index).runNow()
+    p.onRowsRendered = (x: RawRowsRendererParam) => onRowsRendered(x.startIndex, x.stopIndex).runNow()
     p.overscanRowCount = overscanRowCount
     p.style = style.map(Style.toJsObject)
     p.tabIndex = tabIndex
