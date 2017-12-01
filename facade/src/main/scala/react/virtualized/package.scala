@@ -38,27 +38,6 @@ package virtualized {
     }
   }
 
-  trait HeaderRendererParameter extends js.Object {
-    var columnData: js.Any
-    var dataKey: String
-    var disableSort: Boolean
-    var label: ReactNode
-    var sortBy: String
-    var sortDirection: String
-  }
-  object HeaderRendererParameter {
-    def apply(columnData: js.Any, dataKey: String, disableSort: Boolean, label: VdomNode, sortBy: String, sortDirection: String): HeaderRendererParameter = {
-      val p = (new js.Object).asInstanceOf[HeaderRendererParameter]
-      p.columnData = columnData
-      p.dataKey = dataKey
-      p.disableSort = disableSort
-      p.label = label.rawNode
-      p.sortBy = sortBy
-      p.sortDirection = sortDirection
-      p
-    }
-  }
-
   trait CellRendererParameter extends js.Object {
     var cellData: js.Any
     var columnData: js.Any
@@ -99,12 +78,34 @@ package virtualized {
     }
 
     type CellRenderer = js.Function1[CellRendererParameter, VdomNode]
-    type HeaderRenderer = js.Function1[HeaderRendererParameter, VdomNode]
+    type HeaderRenderer = (js.Any, String, Option[Boolean], VdomNode, Option[String], SortDirection) => VdomNode
+
     type RawHeaderRowRenderer = js.Function1[RawHeaderRowRendererParameter, ReactNode]
     type HeaderRowRenderer = (String, Array[VdomNode], Style) => VdomNode
   }
 
   private[virtualized] object raw {
+    trait RawHeaderRendererParameter extends js.Object {
+      var columnData: js.Any
+      var dataKey: String
+      var disableSort: js.UndefOr[Boolean]
+      var label: ReactNode
+      var sortBy: js.UndefOr[String]
+      var sortDirection: js.UndefOr[String]
+    }
+    object RawHeaderRendererParameter {
+      def apply(columnData: js.Any, dataKey: String, disableSort: js.UndefOr[Boolean], label: VdomNode, sortBy: js.UndefOr[String], sortDirection: js.UndefOr[String]): RawHeaderRendererParameter = {
+        val p = (new js.Object).asInstanceOf[RawHeaderRendererParameter]
+        p.columnData = columnData
+        p.dataKey = dataKey
+        p.disableSort = disableSort
+        p.label = label.rawNode
+        p.sortBy = sortBy
+        p.sortDirection = sortDirection
+        p
+      }
+    }
+
     @js.native
     @JSImport("react-virtualized", "SortDirection")
     private[virtualized]  object RawSortDirection extends js.Object {
@@ -112,15 +113,15 @@ package virtualized {
       val DESC: String = js.native
     }
 
-    type RawHeaderRenderer = js.Function1[HeaderRendererParameter, ReactNode]
+    type RawHeaderRenderer = js.Function1[RawHeaderRendererParameter, ReactNode]
     type RawCellRenderer = js.Function1[CellRendererParameter, ReactNode]
 
     @js.native
     @JSImport("react-virtualized", "defaultTableHeaderRenderer", JSImport.Default)
-    object defaultHeaderRenderer extends js.Function1[HeaderRendererParameter, ReactNode] {
-      def apply(i: HeaderRendererParameter): ReactNode = js.native
+    object defaultHeaderRenderer extends js.Function1[RawHeaderRendererParameter, ReactNode] {
+      def apply(i: RawHeaderRendererParameter): ReactNode = js.native
     }
-    val defaultHeaderRendererS = defaultHeaderRenderer andThen VdomNode.apply
+    val defaultHeaderRendererS = (columnData: js.Any, dataKey: String, disableSort: Option[Boolean], label: VdomNode, sortBy: Option[String], sortDirection: SortDirection) => VdomNode(defaultHeaderRenderer(RawHeaderRendererParameter(columnData, dataKey, disableSort.orUndefined, label, sortBy.orUndefined, sortDirection.toRaw)))
 
     @js.native
     @JSImport("react-virtualized", "defaultTableCellRenderer", JSImport.Default)

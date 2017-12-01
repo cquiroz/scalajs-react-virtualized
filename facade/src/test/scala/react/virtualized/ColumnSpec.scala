@@ -8,6 +8,7 @@ import scala.scalajs.js.|
 import js.JSConverters._
 import japgolly.scalajs.react.vdom.html_<^.{< => <<, _}
 import cats.syntax.eq._
+import raw._
 
 class ColumnSpec extends FlatSpec with Matchers with NonImplicitAssertions with TestUtils {
 
@@ -65,15 +66,15 @@ class ColumnSpec extends FlatSpec with Matchers with NonImplicitAssertions with 
     }
     it should "have a default headerRenderer" in {
       val label = <<.div("Label")
-      val headerParam = HeaderRendererParameter(js.undefined, "key", disableSort = true, label, "key", "ASC")
+      val headerParam = RawHeaderRendererParameter(js.undefined, "key", disableSort = true, label, "key", "ASC")
       val unmounted = Column(Column.props(200, "key")).props.headerRenderer(headerParam)
       assertRender(unmounted,
         """<div><span class="ReactVirtualized__Table__headerTruncatedText" title="[object Object]"><div>Label</div></span><svg class="ReactVirtualized__Table__sortableHeaderIcon ReactVirtualized__Table__sortableHeaderIcon--ASC" width="18" height="18" viewBox="0 0 24 24"><path d="M7 14l5-5 5 5z"></path><path d="M0 0h24v24H0z" fill="none"></path></svg></div>""")
     }
     it should "support headerRenderer" in {
       val label = <<.div("Label")
-      val headerParam = HeaderRendererParameter(js.undefined, "key", disableSort = true, label, "key", "ASC")
-      val unmounted = Column(Column.props(200, "key", headerRenderer = _ => <<.div("header"))).props.headerRenderer(headerParam)
+      val headerParam = RawHeaderRendererParameter(js.undefined, "key", disableSort = true, label, "key", "ASC")
+      val unmounted = Column(Column.props(200, "key", headerRenderer = (_, _, _, _, _, _) => <<.div("header"))).props.headerRenderer(headerParam)
       assertRender(unmounted, """<div><div>header</div></div>""")
     }
     it should "support id" in {

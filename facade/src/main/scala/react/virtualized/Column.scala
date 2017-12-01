@@ -138,7 +138,7 @@ object Column {
     p.flexGrow = flexGrow
     p.flexShrink = flexShrink
     p.headerClassName = headerClassName
-    p.headerRenderer = (r: HeaderRendererParameter) => headerRenderer(r).toRaw
+    p.headerRenderer = (r: RawHeaderRendererParameter) => headerRenderer(r.columnData, r.dataKey, r.disableSort.toOption, VdomNode(r.label), r.sortBy.toOption, SortDirection.fromRaw(r.sortDirection.getOrElse(""))).toRaw
     p.headerStyle = headerStyle.map(Style.toJsObject)
     p.id = id
     p.label = label.rawNode
