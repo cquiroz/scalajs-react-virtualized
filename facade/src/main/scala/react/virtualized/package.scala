@@ -58,7 +58,7 @@ package virtualized {
       def toRaw: ReactNode = node.rawNode
     }
 
-    type CellRenderer = js.Function1[raw.RawCellRendererParameter, VdomNode]
+    type CellRenderer = (js.Any, js.Any, String, js.Any, Int) => VdomNode
     type HeaderRenderer = (js.Any, String, Option[Boolean], VdomNode, Option[String], SortDirection) => VdomNode
 
     type RawHeaderRowRenderer = js.Function1[RawHeaderRowRendererParameter, ReactNode]
@@ -128,7 +128,8 @@ package virtualized {
     object defaultCellRenderer extends js.Function1[RawCellRendererParameter, ReactNode] {
       def apply(i: RawCellRendererParameter): ReactNode = js.native
     }
-    val defaultCellRendererS = defaultCellRenderer andThen VdomNode.apply
+    val defaultCellRendererS = (cellData: js.Any, columnData: js.Any, dataKey: String, rowData: js.Any, rowIndex: Int) => VdomNode(defaultCellRenderer(RawCellRendererParameter(cellData, columnData, dataKey, rowData, rowIndex)))
+
 
     @js.native
     @JSImport("react-virtualized", "defaultTableHeaderRowRenderer", JSImport.Default)

@@ -130,7 +130,7 @@ object Column {
     p.dataKey = dataKey
     p.`aria-label` = ariaLabel
     p.cellDataGetter = cellDataGetter.orUndefined
-    p.cellRenderer = Some[RawCellRenderer]((r: raw.RawCellRendererParameter) => cellRenderer(r).toRaw).orUndefined
+    p.cellRenderer = Some[RawCellRenderer]((r: raw.RawCellRendererParameter) => cellRenderer(r.cellData, r.columnData, r.dataKey, r.rowData, r.rowIndex).toRaw).orUndefined
     p.className = className
     p.columnData = columnData
     p.disableSort = disableSort
