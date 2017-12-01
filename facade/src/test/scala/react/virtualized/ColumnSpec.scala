@@ -29,10 +29,10 @@ class ColumnSpec extends FlatSpec with Matchers with NonImplicitAssertions with 
       Column(Column.props(200, "key", cellDataGetter = Some((x: CellDataParameter) => "abc"))).props.cellDataGetter.toOption.map(_(CellDataParameter("col", "key", "row"))) should contain("abc")
     }
     it should "have a default cellRenderer" in {
-      Column(Column.props(200, "key")).props.cellRenderer.toOption.map(_(CellRendererParameter("cellData", "col", "key", "row", 1))) should contain("cellData")
+      Column(Column.props(200, "key")).props.cellRenderer.toOption.map(_(RawCellRendererParameter("cellData", "col", "key", "row", 1))) should contain("cellData")
     }
     it should "support cellRenderer" in {
-      val r = Column(Column.props(200, "key", cellRenderer = (x: CellRendererParameter) => <<.div("abc"))).props.cellRenderer.toOption.map(_(CellRendererParameter("cellData", "col", "key", "row", 1)))
+      val r = Column(Column.props(200, "key", cellRenderer = (x: RawCellRendererParameter) => <<.div("abc"))).props.cellRenderer.toOption.map(_(RawCellRendererParameter("cellData", "col", "key", "row", 1)))
       assertRenderNode(r, "<div><div>abc</div></div>")
     }
     it should "support className" in {

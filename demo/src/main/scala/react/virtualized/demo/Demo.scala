@@ -1,5 +1,6 @@
 package react.virutalized.demo
 
+import scala.scalajs.js
 import japgolly.scalajs.react._
 import japgolly.scalajs.react.vdom.html_<^._
 import org.scalajs.dom.document
@@ -14,8 +15,8 @@ object TableDemo {
   final case class Props(useDynamicRowHeight: Boolean, sortBy: String, s: Size)
   final case class State(sortDirection: SortDirection, data: List[DataRow])
 
-  def headerRenderer(sortBy: String)(p: HeaderRendererParameter): VdomNode =
-    <.div("Full Name", SortIndicator(SortDirection.ASC).when(sortBy == p.dataKey))
+  def headerRenderer(sortBy: String)(columnData: js.Any, dataKey: String, disableSort: Option[Boolean], label: VdomNode, sortByParam: Option[String], sortDirection: SortDirection): VdomNode =
+    <.div("Full Name", SortIndicator(SortDirection.ASC).when(sortBy == dataKey))
 
   def rowClassName(i: Int): String = i match {
     case x if x < 0      => "headerRow"
@@ -33,7 +34,7 @@ object TableDemo {
       val columns = List(
         Column(Column.props(60, "index", label = "Index", disableSort = false)),
         Column(Column.props(90, "name", disableSort = false, headerRenderer = headerRenderer(props.sortBy))),
-        Column(Column.props(210, "random", disableSort = true, className = "exampleColumn", label = "The description label is so long it will be truncated", flexGrow = 1, cellRenderer = c => c.cellData.toString))
+        Column(Column.props(210, "random", disableSort = true, className = "exampleColumn", label = "The description label is so long it will be truncated", flexGrow = 1, cellRenderer = (cellData, _, _, _, _) => cellData.toString))
       )
       Table(
         Table.props(

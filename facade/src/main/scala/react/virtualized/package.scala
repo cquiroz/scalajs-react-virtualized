@@ -38,25 +38,6 @@ package virtualized {
     }
   }
 
-  trait CellRendererParameter extends js.Object {
-    var cellData: js.Any
-    var columnData: js.Any
-    var dataKey: String
-    var rowData: js.Any
-    var rowIndex: Int
-  }
-  object CellRendererParameter {
-    def apply(cellData: js.Any, columnData: js.Any, dataKey: String, rowData: js.Any, rowIndex: Int): CellRendererParameter = {
-      val p = (new js.Object).asInstanceOf[CellRendererParameter]
-      p.cellData = cellData
-      p.columnData = columnData
-      p.dataKey = dataKey
-      p.rowData = rowData
-      p.rowIndex = rowIndex
-      p
-    }
-  }
-
   trait RawHeaderRowRendererParameter extends js.Object {
     var className: String
     var columns: js.Array[ReactNode]
@@ -77,7 +58,7 @@ package virtualized {
       def toRaw: ReactNode = node.rawNode
     }
 
-    type CellRenderer = js.Function1[CellRendererParameter, VdomNode]
+    type CellRenderer = js.Function1[raw.RawCellRendererParameter, VdomNode]
     type HeaderRenderer = (js.Any, String, Option[Boolean], VdomNode, Option[String], SortDirection) => VdomNode
 
     type RawHeaderRowRenderer = js.Function1[RawHeaderRowRendererParameter, ReactNode]
@@ -85,6 +66,25 @@ package virtualized {
   }
 
   private[virtualized] object raw {
+    trait RawCellRendererParameter extends js.Object {
+      var cellData: js.Any
+      var columnData: js.Any
+      var dataKey: String
+      var rowData: js.Any
+      var rowIndex: Int
+    }
+    object RawCellRendererParameter {
+      def apply(cellData: js.Any, columnData: js.Any, dataKey: String, rowData: js.Any, rowIndex: Int): RawCellRendererParameter = {
+        val p = (new js.Object).asInstanceOf[RawCellRendererParameter]
+        p.cellData = cellData
+        p.columnData = columnData
+        p.dataKey = dataKey
+        p.rowData = rowData
+        p.rowIndex = rowIndex
+        p
+      }
+    }
+
     trait RawHeaderRendererParameter extends js.Object {
       var columnData: js.Any
       var dataKey: String
@@ -114,7 +114,7 @@ package virtualized {
     }
 
     type RawHeaderRenderer = js.Function1[RawHeaderRendererParameter, ReactNode]
-    type RawCellRenderer = js.Function1[CellRendererParameter, ReactNode]
+    type RawCellRenderer = js.Function1[RawCellRendererParameter, ReactNode]
 
     @js.native
     @JSImport("react-virtualized", "defaultTableHeaderRenderer", JSImport.Default)
@@ -125,8 +125,8 @@ package virtualized {
 
     @js.native
     @JSImport("react-virtualized", "defaultTableCellRenderer", JSImport.Default)
-    object defaultCellRenderer extends js.Function1[CellRendererParameter, ReactNode] {
-      def apply(i: CellRendererParameter): ReactNode = js.native
+    object defaultCellRenderer extends js.Function1[RawCellRendererParameter, ReactNode] {
+      def apply(i: RawCellRendererParameter): ReactNode = js.native
     }
     val defaultCellRendererS = defaultCellRenderer andThen VdomNode.apply
 
