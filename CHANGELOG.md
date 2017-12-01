@@ -1,5 +1,8 @@
 # Changes
 
+## 0.0.5
+- Improved column renderer functions
+
 ## 0.0.4
 - Support table callbacks
 
