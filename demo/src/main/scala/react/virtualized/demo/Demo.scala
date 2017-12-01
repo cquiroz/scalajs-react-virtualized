@@ -15,7 +15,7 @@ object TableDemo {
   final case class Props(useDynamicRowHeight: Boolean, sortBy: String, s: Size)
   final case class State(sortDirection: SortDirection, data: List[DataRow])
 
-  def headerRenderer(sortBy: String)(columnData: js.Any, dataKey: String, disableSort: Option[Boolean], label: VdomNode, sortByParam: Option[String], sortDirection: SortDirection): VdomNode =
+  def headerRenderer(sortBy: String)(columnData: DataRow, dataKey: String, disableSort: Option[Boolean], label: VdomNode, sortByParam: Option[String], sortDirection: SortDirection): VdomNode =
     <.div("Full Name", SortIndicator(SortDirection.ASC).when(sortBy == dataKey))
 
   def rowClassName(i: Int): String = i match {
@@ -34,7 +34,7 @@ object TableDemo {
       val columns = List(
         Column(Column.props(60, "index", label = "Index", disableSort = false)),
         Column(Column.props(90, "name", disableSort = false, headerRenderer = headerRenderer(props.sortBy))),
-        Column(Column.props(210, "random", disableSort = true, className = "exampleColumn", label = "The description label is so long it will be truncated", flexGrow = 1, cellRenderer = (cellData, _, _, _, _) => cellData.toString))
+        Column(Column.props(210, "random", disableSort = true, className = "exampleColumn", label = "The description label is so long it will be truncated", flexGrow = 1, cellRenderer = (cellData: DataRow, _: js.Any, _: String, _: js.Any, _: Int) => cellData.toString))
       )
       Table(
         Table.props(

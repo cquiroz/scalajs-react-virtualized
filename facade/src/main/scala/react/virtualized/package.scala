@@ -58,8 +58,8 @@ package virtualized {
       def toRaw: ReactNode = node.rawNode
     }
 
-    type CellRenderer = (js.Any, js.Any, String, js.Any, Int) => VdomNode
-    type HeaderRenderer = (js.Any, String, Option[Boolean], VdomNode, Option[String], SortDirection) => VdomNode
+    type CellRenderer[A <: js.Object, B <: js.Object, C <: js.Object] = (A, B, String, C, Int) => VdomNode
+    type HeaderRenderer[B <: js.Object] = (B, String, Option[Boolean], VdomNode, Option[String], SortDirection) => VdomNode
 
     type RawHeaderRowRenderer = js.Function1[RawHeaderRowRendererParameter, ReactNode]
     type HeaderRowRenderer = (String, Array[VdomNode], Style) => VdomNode

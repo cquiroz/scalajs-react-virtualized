@@ -104,12 +104,12 @@ object Column {
     var width: JsNumber = js.native
   }
 
-  def props(
+  def props[A <: js.Object, B <: js.Object, C <: js.Object](
     width: Int,
     dataKey: String,
     ariaLabel: js.UndefOr[String] = js.undefined,
     cellDataGetter: Option[CellDataGetter] = None,
-    cellRenderer: CellRenderer = defaultCellRendererS,
+    cellRenderer: CellRenderer[A, B, C] = defaultCellRendererS,
     className: js.UndefOr[String] = js.undefined,
     columnData: js.UndefOr[js.Object] = js.undefined,
     disableSort: js.UndefOr[Boolean] = js.undefined,
@@ -117,7 +117,7 @@ object Column {
     flexGrow: js.UndefOr[JsNumber] = js.undefined,
     flexShrink: js.UndefOr[JsNumber] = js.undefined,
     headerClassName: js.UndefOr[String] = js.undefined,
-    headerRenderer: HeaderRenderer = defaultHeaderRendererS,
+    headerRenderer: HeaderRenderer[B] = defaultHeaderRendererS,
     headerStyle: js.UndefOr[Style] = js.undefined,
     id: js.UndefOr[String] = js.undefined,
     label: VdomNode = VdomNode.cast(()),
@@ -130,7 +130,7 @@ object Column {
     p.dataKey = dataKey
     p.`aria-label` = ariaLabel
     p.cellDataGetter = cellDataGetter.orUndefined
-    p.cellRenderer = Some[RawCellRenderer]((r: raw.RawCellRendererParameter) => cellRenderer(r.cellData, r.columnData, r.dataKey, r.rowData, r.rowIndex).toRaw).orUndefined
+    p.cellRenderer = Some[RawCellRenderer]((r: raw.RawCellRendererParameter) => cellRenderer(r.cellData.asInstanceOf[A], r.columnData.asInstanceOf[B], r.dataKey, r.rowData.asInstanceOf[C], r.rowIndex).toRaw).orUndefined
     p.className = className
     p.columnData = columnData
     p.disableSort = disableSort
@@ -138,7 +138,7 @@ object Column {
     p.flexGrow = flexGrow
     p.flexShrink = flexShrink
     p.headerClassName = headerClassName
-    p.headerRenderer = (r: RawHeaderRendererParameter) => headerRenderer(r.columnData, r.dataKey, r.disableSort.toOption, VdomNode(r.label), r.sortBy.toOption, SortDirection.fromRaw(r.sortDirection.getOrElse(""))).toRaw
+    p.headerRenderer = (r: RawHeaderRendererParameter) => headerRenderer(r.columnData.asInstanceOf[B], r.dataKey, r.disableSort.toOption, VdomNode(r.label), r.sortBy.toOption, SortDirection.fromRaw(r.sortDirection.getOrElse(""))).toRaw
     p.headerStyle = headerStyle.map(Style.toJsObject)
     p.id = id
     p.label = label.rawNode
