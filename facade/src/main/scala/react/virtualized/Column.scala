@@ -10,7 +10,6 @@ import japgolly.scalajs.react.internal.Effect.Id
 import japgolly.scalajs.react.raw.{JsNumber, ReactNode}
 import japgolly.scalajs.react.vdom.VdomNode
 import raw._
-import defs._
 
 trait Column extends js.Object
 
@@ -33,7 +32,8 @@ object Column {
       p
     }
   }
-  type CellDataGetter = js.Function1[CellDataParameter, Any]
+  type RawCellDataGetter = js.Function1[CellDataParameter, js.Object]
+  type CellDataGetter[B, C, A <: js.Object] = (B, String, C) => A
 
   @js.native
   trait Props extends js.Object {
@@ -44,7 +44,7 @@ object Column {
      * Callback responsible for returning a cell's data, given its :dataKey
      * ({ columnData: any, dataKey: string, rowData: any }): any
      */
-    var cellDataGetter: js.UndefOr[CellDataGetter] = js.native
+    var cellDataGetter: js.UndefOr[RawCellDataGetter] = js.native
 
     /**
      * Callback responsible for rendering a cell's contents.
@@ -104,14 +104,19 @@ object Column {
     var width: JsNumber = js.native
   }
 
+  /**
+   * A Cell data
+   * B Column data
+   * C Row data
+   */
   def props[A <: js.Object, B <: js.Object, C <: js.Object](
     width: Int,
     dataKey: String,
     ariaLabel: js.UndefOr[String] = js.undefined,
-    cellDataGetter: Option[CellDataGetter] = None,
+    cellDataGetter: Option[CellDataGetter[B, C, A]] = None,
     cellRenderer: CellRenderer[A, B, C] = defaultCellRendererS,
     className: js.UndefOr[String] = js.undefined,
-    columnData: js.UndefOr[js.Object] = js.undefined,
+    columnData: js.UndefOr[B] = js.undefined,
     disableSort: js.UndefOr[Boolean] = js.undefined,
     defaultSortDirection: SortDirection = SortDirection.ASC,
     flexGrow: js.UndefOr[JsNumber] = js.undefined,
@@ -129,7 +134,8 @@ object Column {
     p.width = width
     p.dataKey = dataKey
     p.`aria-label` = ariaLabel
-    p.cellDataGetter = cellDataGetter.orUndefined
+    def rawCellDataGetter(cdg: CellDataGetter[B, C, A]): RawCellDataGetter = (cdp: CellDataParameter) => cdg(cdp.columnData.asInstanceOf[B], cdp.dataKey, cdp.asInstanceOf[C])
+    p.cellDataGetter = cellDataGetter.map(rawCellDataGetter).orUndefined
     p.cellRenderer = Some[RawCellRenderer]((r: raw.RawCellRendererParameter) => cellRenderer(r.cellData.asInstanceOf[A], r.columnData.asInstanceOf[B], r.dataKey, r.rowData.asInstanceOf[C], r.rowIndex).toRaw).orUndefined
     p.className = className
     p.columnData = columnData

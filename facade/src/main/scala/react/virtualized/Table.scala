@@ -12,7 +12,6 @@ import japgolly.scalajs.react.raw.{JsNumber, ReactNode}
 import japgolly.scalajs.react.vdom.Exports._
 
 import scala.scalajs.js.annotation.JSImport
-import defs._
 import raw._
 
 object Table {

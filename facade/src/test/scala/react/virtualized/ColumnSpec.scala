@@ -26,7 +26,8 @@ class ColumnSpec extends FlatSpec with Matchers with NonImplicitAssertions with 
       Column(Column.props(200, "key")).props.cellDataGetter.toOption.map(_(CellDataParameter("col", "key", dataMap))) should contain(1)
     }
     it should "support cellDataGetter" in {
-      Column(Column.props(200, "key", cellDataGetter = Some((x: CellDataParameter) => "abc"))).props.cellDataGetter.toOption.map(_(CellDataParameter("col", "key", "row"))) should contain("abc")
+      val cell: js.Object = js.Dynamic.literal(foo = 42, bar = "foobar")
+      Column(Column.props(200, "key", cellDataGetter = Some((_: js.Any, _: String, _: js.Object) => cell))).props.cellDataGetter.toOption.map(_(CellDataParameter("col", "key", "row"))).map(_ === cell) should contain(true)
     }
     it should "have a default cellRenderer" in {
       Column(Column.props(200, "key")).props.cellRenderer.toOption.map(_(RawCellRendererParameter("cellData", "col", "key", "row", 1))) should contain("cellData")

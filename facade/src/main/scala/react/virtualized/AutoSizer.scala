@@ -6,7 +6,6 @@ import japgolly.scalajs.react.vdom.VdomNode
 import japgolly.scalajs.react.raw.ReactNode
 import japgolly.scalajs.react.component.Js.{RawMounted, UnmountedMapped}
 import japgolly.scalajs.react.internal.Effect.Id
-import defs._
 
 import scala.scalajs.js
 import scala.scalajs.js.annotation.JSImport

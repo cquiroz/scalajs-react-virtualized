@@ -7,6 +7,24 @@ import js.JSConverters._
 import japgolly.scalajs.react.raw.ReactNode
 import japgolly.scalajs.react.vdom.VdomNode
 
+package object virtualized {
+  implicit class VdomToRaw(val node: VdomNode) extends AnyVal {
+    def toRaw: ReactNode = node.rawNode
+  }
+
+  /**
+   * Types
+   * A Cell data, some js object with row entries
+   * B Column data, can be anything
+   * C Row data
+   */
+  type CellRenderer[A <: js.Object, B <: js.Any, C <: js.Object] = (A, B, String, C, Int) => VdomNode
+  type HeaderRenderer[B <: js.Any] = (B, String, Option[Boolean], VdomNode, Option[String], SortDirection) => VdomNode
+
+  type RawHeaderRowRenderer = js.Function1[RawHeaderRowRendererParameter, ReactNode]
+  type HeaderRowRenderer = (String, Array[VdomNode], Style) => VdomNode
+}
+
 package virtualized {
 
   final case class Style(styles: Map[String, String | Int])
@@ -51,18 +69,6 @@ package virtualized {
       p.style = style
       p
     }
-  }
-
-  object defs {
-    implicit class VdomToRaw(val node: VdomNode) extends AnyVal {
-      def toRaw: ReactNode = node.rawNode
-    }
-
-    type CellRenderer[A <: js.Object, B <: js.Object, C <: js.Object] = (A, B, String, C, Int) => VdomNode
-    type HeaderRenderer[B <: js.Object] = (B, String, Option[Boolean], VdomNode, Option[String], SortDirection) => VdomNode
-
-    type RawHeaderRowRenderer = js.Function1[RawHeaderRowRendererParameter, ReactNode]
-    type HeaderRowRenderer = (String, Array[VdomNode], Style) => VdomNode
   }
 
   private[virtualized] object raw {
@@ -136,7 +142,7 @@ package virtualized {
     object defaultHeaderRowRenderer extends js.Function1[RawHeaderRowRendererParameter, ReactNode] {
       def apply(i: RawHeaderRowRendererParameter): ReactNode = js.native
     }
-    val defaultHeaderRowRendererS: defs.HeaderRowRenderer = (className: String, columns: Array[VdomNode], style: Style) => VdomNode(defaultHeaderRowRenderer(RawHeaderRowRendererParameter(className, columns.map(_.rawNode).toJSArray, Style.toJsObject(style))))
+    val defaultHeaderRowRendererS: HeaderRowRenderer = (className: String, columns: Array[VdomNode], style: Style) => VdomNode(defaultHeaderRowRenderer(RawHeaderRowRendererParameter(className, columns.map(_.rawNode).toJSArray, Style.toJsObject(style))))
   }
 
 }
