@@ -28,6 +28,8 @@ val root =
 
 lazy val demo =
   project.in(file("demo"))
+    .enablePlugins(GitVersioning)
+    .enablePlugins(GitBranchPrompt)
     .enablePlugins(ScalaJSBundlerPlugin)
     .settings(commonSettings: _*)
     .settings(
@@ -45,6 +47,8 @@ lazy val demo =
 
 lazy val facade =
   project.in(file("facade"))
+    .enablePlugins(GitVersioning)
+    .enablePlugins(GitBranchPrompt)
     .enablePlugins(ScalaJSBundlerPlugin)
     .settings(commonSettings: _*)
     .settings(
@@ -73,7 +77,6 @@ lazy val facade =
 
 lazy val commonSettings = Seq(
   scalaVersion            := "2.12.4",
-  version                 := "0.0.6-SNAPSHOT",
   organization            := "io.github.cquiroz",
   description             := "scala.js facade for react-virtualized",
   homepage                := Some(url("https://github.com/cquiroz/scalajs-react-virtualized")),
@@ -136,14 +139,15 @@ lazy val commonSettings = Seq(
       "-Ywarn-unused:privates",            // Warn if a private member is unused.
       "-Ywarn-value-discard",              // Warn when non-Unit expression results are unused.
       "-P:scalajs:sjsDefinedByDefault"
-    )
+    ),
+    // Settings to use git to define the version of the project
+    git.useGitDescribe := true,
+    git.formattedShaVersion := git.gitHeadCommit.value map { sha => s"v$sha" },
+    git.uncommittedSignifier in ThisBuild := Some("UNCOMMITTED"),
+    useGpg := true
   ) ++ semanticdbScalacSettings
 
 lazy val pomData =
-  <scm>
-    <url>git@github.com:cquiroz/scalajs-react-virtualized.git</url>
-    <connection>scm:git:git@github.com:cquiroz/scalajs-react-virtualized.git</connection>
-  </scm>
   <developers>
     <developer>
       <id>cquiroz</id>
