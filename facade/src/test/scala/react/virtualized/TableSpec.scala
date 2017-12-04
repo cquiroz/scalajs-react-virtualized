@@ -5,11 +5,11 @@ import org.scalatest._
 import japgolly.scalajs.react.test._
 import japgolly.scalajs.react._
 import japgolly.scalajs.react.vdom.html_<^.{< => <<, _}
-import Table._
 import scala.scalajs.js
 import scala.scalajs.js.|
 import js.JSConverters._
 import cats.syntax.eq._
+import raw._
 
 class TableSpec extends FlatSpec with Matchers with NonImplicitAssertions with TestUtils {
   val rowGetterF = (x: Int) => new js.Object()
@@ -88,8 +88,8 @@ class TableSpec extends FlatSpec with Matchers with NonImplicitAssertions with T
       val columns = List(Column(Column.props(200, "key")))
       val rowClassNameFn = (x: Int) => if (x % 2 == 0) "even" else "odd"
       val table2 = Table(Table.props(rowClassName = rowClassNameFn, headerHeight = 10, height = 200, rowCount = 1, rowHeight = 40, width = 500, rowGetter = rowGetterF), columns: _*)
-      table2.props.rowClassName.asInstanceOf[RawRowClassName](IndexParameter(0)) should be("even")
-      table2.props.rowClassName.asInstanceOf[RawRowClassName](IndexParameter(1)) should be("odd")
+      table2.props.rowClassName.asInstanceOf[RawRowClassName](RawIndexParameter(0)) should be("even")
+      table2.props.rowClassName.asInstanceOf[RawRowClassName](RawIndexParameter(1)) should be("odd")
     }
     it should "support style" in {
       val columns = List(Column(Column.props(200, "key")))
@@ -165,7 +165,7 @@ class TableSpec extends FlatSpec with Matchers with NonImplicitAssertions with T
       val styleMap = Map[String, String | Int]("foo" -> 42, "bar" -> "foobar")
       val rowStyleF = (i: Int) => Style(styleMap)
       val table = Table(Table.props(rowStyle = rowStyleF, rowHeight = 20, headerHeight = 10, height = 200, rowCount = 1, width = 500, rowGetter = rowGetterF), columns: _*)
-      table.props.rowStyle.asInstanceOf[RawRowStyle](IndexParameter(1)) === style should be(true)
+      table.props.rowStyle.asInstanceOf[RawRowStyle](RawIndexParameter(1)) === style should be(true)
     }
     it should "support aria-label" in {
       val columns = List(Column(Column.props(200, "key")))
@@ -282,37 +282,37 @@ class TableSpec extends FlatSpec with Matchers with NonImplicitAssertions with T
     it should "support a row click callback" in {
       val columns = List(Column(Column.props(200, "key")))
       val table = Table(Table.props(rowHeight = 20, headerHeight = 10, height = 200, rowCount = 1, width = 500, rowGetter = rowGetterF), columns: _*)
-      table.props.onRowClick(IndexParameter(1)) should be(())
+      table.props.onRowClick(RawIndexParameter(1)) should be(())
       val table2 = Table(Table.props(onRowClick = x => Callback.empty, rowHeight = 20, headerHeight = 10, height = 200, rowCount = 1, width = 500, rowGetter = rowGetterF), columns: _*)
-      table2.props.onRowClick(IndexParameter(1)) should be(())
+      table2.props.onRowClick(RawIndexParameter(1)) should be(())
     }
     it should "support a row double click callback" in {
       val columns = List(Column(Column.props(200, "key")))
       val table = Table(Table.props(rowHeight = 20, headerHeight = 10, height = 200, rowCount = 1, width = 500, rowGetter = rowGetterF), columns: _*)
-      table.props.onRowDoubleClick(IndexParameter(1)) should be(())
+      table.props.onRowDoubleClick(RawIndexParameter(1)) should be(())
       val table2 = Table(Table.props(onRowDoubleClick = x => Callback.empty, rowHeight = 20, headerHeight = 10, height = 200, rowCount = 1, width = 500, rowGetter = rowGetterF), columns: _*)
-      table2.props.onRowDoubleClick(IndexParameter(1)) should be(())
+      table2.props.onRowDoubleClick(RawIndexParameter(1)) should be(())
     }
     it should "support a row mouse out callback" in {
       val columns = List(Column(Column.props(200, "key")))
       val table = Table(Table.props(rowHeight = 20, headerHeight = 10, height = 200, rowCount = 1, width = 500, rowGetter = rowGetterF), columns: _*)
-      table.props.onRowMouseOut(IndexParameter(1)) should be(())
+      table.props.onRowMouseOut(RawIndexParameter(1)) should be(())
       val table2 = Table(Table.props(onRowMouseOut = x => Callback.empty, rowHeight = 20, headerHeight = 10, height = 200, rowCount = 1, width = 500, rowGetter = rowGetterF), columns: _*)
-      table2.props.onRowMouseOut(IndexParameter(1)) should be(())
+      table2.props.onRowMouseOut(RawIndexParameter(1)) should be(())
     }
     it should "support a row mouse over callback" in {
       val columns = List(Column(Column.props(200, "key")))
       val table = Table(Table.props(rowHeight = 20, headerHeight = 10, height = 200, rowCount = 1, width = 500, rowGetter = rowGetterF), columns: _*)
-      table.props.onRowMouseOver(IndexParameter(1)) should be(())
+      table.props.onRowMouseOver(RawIndexParameter(1)) should be(())
       val table2 = Table(Table.props(onRowMouseOver = x => Callback.empty, rowHeight = 20, headerHeight = 10, height = 200, rowCount = 1, width = 500, rowGetter = rowGetterF), columns: _*)
-      table2.props.onRowMouseOver(IndexParameter(1)) should be(())
+      table2.props.onRowMouseOver(RawIndexParameter(1)) should be(())
     }
     it should "support a row right click callback" in {
       val columns = List(Column(Column.props(200, "key")))
       val table = Table(Table.props(rowHeight = 20, headerHeight = 10, height = 200, rowCount = 1, width = 500, rowGetter = rowGetterF), columns: _*)
-      table.props.onRowRightClick(IndexParameter(1)) should be(())
+      table.props.onRowRightClick(RawIndexParameter(1)) should be(())
       val table2 = Table(Table.props(onRowRightClick = x => Callback.empty, rowHeight = 20, headerHeight = 10, height = 200, rowCount = 1, width = 500, rowGetter = rowGetterF), columns: _*)
-      table2.props.onRowRightClick(IndexParameter(1)) should be(())
+      table2.props.onRowRightClick(RawIndexParameter(1)) should be(())
     }
     it should "support a header click callback" in {
       val columns = List(Column(Column.props(200, "key")))

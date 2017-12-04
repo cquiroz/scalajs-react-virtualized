@@ -2,7 +2,6 @@ package react
 package virtualized
 
 import org.scalatest._
-import Column._
 import scala.scalajs.js
 import scala.scalajs.js.|
 import js.JSConverters._
@@ -23,11 +22,11 @@ class ColumnSpec extends FlatSpec with Matchers with NonImplicitAssertions with 
     }
     it should "have a default cellDataGetter" in {
       val dataMap = Map("key" -> 1, "b" -> 2).toJSDictionary
-      Column(Column.props(200, "key")).props.cellDataGetter.toOption.map(_(CellDataParameter("col", "key", dataMap))) should contain(1)
+      Column(Column.props(200, "key")).props.cellDataGetter.toOption.map(_(RawCellDataParameter("col", "key", dataMap))) should contain(1)
     }
     it should "support cellDataGetter" in {
       val cell: js.Object = js.Dynamic.literal(foo = 42, bar = "foobar")
-      Column(Column.props(200, "key", cellDataGetter = Some((_: js.Any, _: String, _: js.Object) => cell))).props.cellDataGetter.toOption.map(_(CellDataParameter("col", "key", "row"))).map(_ === cell) should contain(true)
+      Column(Column.props(200, "key", cellDataGetter = Some((_: js.Any, _: String, _: js.Object) => cell))).props.cellDataGetter.toOption.map(_(RawCellDataParameter("col", "key", "row"))).map(_ === cell) should contain(true)
     }
     it should "have a default cellRenderer" in {
       Column(Column.props(200, "key")).props.cellRenderer.toOption.map(_(RawCellRendererParameter("cellData", "col", "key", "row", 1))) should contain("cellData")

@@ -4,6 +4,7 @@ import scala.scalajs.js
 import scala.scalajs.js.|
 import js.annotation.JSImport
 import js.JSConverters._
+import japgolly.scalajs.react.Callback
 import japgolly.scalajs.react.raw.ReactNode
 import japgolly.scalajs.react.vdom.VdomNode
 
@@ -11,6 +12,9 @@ package object virtualized {
   implicit class VdomToRaw(val node: VdomNode) extends AnyVal {
     def toRaw: ReactNode = node.rawNode
   }
+
+  // Column types
+  //
 
   /**
    * Types
@@ -23,6 +27,37 @@ package object virtualized {
 
   type RawHeaderRowRenderer = js.Function1[RawHeaderRowRendererParameter, ReactNode]
   type HeaderRowRenderer = (String, Array[VdomNode], Style) => VdomNode
+
+  type CellDataGetter[B, C, A <: js.Object] = (B, String, C) => A
+
+  // Table types
+  //
+
+  type RowGetter = Int => js.Object
+  // Types for NoRowsRenderer
+  type NoRowsRenderer = () => VdomNode
+
+  // Types for RowClassName
+  type RowClassName = Int => String
+
+  // Types for RowHeight
+  type RowHeight = Int => Int
+
+  // Types for RowStyle
+  type RowStyle = Int => Style
+
+  // Types for Sort
+  type Sort = (String, SortDirection) => Callback
+
+  type OnRowClick = Int => Callback
+
+  type OnHeaderClick = (js.Object, String) => Callback
+
+  type OnRowsRenderer = (Int, Int) => Callback
+
+  type OnScroll = (Int, Int, Int) => Callback
+
+
 }
 
 package virtualized {
@@ -40,6 +75,21 @@ package virtualized {
       Style(map)
     }
 
+  }
+
+  sealed trait ScrollToAlignment
+  object ScrollToAlignment {
+    case object Auto extends ScrollToAlignment
+    case object End extends ScrollToAlignment
+    case object Start extends ScrollToAlignment
+    case object Center extends ScrollToAlignment
+
+    def toRaw(s: ScrollToAlignment): String = s match {
+      case Auto   => "auto"
+      case End    => "end"
+      case Start  => "start"
+      case Center => "center"
+    }
   }
 
   @js.native
@@ -71,7 +121,31 @@ package virtualized {
     }
   }
 
+  /**
+   * Raw facades, shouldn't be exposed to final users
+   */
   private[virtualized] object raw {
+    // Column types
+    //
+
+    // Types for cellDataGetter
+    trait RawCellDataParameter extends js.Object {
+      var columnData: js.Any
+      var dataKey: String
+      var rowData: js.Any
+    }
+    object RawCellDataParameter {
+      def apply(columnData: js.Any, dataKey: String, rowData: js.Any): RawCellDataParameter = {
+        val p = (new js.Object).asInstanceOf[RawCellDataParameter]
+        p.columnData = columnData
+        p.dataKey = dataKey
+        p.rowData = rowData
+        p
+      }
+    }
+    type RawCellDataGetter = js.Function1[RawCellDataParameter, js.Object]
+
+    // types for cellRenderer
     trait RawCellRendererParameter extends js.Object {
       var cellData: js.Any
       var columnData: js.Any
@@ -90,7 +164,9 @@ package virtualized {
         p
       }
     }
+    type RawCellRenderer = js.Function1[RawCellRendererParameter, ReactNode]
 
+    // types for headerRenderer
     trait RawHeaderRendererParameter extends js.Object {
       var columnData: js.Any
       var dataKey: String
@@ -111,6 +187,101 @@ package virtualized {
         p
       }
     }
+    type RawHeaderRenderer = js.Function1[RawHeaderRendererParameter, ReactNode]
+
+    // Table types
+    //
+
+    // Types for row getter
+    trait RawIndexParameter extends js.Object {
+      var index: Int
+    }
+    object RawIndexParameter {
+      def apply(index: Int): RawIndexParameter = {
+        val p = (new js.Object).asInstanceOf[RawIndexParameter]
+        p.index = index
+        p
+      }
+    }
+    type RawRowGetter = js.Function1[RawIndexParameter, Any]
+
+    // No rows renderer
+    type RawNoRowsRenderer = js.Function0[ReactNode]
+
+    // Class for rows
+    type RawRowClassNameParam = String | RawRowClassName
+    type RawRowClassName = js.Function1[RawIndexParameter, String]
+
+    // Types for RowHeight
+    type RawRowHeight = js.Function1[RawIndexParameter, Int]
+    type RawRowHeightParam = Int | RawRowHeight
+
+    // Types for RowStyle
+    type RawRowStyleParam = js.Object | RawRowStyle
+    type RawRowStyle = js.Function1[RawIndexParameter, js.Object]
+
+    // Types for Sort
+    type RawSort = js.Function1[RawSortParam, Unit]
+    trait RawSortParam extends js.Object {
+      var sortBy: String
+      var sortDirection: String
+    }
+    object RawSortParam {
+        def apply(sortBy: String, sortDirection: String): RawSortParam = {
+        val p = (new js.Object).asInstanceOf[RawSortParam]
+        p.sortBy = sortBy
+        p.sortDirection = sortDirection
+        p
+      }
+    }
+
+    // Events
+    type RawOnRowEvent = js.Function1[RawIndexParameter, Unit]
+    // Header click event
+    trait RawHeaderClickParam extends js.Object {
+      var columnData: js.Object
+      var dataKey: String
+    }
+    object RawHeaderClickParam {
+      def apply(columnData: js.Object, dataKey: String): RawHeaderClickParam = {
+        val p = (new js.Object).asInstanceOf[RawHeaderClickParam]
+        p.columnData = columnData
+        p.dataKey = dataKey
+        p
+      }
+    }
+    type RawHeaderClickEvent = js.Function1[RawHeaderClickParam, Unit]
+    // Rows renderer event
+    trait RawRowsRendererParam extends js.Object {
+      var startIndex: Int
+      var stopIndex: Int
+    }
+    object RawRowsRendererParam {
+      def apply(startIndex: Int, stopIndex: Int): RawRowsRendererParam = {
+        val p = (new js.Object).asInstanceOf[RawRowsRendererParam]
+        p.startIndex = startIndex
+        p.stopIndex = stopIndex
+        p
+      }
+    }
+    type RawRowsRendererEvent = js.Function1[RawRowsRendererParam, Unit]
+
+    // Scroll event
+    trait RawScrollParam extends js.Object {
+      var clientHeight: Int
+      var scrollHeight: Int
+      var scrollTop: Int
+    }
+    object RawScrollParam {
+      def apply(clientHeight: Int, scrollHeight: Int, scrollTop: Int): RawScrollParam = {
+        val p = (new js.Object).asInstanceOf[RawScrollParam]
+        p.clientHeight = clientHeight
+        p.scrollHeight = scrollHeight
+        p.scrollTop = scrollTop
+        p
+      }
+    }
+    type RawScrollEvent = js.Function1[RawScrollParam, Unit]
 
     @js.native
     @JSImport("react-virtualized", "SortDirection")
@@ -119,9 +290,7 @@ package virtualized {
       val DESC: String = js.native
     }
 
-    type RawHeaderRenderer = js.Function1[RawHeaderRendererParameter, ReactNode]
-    type RawCellRenderer = js.Function1[RawCellRendererParameter, ReactNode]
-
+    // Default renderer implementations
     @js.native
     @JSImport("react-virtualized", "defaultTableHeaderRenderer", JSImport.Default)
     object defaultHeaderRenderer extends js.Function1[RawHeaderRendererParameter, ReactNode] {

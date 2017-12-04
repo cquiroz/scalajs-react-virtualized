@@ -8,7 +8,7 @@ import japgolly.scalajs.react.internal.Effect.Id
 import scala.scalajs.js
 import scala.scalajs.js.|
 import js.JSConverters._
-import japgolly.scalajs.react.raw.{JsNumber, ReactNode}
+import japgolly.scalajs.react.raw.JsNumber
 import japgolly.scalajs.react.vdom.Exports._
 
 import scala.scalajs.js.annotation.JSImport
@@ -21,120 +21,6 @@ object Table {
   @js.native
   @JSImport("react-virtualized", "Table")
   object RawComponent extends js.Object
-
-  trait IndexParameter extends js.Object {
-    var index: Int
-  }
-  object IndexParameter {
-    def apply(index: Int): IndexParameter = {
-      val p = (new js.Object).asInstanceOf[IndexParameter]
-      p.index = index
-      p
-    }
-  }
-  // Types for row getter
-  type RawRowGetter = js.Function1[IndexParameter, Any]
-  type RowGetter = Int => js.Object
-
-  // Types for NoRowsRenderer
-  private type RawNoRowsRenderer = js.Function0[ReactNode]
-  type NoRowsRenderer = () => VdomNode
-
-  // Types for RowClassName
-  type RawRowClassName = js.Function1[IndexParameter, String]
-  type RowClassName = Int => String
-  type RowClassNameParam = String | RawRowClassName
-
-  // Types for RowHeight
-  type RawRowHeight = js.Function1[IndexParameter, JsNumber]
-  type RowHeight = Int => Int
-  type RowHeightParam = JsNumber | RawRowHeight
-
-  // Types for RowStyle
-  type RawRowStyle = js.Function1[IndexParameter, js.Object]
-  type RowStyle = Int => Style
-  type RowStyleParam = js.Object | RawRowStyle
-
-  // Types for Sort
-  type RawSort = js.Function1[RawSortParam, Unit]
-  trait RawSortParam extends js.Object {
-    var sortBy: String
-    var sortDirection: String
-  }
-  object RawSortParam {
-      def apply(sortBy: String, sortDirection: String): RawSortParam = {
-      val p = (new js.Object).asInstanceOf[RawSortParam]
-      p.sortBy = sortBy
-      p.sortDirection = sortDirection
-      p
-    }
-  }
-  type Sort = (String, SortDirection) => Callback
-
-  sealed trait ScrollToAlignment
-  object ScrollToAlignment {
-    case object Auto extends ScrollToAlignment
-    case object End extends ScrollToAlignment
-    case object Start extends ScrollToAlignment
-    case object Center extends ScrollToAlignment
-
-    def toRaw(s: ScrollToAlignment): String = s match {
-      case Auto   => "auto"
-      case End    => "end"
-      case Start  => "start"
-      case Center => "center"
-    }
-  }
-
-  type RawOnRowEvent = js.Function1[IndexParameter, Unit]
-  type OnRowClick = Int => Callback
-
-  trait RawHeaderClickParam extends js.Object {
-    var columnData: js.Object
-    var dataKey: String
-  }
-  object RawHeaderClickParam {
-    def apply(columnData: js.Object, dataKey: String): RawHeaderClickParam = {
-      val p = (new js.Object).asInstanceOf[RawHeaderClickParam]
-      p.columnData = columnData
-      p.dataKey = dataKey
-      p
-    }
-  }
-  type RawHeaderClickEvent = js.Function1[RawHeaderClickParam, Unit]
-  type OnHeaderClick = (js.Object, String) => Callback
-
-  trait RawRowsRendererParam extends js.Object {
-    var startIndex: Int
-    var stopIndex: Int
-  }
-  object RawRowsRendererParam {
-    def apply(startIndex: Int, stopIndex: Int): RawRowsRendererParam = {
-      val p = (new js.Object).asInstanceOf[RawRowsRendererParam]
-      p.startIndex = startIndex
-      p.stopIndex = stopIndex
-      p
-    }
-  }
-  type RawRowsRendererEvent = js.Function1[RawRowsRendererParam, Unit]
-  type OnRowsRenderer = (Int, Int) => Callback
-
-  trait RawScrollParam extends js.Object {
-    var clientHeight: Int
-    var scrollHeight: Int
-    var scrollTop: Int
-  }
-  object RawScrollParam {
-    def apply(clientHeight: Int, scrollHeight: Int, scrollTop: Int): RawScrollParam = {
-      val p = (new js.Object).asInstanceOf[RawScrollParam]
-      p.clientHeight = clientHeight
-      p.scrollHeight = scrollHeight
-      p.scrollTop = scrollTop
-      p
-    }
-  }
-  type RawScrollEvent = js.Function1[RawScrollParam, Unit]
-  type OnScroll = (Int, Int, Int) => Callback
 
   @js.native
   trait Props extends js.Object {
@@ -259,7 +145,7 @@ object Table {
      * This property can be a CSS class name (string) or a function that returns a class name.
      * If a function is provided its signature should be: ({ index: number }): string
      */
-    var rowClassName: RowClassNameParam = js.native
+    var rowClassName: RawRowClassNameParam = js.native
 
     /**
      * Callback responsible for returning a data row given an index.
@@ -271,7 +157,7 @@ object Table {
      * Either a fixed row height (number) or a function that returns the height of a row given its index.
      * ({ index: number }): number
      */
-    var rowHeight: RowHeightParam = js.native
+    var rowHeight: RawRowHeightParam = js.native
 
     /** Number of rows in table. */
     var rowCount: JsNumber = js.native
@@ -294,7 +180,7 @@ object Table {
     // rowRenderer: PropTypes.func,
 
     /** Optional custom inline style to attach to table rows. */
-    var rowStyle: RowStyleParam = js.native
+    var rowStyle: RawRowStyleParam = js.native
 
     /** See Grid#scrollToAlignment */
     var scrollToAlignment: String = js.native
@@ -370,7 +256,7 @@ object Table {
     p.headerHeight = headerHeight
     p.height = height
     p.rowCount = rowCount
-    p.rowGetter = (i: IndexParameter) => rowGetter(i.index)
+    p.rowGetter = (i: RawIndexParameter) => rowGetter(i.index)
     p.width = width
     p.`aria-label` = ariaLabel
     p.autoHeight = autoHeight
@@ -385,11 +271,11 @@ object Table {
     p.id = id
     p.noRowsRenderer = Some[RawNoRowsRenderer](() => noRowsRenderer.apply.rawNode).orUndefined
     p.onHeaderClick = (x: RawHeaderClickParam) => onHeaderClick(x.columnData, x.dataKey).runNow()
-    p.onRowClick = (x: IndexParameter) => onRowClick(x.index).runNow()
-    p.onRowDoubleClick = (x: IndexParameter) => onRowDoubleClick(x.index).runNow()
-    p.onRowMouseOut = (x: IndexParameter) => onRowMouseOut(x.index).runNow()
-    p.onRowMouseOver = (x: IndexParameter) => onRowMouseOver(x.index).runNow()
-    p.onRowRightClick = (x: IndexParameter) => onRowRightClick(x.index).runNow()
+    p.onRowClick = (x: RawIndexParameter) => onRowClick(x.index).runNow()
+    p.onRowDoubleClick = (x: RawIndexParameter) => onRowDoubleClick(x.index).runNow()
+    p.onRowMouseOut = (x: RawIndexParameter) => onRowMouseOut(x.index).runNow()
+    p.onRowMouseOver = (x: RawIndexParameter) => onRowMouseOver(x.index).runNow()
+    p.onRowRightClick = (x: RawIndexParameter) => onRowRightClick(x.index).runNow()
     p.onRowsRendered = (x: RawRowsRendererParam) => onRowsRendered(x.startIndex, x.stopIndex).runNow()
     p.onScroll = (x: RawScrollParam) => onScroll(x.clientHeight, x.scrollHeight, x.scrollTop).runNow()
     p.overscanRowCount = overscanRowCount
@@ -405,21 +291,21 @@ object Table {
     p.rowStyle = (rowStyle: Any) match {
       case o: Style => Style.toJsObject(o)
       case f =>
-        ((i: IndexParameter) => Style.toJsObject(f.asInstanceOf[RowStyle](i.index))): RawRowStyle
+        ((i: RawIndexParameter) => Style.toJsObject(f.asInstanceOf[RowStyle](i.index))): RawRowStyle
     }
     (rowClassName: Any) match {
       case null =>
       case s: String =>
         p.rowClassName = s
       case f =>
-        p.rowClassName = ((i: IndexParameter) => f.asInstanceOf[RowClassName](i.index)): RawRowClassName
+        p.rowClassName = ((i: RawIndexParameter) => f.asInstanceOf[RowClassName](i.index)): RawRowClassName
     }
     (rowHeight: Any) match {
       case null =>
       case s: Int =>
         p.rowHeight = s
       case f =>
-        p.rowHeight = ((i: IndexParameter) => f.asInstanceOf[RowHeight](i.index)): RawRowHeight
+        p.rowHeight = ((i: RawIndexParameter) => f.asInstanceOf[RowHeight](i.index)): RawRowHeight
     }
     p
   }

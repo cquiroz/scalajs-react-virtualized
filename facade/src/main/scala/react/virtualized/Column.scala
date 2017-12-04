@@ -18,23 +18,6 @@ object Column {
   @JSImport("react-virtualized", "Column")
   object RawComponent extends js.Object
 
-  trait CellDataParameter extends js.Object {
-    var columnData: js.Any
-    var dataKey: String
-    var rowData: js.Any
-  }
-  object CellDataParameter {
-    def apply(columnData: js.Any, dataKey: String, rowData: js.Any): CellDataParameter = {
-      val p = (new js.Object).asInstanceOf[CellDataParameter]
-      p.columnData = columnData
-      p.dataKey = dataKey
-      p.rowData = rowData
-      p
-    }
-  }
-  type RawCellDataGetter = js.Function1[CellDataParameter, js.Object]
-  type CellDataGetter[B, C, A <: js.Object] = (B, String, C) => A
-
   @js.native
   trait Props extends js.Object {
     /** Optional aria-label value to set on the column header */
@@ -134,7 +117,7 @@ object Column {
     p.width = width
     p.dataKey = dataKey
     p.`aria-label` = ariaLabel
-    def rawCellDataGetter(cdg: CellDataGetter[B, C, A]): RawCellDataGetter = (cdp: CellDataParameter) => cdg(cdp.columnData.asInstanceOf[B], cdp.dataKey, cdp.asInstanceOf[C])
+    def rawCellDataGetter(cdg: CellDataGetter[B, C, A]): RawCellDataGetter = (cdp: RawCellDataParameter) => cdg(cdp.columnData.asInstanceOf[B], cdp.dataKey, cdp.asInstanceOf[C])
     p.cellDataGetter = cellDataGetter.map(rawCellDataGetter).orUndefined
     p.cellRenderer = Some[RawCellRenderer]((r: raw.RawCellRendererParameter) => cellRenderer(r.cellData.asInstanceOf[A], r.columnData.asInstanceOf[B], r.dataKey, r.rowData.asInstanceOf[C], r.rowIndex).toRaw).orUndefined
     p.className = className
