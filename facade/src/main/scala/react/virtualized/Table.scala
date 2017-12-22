@@ -294,7 +294,7 @@ object Table {
       case f =>
         ((i: RawIndexParameter) => Style.toJsObject(f.asInstanceOf[RowStyle](i.index))): RawRowStyle
     }
-    p.rowRenderer = (r: RawRowRendererParameter) => rowRenderer(r.className, r.columns.map(VdomNode.apply).toArray, r.index, r.isScrolling, r.rowData.asInstanceOf[C], Style.fromJsObject(r.style)).toRaw
+    p.rowRenderer = (r: RawRowRendererParameter) => rowRenderer(r.className, r.columns.map(VdomNode.apply).toArray, r.index, r.isScrolling, r.rowData.asInstanceOf[C], r.onRowClick.map(_.toCallback).toOption, r.onRowDoubleClick.map(_.toCallback).toOption, r.onRowMouseOut.map(_.toCallback).toOption, r.onRowMouseOver.map(_.toCallback).toOption, r.onRowRightClick.map(_.toCallback).toOption, Style.fromJsObject(r.style)).toRaw
     (rowClassName: Any) match {
       case null =>
       case s: String =>
