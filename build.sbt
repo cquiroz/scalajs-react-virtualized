@@ -1,5 +1,5 @@
 val reactJS = "15.6.1"
-val reactVirtualized = "9.13.0"
+val reactVirtualized = "9.14.1"
 val scalaJsReact = "1.1.1"
 
 parallelExecution in (ThisBuild, Test) := false
