@@ -25,13 +25,19 @@ package object virtualized {
   type CellRenderer[A <: js.Object, B <: js.Any, C <: js.Object] = (A, B, String, C, Int) => VdomNode
   type HeaderRenderer[B <: js.Any] = (B, String, Option[Boolean], VdomNode, Option[String], SortDirection) => VdomNode
 
-  type RawHeaderRowRenderer = js.Function1[RawHeaderRowRendererParameter, ReactNode]
   type HeaderRowRenderer = (String, Array[VdomNode], Style) => VdomNode
 
   type CellDataGetter[B, C, A <: js.Object] = (B, String, C) => A
 
   // Table types
   //
+  /**
+   * Types
+   * A Cell data, some js object with row entries
+   * B Column data, can be anything
+   * C Row data
+   */
+  type RowRenderer[C <: js.Object] = (String, Array[VdomNode], Int, Boolean, C, Style) => VdomNode
 
   type RowGetter = Int => js.Object
   // Types for NoRowsRenderer
@@ -106,27 +112,28 @@ package virtualized {
     }
   }
 
-  trait RawHeaderRowRendererParameter extends js.Object {
-    var className: String
-    var columns: js.Array[ReactNode]
-    var style: js.Object
-  }
-  object RawHeaderRowRendererParameter {
-    def apply(className: String, columns: js.Array[ReactNode], style: js.Object): RawHeaderRowRendererParameter = {
-      val p = (new js.Object).asInstanceOf[RawHeaderRowRendererParameter]
-      p.className = className
-      p.columns = columns
-      p.style = style
-      p
-    }
-  }
-
   /**
    * Raw facades, shouldn't be exposed to final users
    */
   private[virtualized] object raw {
     // Column types
     //
+    trait RawHeaderRowRendererParameter extends js.Object {
+      var className: String
+      var columns: js.Array[ReactNode]
+      var style: js.Object
+    }
+    object RawHeaderRowRendererParameter {
+      def apply(className: String, columns: js.Array[ReactNode], style: js.Object): RawHeaderRowRendererParameter = {
+        val p = (new js.Object).asInstanceOf[RawHeaderRowRendererParameter]
+        p.className = className
+        p.columns = columns
+        p.style = style
+        p
+      }
+    }
+
+    type RawHeaderRowRenderer = js.Function1[RawHeaderRowRendererParameter, ReactNode]
 
     // Types for cellDataGetter
     trait RawCellDataParameter extends js.Object {
@@ -191,6 +198,28 @@ package virtualized {
 
     // Table types
     //
+
+    trait RawRowRendererParameter extends js.Object {
+      var className: String
+      var columns: js.Array[ReactNode]
+      var index: Int
+      var isScrolling: Boolean
+      var rowData: js.Object
+      var style: js.Object
+    }
+    object RawRowRendererParameter {
+      def apply(className: String, columns: js.Array[ReactNode], index: Int, isScrolling: Boolean, rowData: js.Object, style: js.Object): RawRowRendererParameter = {
+        val p = (new js.Object).asInstanceOf[RawRowRendererParameter]
+        p.className = className
+        p.columns = columns
+        p.index = index
+        p.isScrolling = isScrolling
+        p.rowData = rowData
+        p.style = style
+        p
+      }
+    }
+    type RawRowRenderer = js.Function1[RawRowRendererParameter, ReactNode]
 
     // Types for row getter
     trait RawIndexParameter extends js.Object {
@@ -305,13 +334,19 @@ package virtualized {
     }
     val defaultCellRendererS = (cellData: js.Any, columnData: js.Any, dataKey: String, rowData: js.Any, rowIndex: Int) => VdomNode(defaultCellRenderer(RawCellRendererParameter(cellData, columnData, dataKey, rowData, rowIndex)))
 
-
     @js.native
     @JSImport("react-virtualized", "defaultTableHeaderRowRenderer", JSImport.Default)
     object defaultHeaderRowRenderer extends js.Function1[RawHeaderRowRendererParameter, ReactNode] {
       def apply(i: RawHeaderRowRendererParameter): ReactNode = js.native
     }
     val defaultHeaderRowRendererS: HeaderRowRenderer = (className: String, columns: Array[VdomNode], style: Style) => VdomNode(defaultHeaderRowRenderer(RawHeaderRowRendererParameter(className, columns.map(_.rawNode).toJSArray, Style.toJsObject(style))))
+
+    @js.native
+    @JSImport("react-virtualized", "defaultTableRowRenderer", JSImport.Default)
+    object defaultRowRenderer extends js.Function1[RawRowRendererParameter, ReactNode] {
+      def apply(i: RawRowRendererParameter): ReactNode = js.native
+    }
+    def defaultRowRendererS[C <: js.Object]: RowRenderer[C] = (className: String, columns: Array[VdomNode], index: Int, isScrolling: Boolean, rowData: C, style: Style) => VdomNode(defaultRowRenderer(RawRowRendererParameter(className, columns.map(_.rawNode).toJSArray, index, isScrolling, rowData, Style.toJsObject(style))))
   }
 
 }

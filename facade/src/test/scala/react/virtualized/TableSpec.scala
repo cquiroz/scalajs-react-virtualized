@@ -28,7 +28,7 @@ class TableSpec extends FlatSpec with Matchers with NonImplicitAssertions with T
               |<div class="ReactVirtualized__Table__headerRow" role="row" style="height: 10px; overflow: hidden; padding-right: 0px; width: 500px;"></div>
               |<div aria-label="grid" aria-readonly="true" class="ReactVirtualized__Grid ReactVirtualized__Table__Grid" role="rowgroup" tabindex="0" style="box-sizing: border-box; direction: ltr; height: 190px; position: relative; width: 500px; overflow-x: hidden; overflow-y: hidden;">
                 |<div class="ReactVirtualized__Grid__innerScrollContainer" role="rowgroup" style="width: auto; height: 40px; max-width: 500px; max-height: 40px; overflow: hidden; position: relative;">
-                  |<div aria-label="row" tabindex="0" class="ReactVirtualized__Table__row" role="row" style="height: 40px; left: 0px; position: absolute; top: 0px; width: 500px; overflow: hidden; padding-right: 0px;"></div>
+                  |<div class="ReactVirtualized__Table__row" role="row" style="overflow: hidden; left: 0px; padding-right: 0px; height: 40px; position: absolute; width: 500px; top: 0px;"></div>
                   |</div>
                 |</div>
               |</div>""".stripMargin.replaceAll("[\n\r]", "")
@@ -45,7 +45,7 @@ class TableSpec extends FlatSpec with Matchers with NonImplicitAssertions with T
             |</div>
             |<div aria-label="grid" aria-readonly="true" class="ReactVirtualized__Grid ReactVirtualized__Table__Grid" role="rowgroup" tabindex="0" style="box-sizing: border-box; direction: ltr; height: 190px; position: relative; width: 500px; overflow-x: hidden; overflow-y: hidden;">
               |<div class="ReactVirtualized__Grid__innerScrollContainer" role="rowgroup" style="width: auto; height: 40px; max-width: 500px; max-height: 40px; overflow: hidden; position: relative;">
-                |<div aria-label="row" tabindex="0" class="ReactVirtualized__Table__row" role="row" style="height: 40px; left: 0px; position: absolute; top: 0px; width: 500px; overflow: hidden; padding-right: 0px;">
+                |<div class="ReactVirtualized__Table__row" role="row" style="overflow: hidden; left: 0px; padding-right: 0px; height: 40px; position: absolute; width: 500px; top: 0px;">
                   |<div role="gridcell" class="ReactVirtualized__Table__rowColumn" title="" style="overflow: hidden;"></div>
                 |</div>
                 |</div>
@@ -244,7 +244,7 @@ class TableSpec extends FlatSpec with Matchers with NonImplicitAssertions with T
             |<div class="ReactVirtualized__Table__headerRow" role="row" style="height: 10px; overflow: hidden; padding-right: 0px; width: 500px;"><div role="columnheader" aria-label="key" tabindex="0" class="ReactVirtualized__Table__headerColumn"><span class="ReactVirtualized__Table__headerTruncatedText"></span></div></div>
             |<div aria-label="grid" aria-readonly="true" class="ReactVirtualized__Grid ReactVirtualized__Table__Grid" role="rowgroup" tabindex="0" style="box-sizing: border-box; direction: ltr; height: 190px; position: relative; width: 500px; overflow-x: hidden; overflow-y: hidden;">
               |<div class="ReactVirtualized__Grid__innerScrollContainer" role="rowgroup" style="width: auto; height: 20px; max-width: 500px; max-height: 20px; overflow: hidden; position: relative;">
-                |<div aria-label="row" tabindex="0" class="ReactVirtualized__Table__row" role="row" style="height: 20px; left: 0px; position: absolute; top: 0px; width: 500px; overflow: hidden; padding-right: 0px;"><div role="gridcell" class="ReactVirtualized__Table__rowColumn" title="" style="overflow: hidden;"></div></div>
+                |<div class="ReactVirtualized__Table__row" role="row" style="overflow: hidden; left: 0px; padding-right: 0px; height: 20px; position: absolute; width: 500px; top: 0px;"><div role="gridcell" class="ReactVirtualized__Table__rowColumn" title="" style="overflow: hidden;"></div></div>
                 |</div>
               |</div>
             |</div>""".stripMargin.replaceAll("[\n\r]", "")
@@ -271,7 +271,7 @@ class TableSpec extends FlatSpec with Matchers with NonImplicitAssertions with T
             |<li class="ReactVirtualized__Table__headerRow"><div role="columnheader" aria-label="key" tabindex="0" class="ReactVirtualized__Table__headerColumn"><span class="ReactVirtualized__Table__headerTruncatedText"></span></div></li>
             |<div aria-label="grid" aria-readonly="true" class="ReactVirtualized__Grid ReactVirtualized__Table__Grid" role="rowgroup" tabindex="0" style="box-sizing: border-box; direction: ltr; height: 190px; position: relative; width: 500px; overflow-x: hidden; overflow-y: hidden;">
               |<div class="ReactVirtualized__Grid__innerScrollContainer" role="rowgroup" style="width: auto; height: 20px; max-width: 500px; max-height: 20px; overflow: hidden; position: relative;">
-                |<div aria-label="row" tabindex="0" class="ReactVirtualized__Table__row" role="row" style="height: 20px; left: 0px; position: absolute; top: 0px; width: 500px; overflow: hidden; padding-right: 0px;"><div role="gridcell" class="ReactVirtualized__Table__rowColumn" title="" style="overflow: hidden;"></div></div>
+                |<div class="ReactVirtualized__Table__row" role="row" style="overflow: hidden; left: 0px; padding-right: 0px; height: 20px; position: absolute; width: 500px; top: 0px;"><div role="gridcell" class="ReactVirtualized__Table__rowColumn" title="" style="overflow: hidden;"></div></div>
                 |</div>
               |</div>
             |</div>""".stripMargin.replaceAll("[\n\r]", "")

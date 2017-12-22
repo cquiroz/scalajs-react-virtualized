@@ -177,7 +177,7 @@ object Table {
      *   style: any
      * }): PropTypes.node
      */
-    // rowRenderer: PropTypes.func,
+    var rowRenderer: RawRowRenderer = js.native
 
     /** Optional custom inline style to attach to table rows. */
     var rowStyle: RawRowStyleParam = js.native
@@ -213,7 +213,7 @@ object Table {
     var width: JsNumber = js.native
   }
 
-  def props(
+  def props[C <: js.Object](
     headerHeight: Int,
     height: Int,
     rowCount: Int,
@@ -250,6 +250,7 @@ object Table {
     scrollTop: js.UndefOr[Int] = js.undefined,
     sortDirection: js.UndefOr[SortDirection] = js.undefined,
     scrollToAlignment: ScrollToAlignment = ScrollToAlignment.Auto,
+    rowRenderer: RowRenderer[C] = defaultRowRendererS,
     rowStyle: Style | RowStyle = Style(Map.empty)
   ): Props = {
     val p = (new js.Object).asInstanceOf[Props]
@@ -293,6 +294,7 @@ object Table {
       case f =>
         ((i: RawIndexParameter) => Style.toJsObject(f.asInstanceOf[RowStyle](i.index))): RawRowStyle
     }
+    p.rowRenderer = (r: RawRowRendererParameter) => rowRenderer(r.className, r.columns.map(VdomNode.apply).toArray, r.index, r.isScrolling, r.rowData.asInstanceOf[C], Style.fromJsObject(r.style)).toRaw
     (rowClassName: Any) match {
       case null =>
       case s: String =>
