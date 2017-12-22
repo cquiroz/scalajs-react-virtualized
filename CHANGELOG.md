@@ -1,5 +1,12 @@
 # Changes
 
+## 0.0.7
+- Support row renderer
+- Updated to version 9.14.1
+
+## 0.0.6
+- Improved column types
+
 ## 0.0.5
 - Improved column renderer functions
 
