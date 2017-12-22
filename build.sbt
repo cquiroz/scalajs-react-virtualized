@@ -145,7 +145,7 @@ lazy val commonSettings = Seq(
     git.formattedShaVersion := git.gitHeadCommit.value map { sha => s"v$sha" },
     git.uncommittedSignifier in ThisBuild := Some("UNCOMMITTED"),
     useGpg := true
-  ) ++ semanticdbScalacSettings
+  ) ++ semanticdbScalacSettings ++ scalafixSettings
 
 lazy val pomData =
   <developers>

@@ -37,7 +37,7 @@ package object virtualized {
    * B Column data, can be anything
    * C Row data
    */
-  type RowRenderer[C <: js.Object] = (String, Array[VdomNode], Int, Boolean, C, Option[OnRowClick], Option[OnRowClick], Option[OnRowClick], Option[OnRowClick], Option[OnRowClick], Style) => VdomNode
+  type RowRenderer[C <: js.Object] = (String, Array[VdomNode], Int, Boolean, String, C, Option[OnRowClick], Option[OnRowClick], Option[OnRowClick], Option[OnRowClick], Option[OnRowClick], Style) => VdomNode
 
   type RowGetter = Int => js.Object
   // Types for NoRowsRenderer
@@ -204,6 +204,7 @@ package virtualized {
       var columns: js.Array[ReactNode]
       var index: Int
       var isScrolling: Boolean
+      var key: String
       var rowData: js.Object
       var onRowClick: js.UndefOr[RawOnRowEvent]
       var onRowDoubleClick: js.UndefOr[RawOnRowEvent]
@@ -214,12 +215,13 @@ package virtualized {
     }
 
     object RawRowRendererParameter {
-      def apply(className: String, columns: js.Array[ReactNode], index: Int, isScrolling: Boolean, rowData: js.Object, onRowClick: js.UndefOr[RawOnRowEvent], onRowDoubleClick: js.UndefOr[RawOnRowEvent], onRowMouseOut: js.UndefOr[RawOnRowEvent], onRowMouseOver: js.UndefOr[RawOnRowEvent], onRowRightClick: js.UndefOr[RawOnRowEvent], style: js.Object): RawRowRendererParameter = {
+      def apply(className: String, columns: js.Array[ReactNode], index: Int, isScrolling: Boolean, key: String, rowData: js.Object, onRowClick: js.UndefOr[RawOnRowEvent], onRowDoubleClick: js.UndefOr[RawOnRowEvent], onRowMouseOut: js.UndefOr[RawOnRowEvent], onRowMouseOver: js.UndefOr[RawOnRowEvent], onRowRightClick: js.UndefOr[RawOnRowEvent], style: js.Object): RawRowRendererParameter = {
         val p = (new js.Object).asInstanceOf[RawRowRendererParameter]
         p.className = className
         p.columns = columns
         p.index = index
         p.isScrolling = isScrolling
+        p.key = key
         p.rowData = rowData
         p.onRowClick = onRowClick
         p.onRowDoubleClick = onRowDoubleClick
@@ -367,8 +369,8 @@ package virtualized {
       def apply(i: RawRowRendererParameter): ReactNode = js.native
     }
     def defaultRowRendererS[C <: js.Object]: RowRenderer[C] =
-      (className: String, columns: Array[VdomNode], index: Int, isScrolling: Boolean, rowData: C, onRowClick: Option[OnRowClick], onRowDoubleClick: Option[OnRowClick], onRowMouseOut: Option[OnRowClick], onRowMouseOver: Option[OnRowClick], onRowRightClick: Option[OnRowClick], style: Style) =>
-        VdomNode(defaultRowRenderer(RawRowRendererParameter(className, columns.map(_.rawNode).toJSArray, index, isScrolling, rowData, onRowClick.map(_.toJsCallback).orUndefined, onRowDoubleClick.map(_.toJsCallback).orUndefined, onRowMouseOut.map(_.toJsCallback).orUndefined, onRowMouseOver.map(_.toJsCallback).orUndefined, onRowRightClick.map(_.toJsCallback).orUndefined, Style.toJsObject(style))))
+      (className: String, columns: Array[VdomNode], index: Int, isScrolling: Boolean, key: String, rowData: C, onRowClick: Option[OnRowClick], onRowDoubleClick: Option[OnRowClick], onRowMouseOut: Option[OnRowClick], onRowMouseOver: Option[OnRowClick], onRowRightClick: Option[OnRowClick], style: Style) =>
+        VdomNode(defaultRowRenderer(RawRowRendererParameter(className, columns.map(_.rawNode).toJSArray, index, isScrolling,  key, rowData, onRowClick.map(_.toJsCallback).orUndefined, onRowDoubleClick.map(_.toJsCallback).orUndefined, onRowMouseOut.map(_.toJsCallback).orUndefined, onRowMouseOver.map(_.toJsCallback).orUndefined, onRowRightClick.map(_.toJsCallback).orUndefined, Style.toJsObject(style))))
   }
 
 }
