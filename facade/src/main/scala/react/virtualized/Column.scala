@@ -111,7 +111,7 @@ object Column {
     label: VdomNode = VdomNode.cast(()),
     maxWidth: js.UndefOr[JsNumber] = js.undefined,
     minWidth: js.UndefOr[JsNumber] = js.undefined,
-    style: js.UndefOr[Style] = js.undefined,
+    style: js.UndefOr[Style] = js.undefined
   ): Props = {
     val p = (new js.Object).asInstanceOf[Props]
     p.width = width
