@@ -5,7 +5,7 @@ import scala.scalajs.js.|
 import js.annotation.JSImport
 import js.JSConverters._
 import japgolly.scalajs.react.Callback
-import japgolly.scalajs.react.raw.ReactNode
+import japgolly.scalajs.react.raw.{JsNumber, ReactNode}
 import japgolly.scalajs.react.vdom.VdomNode
 
 package object virtualized {
@@ -47,7 +47,7 @@ package object virtualized {
   type RowClassName = Int => String
 
   // Types for RowHeight
-  type RowHeight = Int => Int
+  type RowHeight = Int => JsNumber
 
   // Types for RowStyle
   type RowStyle = Int => Style
@@ -253,8 +253,8 @@ package virtualized {
     type RawRowClassName = js.Function1[RawIndexParameter, String]
 
     // Types for RowHeight
-    type RawRowHeight = js.Function1[RawIndexParameter, Int]
-    type RawRowHeightParam = Int | RawRowHeight
+    type RawRowHeight = js.Function1[RawIndexParameter, JsNumber]
+    type RawRowHeightParam = JsNumber | RawRowHeight
 
     // Types for RowStyle
     type RawRowStyleParam = js.Object | RawRowStyle

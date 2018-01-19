@@ -46,7 +46,7 @@ object Table {
      * Used to estimate the total height of a Table before all of its rows have actually been measured.
      * The estimated total height is adjusted as rows are rendered.
      */
-    var estimatedRowSize: Int = js.native
+    var estimatedRowSize: JsNumber = js.native
 
     /** Optional custom CSS class name to attach to inner Grid element. */
     var gridClassName: js.UndefOr[String] = js.native
@@ -58,7 +58,7 @@ object Table {
     var headerClassName: js.UndefOr[String] = js.native
 
     /** Fixed height of header row */
-    var headerHeight: Int = js.native
+    var headerHeight: JsNumber = js.native
 
     /**
      * Responsible for rendering a table row given an array of columns:
@@ -138,7 +138,7 @@ object Table {
      * Number of rows to render above/below the visible bounds of the list.
      * These rows can help for smoother scrolling on touch devices.
      */
-     var overscanRowCount: JsNumber = js.native
+     var overscanRowCount: Int = js.native
 
     /**
      * Optional CSS class to apply to all table rows (including the header row).
@@ -160,7 +160,7 @@ object Table {
     var rowHeight: RawRowHeightParam = js.native
 
     /** Number of rows in table. */
-    var rowCount: JsNumber = js.native
+    var rowCount: Int = js.native
 
     /**
      * Responsible for rendering a table row given an array of columns:
@@ -214,17 +214,17 @@ object Table {
   }
 
   def props[C <: js.Object](
-    headerHeight: Int,
-    height: Int,
+    headerHeight: JsNumber,
+    height: JsNumber,
     rowCount: Int,
     rowGetter: RowGetter,
     rowHeight: JsNumber | RowHeight,
-    width: Int,
+    width: JsNumber,
     ariaLabel: js.UndefOr[String] = js.undefined,
     autoHeight: js.UndefOr[Boolean] = js.undefined,
     className: js.UndefOr[String] = js.undefined,
     disableHeader: js.UndefOr[Boolean] = js.undefined,
-    estimatedRowSize: Int = 30,
+    estimatedRowSize: JsNumber = 30,
     gridClassName: js.UndefOr[String] = js.undefined,
     gridStyle: js.UndefOr[Style] = js.undefined,
     headerClassName: js.UndefOr[String] = js.undefined,
@@ -240,14 +240,14 @@ object Table {
     onRowRightClick: OnRowClick = _ => Callback.empty,
     onRowsRendered: OnRowsRenderer = (_, _) => Callback.empty,
     onScroll: OnScroll = (_, _, _) => Callback.empty,
-    overscanRowCount: JsNumber = 10, // default from react-virtualized
+    overscanRowCount: Int = 10, // default from react-virtualized
     rowClassName: String | RowClassName = null,
     style: js.UndefOr[Style] = js.undefined,
     tabIndex: js.UndefOr[Int] = js.undefined,
     sort: js.UndefOr[Sort] = js.undefined,
     sortBy: js.UndefOr[String] = js.undefined,
-    scrollToIndex: JsNumber = -1,
-    scrollTop: js.UndefOr[Int] = js.undefined,
+    scrollToIndex: Int = -1,
+    scrollTop: js.UndefOr[JsNumber] = js.undefined,
     sortDirection: js.UndefOr[SortDirection] = js.undefined,
     scrollToAlignment: ScrollToAlignment = ScrollToAlignment.Auto,
     rowRenderer: RowRenderer[C] = defaultRowRendererS,

@@ -20,6 +20,9 @@ class TableSpec extends FlatSpec with Matchers with NonImplicitAssertions with T
       Table(Table.props(headerHeight = 10, height = 200, rowCount = 20, rowHeight = 40, width = 500, rowGetter = rowGetterF)).props.rowCount should be (20)
       Table(Table.props(headerHeight = 10, height = 200, rowCount = 20, rowHeight = 40, width = 500, rowGetter = rowGetterF)).props.rowHeight should be (40)
       Table(Table.props(headerHeight = 10, height = 200, rowCount = 20, rowHeight = 40, width = 500, rowGetter = rowGetterF)).props.width should be (500)
+      Table(Table.props(headerHeight = 10.5, height = 200, rowCount = 20, rowHeight = 40, width = 500, rowGetter = rowGetterF)).props.headerHeight should be (10.5)
+      Table(Table.props(headerHeight = 10, height = 200.5, rowCount = 20, rowHeight = 40, width = 500, rowGetter = rowGetterF)).props.height should be (200.5)
+      Table(Table.props(headerHeight = 10, height = 200, rowCount = 20, rowHeight = 40, width = 500.5, rowGetter = rowGetterF)).props.width should be (500.5)
     }
     it should "support rendering" in {
       val table = Table(Table.props(headerHeight = 10, height = 200, rowCount = 1, rowHeight = 40, width = 500, rowGetter = rowGetterF))
@@ -42,7 +45,7 @@ class TableSpec extends FlatSpec with Matchers with NonImplicitAssertions with T
       val html =
         """<div class="ReactVirtualized__Table" role="grid">
             |<div class="ReactVirtualized__Table__headerRow" role="row" style="height: 10px; overflow: hidden; padding-right: 0px; width: 500px;">
-            |<div role="columnheader" aria-label="key" tabindex="0" class="ReactVirtualized__Table__headerColumn"><span class="ReactVirtualized__Table__headerTruncatedText"></span></div>
+            |<div aria-label="key" tabindex="0" role="columnheader" class="ReactVirtualized__Table__headerColumn"><span class="ReactVirtualized__Table__headerTruncatedText"></span></div>
             |</div>
             |<div aria-label="grid" aria-readonly="true" class="ReactVirtualized__Grid ReactVirtualized__Table__Grid" role="rowgroup" tabindex="0" style="box-sizing: border-box; direction: ltr; height: 190px; position: relative; width: 500px; overflow-x: hidden; overflow-y: hidden;">
               |<div class="ReactVirtualized__Grid__innerScrollContainer" role="rowgroup" style="width: auto; height: 40px; max-width: 500px; max-height: 40px; overflow: hidden; position: relative;">
@@ -128,6 +131,8 @@ class TableSpec extends FlatSpec with Matchers with NonImplicitAssertions with T
       table.props.scrollTop should be(())
       val table2 = Table(Table.props(scrollTop = 1, rowHeight = 20, headerHeight = 10, height = 200, rowCount = 1, width = 500, rowGetter = rowGetterF), columns: _*)
       table2.props.scrollTop should be(1)
+      val table3 = Table(Table.props(scrollTop = 1.5, rowHeight = 20, headerHeight = 10, height = 200, rowCount = 1, width = 500, rowGetter = rowGetterF), columns: _*)
+      table3.props.scrollTop should be(1.5)
     }
     it should "support sortDirection" in {
       val columns = List(Column(Column.props(200, "key")))
@@ -195,6 +200,8 @@ class TableSpec extends FlatSpec with Matchers with NonImplicitAssertions with T
       table.props.estimatedRowSize should be(30)
       val table2 = Table(Table.props(estimatedRowSize = 10, autoHeight = true, rowHeight = 20, headerHeight = 10, height = 200, rowCount = 1, width = 500, rowGetter = rowGetterF), columns: _*)
       table2.props.estimatedRowSize should be(10)
+      val table3 = Table(Table.props(estimatedRowSize = 10.5, autoHeight = true, rowHeight = 20, headerHeight = 10, height = 200, rowCount = 1, width = 500, rowGetter = rowGetterF), columns: _*)
+      table3.props.estimatedRowSize should be(10.5)
     }
     it should "support gridClassName " in {
       val columns = List(Column(Column.props(200, "key")))
