@@ -3,6 +3,7 @@
 ## 0.0.8
 - Updated to version 9.17.3
 - Added className, style, defaultHeight, defaultWidth properties to AutoSizer
+- Facade for the method Table.scrollToRow
 
 ## 0.0.7
 - Support row renderer

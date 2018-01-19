@@ -2,7 +2,7 @@ package react
 package virtualized
 
 import japgolly.scalajs.react._
-import japgolly.scalajs.react.component.Js.{RawMounted, UnmountedMapped, UnmountedWithRawType}
+import japgolly.scalajs.react.component.Js.{RawMounted, UnmountedMapped}
 import japgolly.scalajs.react.internal.Effect.Id
 
 import scala.scalajs.js
@@ -21,6 +21,11 @@ object Table {
   @js.native
   @JSImport("react-virtualized", "Table")
   object RawComponent extends js.Object
+
+  @js.native
+  trait JsMethods extends js.Object {
+    def scrollToRow(index: Int): Unit = js.native
+  }
 
   @js.native
   trait Props extends js.Object {
@@ -312,8 +317,8 @@ object Table {
     p
   }
 
-  private val component = JsComponent[Props, Children.Varargs, Null](RawComponent)
+  private val component = JsComponent[Props, Children.Varargs, Null](RawComponent).addFacade[JsMethods]
 
-  def apply(p: Props, children: ColumnArg*): UnmountedWithRawType[Props, Null, RawMounted] = component.apply(p)(children.map(_.vdomElement): _*)
+  def apply(p: Props, children: ColumnArg*): UnmountedMapped[Id, Props, Null, RawMounted with JsMethods, Props, Null] = component.apply(p)(children.map(_.vdomElement): _*)
 
 }

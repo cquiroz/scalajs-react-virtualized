@@ -36,7 +36,7 @@ object TableDemo {
         Column(Column.props(90, "name", disableSort = false, headerRenderer = headerRenderer(props.sortBy))),
         Column(Column.props(210, "random", disableSort = true, className = "exampleColumn", label = "The description label is so long it will be truncated", flexGrow = 1, cellRenderer = (cellData: DataRow, _: js.Any, _: String, _: js.Any, _: Int) => cellData.toString))
       )
-      Table(
+      val t = Table(
         Table.props(
           disableHeader = false,
           noRowsRenderer = () => <.div(^.cls := "noRows", "No rows"),
@@ -54,6 +54,8 @@ object TableDemo {
           sortBy = props.sortBy,
           sortDirection = state.sortDirection,
           headerHeight = 30), columns: _*)
+      t.mapMounted(_.raw.scrollToRow(20))
+      t
     }
     .build
 
