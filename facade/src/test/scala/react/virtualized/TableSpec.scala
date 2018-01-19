@@ -45,12 +45,12 @@ class TableSpec extends FlatSpec with Matchers with NonImplicitAssertions with T
       val html =
         """<div class="ReactVirtualized__Table" role="grid">
             |<div class="ReactVirtualized__Table__headerRow" role="row" style="height: 10px; overflow: hidden; padding-right: 0px; width: 500px;">
-            |<div aria-label="key" tabindex="0" role="columnheader" class="ReactVirtualized__Table__headerColumn"><span class="ReactVirtualized__Table__headerTruncatedText"></span></div>
+            |<div aria-label="key" class="ReactVirtualized__Table__headerColumn" role="columnheader" tabindex="0"><span class="ReactVirtualized__Table__headerTruncatedText"></span></div>
             |</div>
             |<div aria-label="grid" aria-readonly="true" class="ReactVirtualized__Grid ReactVirtualized__Table__Grid" role="rowgroup" tabindex="0" style="box-sizing: border-box; direction: ltr; height: 190px; position: relative; width: 500px; overflow-x: hidden; overflow-y: hidden;">
               |<div class="ReactVirtualized__Grid__innerScrollContainer" role="rowgroup" style="width: auto; height: 40px; max-width: 500px; max-height: 40px; overflow: hidden; position: relative;">
                 |<div aria-label="row" tabindex="0" class="ReactVirtualized__Table__row" role="row" style="overflow: hidden; left: 0px; padding-right: 0px; height: 40px; position: absolute; width: 500px; top: 0px;">
-                  |<div role="gridcell" class="ReactVirtualized__Table__rowColumn" title="" style="overflow: hidden;"></div>
+                  |<div class="ReactVirtualized__Table__rowColumn" role="gridcell" title="" style="overflow: hidden;"></div>
                 |</div>
                 |</div>
               |</div>
@@ -249,10 +249,10 @@ class TableSpec extends FlatSpec with Matchers with NonImplicitAssertions with T
       assertRender(unmounted.rawNode, """<div><div class="class" role="row" style="foo:42px;bar:foobar;"><div>Hello there abc</div></div></div>""")
       val html =
         """<div class="ReactVirtualized__Table" role="grid">
-            |<div class="ReactVirtualized__Table__headerRow" role="row" style="height: 10px; overflow: hidden; padding-right: 0px; width: 500px;"><div role="columnheader" aria-label="key" tabindex="0" class="ReactVirtualized__Table__headerColumn"><span class="ReactVirtualized__Table__headerTruncatedText"></span></div></div>
+            |<div class="ReactVirtualized__Table__headerRow" role="row" style="height: 10px; overflow: hidden; padding-right: 0px; width: 500px;"><div aria-label="key" class="ReactVirtualized__Table__headerColumn" role="columnheader" tabindex="0"><span class="ReactVirtualized__Table__headerTruncatedText"></span></div></div>
             |<div aria-label="grid" aria-readonly="true" class="ReactVirtualized__Grid ReactVirtualized__Table__Grid" role="rowgroup" tabindex="0" style="box-sizing: border-box; direction: ltr; height: 190px; position: relative; width: 500px; overflow-x: hidden; overflow-y: hidden;">
               |<div class="ReactVirtualized__Grid__innerScrollContainer" role="rowgroup" style="width: auto; height: 20px; max-width: 500px; max-height: 20px; overflow: hidden; position: relative;">
-                |<div aria-label="row" tabindex="0" class="ReactVirtualized__Table__row" role="row" style="overflow: hidden; left: 0px; padding-right: 0px; height: 20px; position: absolute; width: 500px; top: 0px;"><div role="gridcell" class="ReactVirtualized__Table__rowColumn" title="" style="overflow: hidden;"></div></div>
+                |<div aria-label="row" tabindex="0" class="ReactVirtualized__Table__row" role="row" style="overflow: hidden; left: 0px; padding-right: 0px; height: 20px; position: absolute; width: 500px; top: 0px;"><div class="ReactVirtualized__Table__rowColumn" role="gridcell" title="" style="overflow: hidden;"></div></div>
                 |</div>
               |</div>
             |</div>""".stripMargin.replaceAll("[\n\r]", "")
@@ -276,10 +276,10 @@ class TableSpec extends FlatSpec with Matchers with NonImplicitAssertions with T
       assertRender(unmounted.rawNode, """<div><li class="class"><div>Hello there abc</div></li></div>""")
       val html =
         """<div class="ReactVirtualized__Table" role="grid">
-            |<li class="ReactVirtualized__Table__headerRow"><div role="columnheader" aria-label="key" tabindex="0" class="ReactVirtualized__Table__headerColumn"><span class="ReactVirtualized__Table__headerTruncatedText"></span></div></li>
+            |<li class="ReactVirtualized__Table__headerRow"><div aria-label="key" class="ReactVirtualized__Table__headerColumn" role="columnheader" tabindex="0"><span class="ReactVirtualized__Table__headerTruncatedText"></span></div></li>
             |<div aria-label="grid" aria-readonly="true" class="ReactVirtualized__Grid ReactVirtualized__Table__Grid" role="rowgroup" tabindex="0" style="box-sizing: border-box; direction: ltr; height: 190px; position: relative; width: 500px; overflow-x: hidden; overflow-y: hidden;">
               |<div class="ReactVirtualized__Grid__innerScrollContainer" role="rowgroup" style="width: auto; height: 20px; max-width: 500px; max-height: 20px; overflow: hidden; position: relative;">
-                |<div aria-label="row" tabindex="0" class="ReactVirtualized__Table__row" role="row" style="overflow: hidden; left: 0px; padding-right: 0px; height: 20px; position: absolute; width: 500px; top: 0px;"><div role="gridcell" class="ReactVirtualized__Table__rowColumn" title="" style="overflow: hidden;"></div></div>
+                |<div aria-label="row" tabindex="0" class="ReactVirtualized__Table__row" role="row" style="overflow: hidden; left: 0px; padding-right: 0px; height: 20px; position: absolute; width: 500px; top: 0px;"><div class="ReactVirtualized__Table__rowColumn" role="gridcell" title="" style="overflow: hidden;"></div></div>
                 |</div>
               |</div>
             |</div>""".stripMargin.replaceAll("[\n\r]", "")
@@ -350,14 +350,14 @@ class TableSpec extends FlatSpec with Matchers with NonImplicitAssertions with T
       val html =
         """<div class="ReactVirtualized__Table" role="grid">
             |<div class="ReactVirtualized__Table__headerRow" role="row" style="height: 10px; overflow: hidden; padding-right: 0px; width: 500px;">
-              |<div role="columnheader" aria-label="key" tabindex="0" class="ReactVirtualized__Table__headerColumn">
+              |<div aria-label="key" class="ReactVirtualized__Table__headerColumn" role="columnheader" tabindex="0">
                 |<span class="ReactVirtualized__Table__headerTruncatedText"></span>
               |</div>
             |</div>
             |<div aria-label="grid" aria-readonly="true" class="ReactVirtualized__Grid ReactVirtualized__Table__Grid" role="rowgroup" tabindex="0" style="box-sizing: border-box; direction: ltr; height: 190px; position: relative; width: 500px; overflow-x: hidden; overflow-y: hidden;">
               |<div class="ReactVirtualized__Grid__innerScrollContainer" role="rowgroup" style="width: auto; height: 20px; max-width: 500px; max-height: 20px; overflow: hidden; position: relative;">
                 |<li class="ReactVirtualized__Table__row" style="overflow: hidden; left: 0px; padding-right: 0px; height: 20px; position: absolute; width: 500px; top: 0px;">
-                    |<div role="gridcell" class="ReactVirtualized__Table__rowColumn" title="" style="overflow: hidden;">
+                    |<div class="ReactVirtualized__Table__rowColumn" role="gridcell" title="" style="overflow: hidden;">
                   |</div>
                 |</li>
               |</div>
