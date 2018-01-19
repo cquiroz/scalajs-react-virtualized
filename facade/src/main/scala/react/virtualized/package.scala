@@ -61,7 +61,7 @@ package object virtualized {
 
   type OnRowsRenderer = (Int, Int) => Callback
 
-  type OnScroll = (Int, Int, Int) => Callback
+  type OnScroll = (JsNumber, JsNumber, JsNumber) => Callback
 
 
 }
@@ -317,12 +317,12 @@ package virtualized {
 
     // Scroll event
     trait RawScrollParam extends js.Object {
-      var clientHeight: Int
-      var scrollHeight: Int
-      var scrollTop: Int
+      var clientHeight: JsNumber
+      var scrollHeight: JsNumber
+      var scrollTop: JsNumber
     }
     object RawScrollParam {
-      def apply(clientHeight: Int, scrollHeight: Int, scrollTop: Int): RawScrollParam = {
+      def apply(clientHeight: JsNumber, scrollHeight: JsNumber, scrollTop: JsNumber): RawScrollParam = {
         val p = (new js.Object).asInstanceOf[RawScrollParam]
         p.clientHeight = clientHeight
         p.scrollHeight = scrollHeight
