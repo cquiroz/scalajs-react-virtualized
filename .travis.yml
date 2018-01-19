@@ -18,4 +18,5 @@ install:
   - nvm use stable
   - npm install jsdom
 script:
-  - sbt -J-Xmx3G facade/test demo/fastOptJS::webpack demo/fastOptJS
+  - node --version
+  - sbt facade/test demo/fastOptJS::webpack demo/fastOptJS

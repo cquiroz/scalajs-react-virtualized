@@ -67,10 +67,10 @@ lazy val facade =
       // Compile tests to JS using fast-optimisation
       scalaJSStage in Test            := FastOptStage,
       libraryDependencies    ++= Seq(
-        "com.github.japgolly.scalajs-react" %%% "core"      % scalaJsReact,
-        "com.github.japgolly.scalajs-react" %%% "test"      % scalaJsReact % "test",
-        "org.scalatest"                     %%% "scalatest" % "3.0.3" % Test,
-        "org.typelevel"                     %%% "cats-core" % "1.0.0-MF" % Test
+        "com.github.japgolly.scalajs-react" %%% "core"       % scalaJsReact,
+        "com.github.japgolly.scalajs-react" %%% "test"       % scalaJsReact % "test",
+        "org.scalatest"                     %%% "scalatest"  % "3.0.3" % Test,
+        "org.typelevel"                     %%% "cats-core"  % "1.0.0-MF" % Test
       )
     )
 
