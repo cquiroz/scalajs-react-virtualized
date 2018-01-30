@@ -24,9 +24,12 @@ object Table {
 
   @js.native
   trait JsMethods extends js.Object {
-    def scrollToRow(index: Int): Unit = js.native
-    def recomputeRowHeights(index: Int): Unit = js.native
     def forceUpdateGrid(): Unit = js.native
+    def getOffsetForRow(o: js.Object): JsNumber = js.native
+    def measureAllRows(): Unit = js.native
+    def recomputeRowHeights(index: Int): Unit = js.native
+    def scrollToPosition(scrollTop: Int): Unit = js.native
+    def scrollToRow(index: Int): Unit = js.native
   }
 
   @js.native

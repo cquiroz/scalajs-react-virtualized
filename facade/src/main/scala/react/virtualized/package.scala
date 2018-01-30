@@ -13,9 +13,15 @@ package object virtualized {
     def toRaw: ReactNode = node.rawNode
   }
   implicit class TableJsMethodsOps(val m: virtualized.Table.JsMethods) extends AnyVal {
+    def forceUpdateGridCB: Callback = Callback(m.forceUpdateGrid)
+    def measureAllRowsCB: Callback = Callback(m.measureAllRows)
     def recomputeRowHeightsCB(index: Int): Callback = Callback(m.recomputeRowHeights(index))
     def recomputeRowsHeightsCB(indexes: Int*): Callback = Callback.sequence(indexes.map(recomputeRowHeightsCB))
-    def forceUpdateGridCB: Callback = Callback(m.forceUpdateGrid)
+    def scrollToPositionCB(scrollTop: Int): Callback = Callback(m.scrollToPosition(scrollTop))
+    def scrollToRow(index: Int): Callback = Callback(m.scrollToRow(index))
+    def offsetForRow(alignment: String): JsNumber = m.getOffsetForRow(js.Dynamic.literal(alignment = alignment))
+    def offsetForRow(index: Int): JsNumber = m.getOffsetForRow(js.Dynamic.literal(index = index))
+    def offsetForRow(alignment: String, index: Int): JsNumber = m.getOffsetForRow(js.Dynamic.literal(alignment = alignment, index = index))
   }
   // Column types
   //

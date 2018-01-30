@@ -2,7 +2,7 @@
 
 ## 0.0.9
 - Updated to version 9.18.0
-- Facade for methods Table.recomputeRowHeights, Table.forceUpdateGrid
+- Facade for methods Table.recomputeRowHeights, Table.forceUpdateGrid, Table.measureAllRows, Table.scrollToPosition, Table.getOffsetForRow
 
 ## 0.0.8
 - Updated to version 9.17.3
