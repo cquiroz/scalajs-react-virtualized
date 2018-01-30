@@ -12,7 +12,11 @@ package object virtualized {
   implicit class VdomToRaw(val node: VdomNode) extends AnyVal {
     def toRaw: ReactNode = node.rawNode
   }
-
+  implicit class TableJsMethodsOps(val m: virtualized.Table.JsMethods) extends AnyVal {
+    def recomputeRowHeightsCB(index: Int): Callback = Callback(m.recomputeRowHeights(index))
+    def recomputeRowsHeightsCB(indexes: Int*): Callback = Callback.sequence(indexes.map(recomputeRowHeightsCB))
+    def forceUpdateGridCB: Callback = Callback(m.forceUpdateGrid)
+  }
   // Column types
   //
 
@@ -62,7 +66,6 @@ package object virtualized {
   type OnRowsRenderer = (Int, Int) => Callback
 
   type OnScroll = (JsNumber, JsNumber, JsNumber) => Callback
-
 
 }
 

@@ -25,6 +25,8 @@ object Table {
   @js.native
   trait JsMethods extends js.Object {
     def scrollToRow(index: Int): Unit = js.native
+    def recomputeRowHeights(index: Int): Unit = js.native
+    def forceUpdateGrid(): Unit = js.native
   }
 
   @js.native
@@ -317,7 +319,7 @@ object Table {
     p
   }
 
-  private val component = JsComponent[Props, Children.Varargs, Null](RawComponent).addFacade[JsMethods]
+  val component = JsComponent[Props, Children.Varargs, Null](RawComponent).addFacade[JsMethods]
 
   def apply(p: Props, children: ColumnArg*): UnmountedMapped[Id, Props, Null, RawMounted with JsMethods, Props, Null] = component.apply(p)(children.map(_.vdomElement): _*)
 

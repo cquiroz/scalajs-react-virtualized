@@ -1,5 +1,9 @@
 # Changes
 
+## 0.0.9
+- Updated to version 9.18.0
+- Facade for methods Table.recomputeRowHeights, Table.forceUpdateGrid
+
 ## 0.0.8
 - Updated to version 9.17.3
 - Added className, style, defaultHeight, defaultWidth properties to AutoSizer
