@@ -2,6 +2,7 @@
 
 ## 0.1.1
 - Pass all four params to OnRowsRenderer
+- Updated to scala.js 0.6.22
 
 ## 0.1.0
 - Updated to version 9.18.5
