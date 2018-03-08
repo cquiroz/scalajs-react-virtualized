@@ -1,5 +1,8 @@
 # Changes
 
+## 0.1.1
+- Pass all four params to OnRowsRenderer
+
 ## 0.1.0
 - Updated to version 9.18.5
 - Renamed Table.scrollToRow to Table.scrollToRowCB

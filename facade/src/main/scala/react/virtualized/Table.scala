@@ -254,7 +254,7 @@ object Table {
       onRowMouseOut: OnRowClick = _ => Callback.empty,
       onRowMouseOver: OnRowClick = _ => Callback.empty,
       onRowRightClick: OnRowClick = _ => Callback.empty,
-      onRowsRendered: OnRowsRenderer = (_, _) => Callback.empty,
+      onRowsRendered: OnRowsRenderer = (_, _, _, _) => Callback.empty,
       onScroll: OnScroll = (_, _, _) => Callback.empty,
       overscanRowCount: Int = 10, // default from react-virtualized
       rowClassName: String | RowClassName = null,
@@ -302,7 +302,7 @@ object Table {
     p.onRowRightClick = (x: RawIndexParameter) =>
       onRowRightClick(x.index).runNow()
     p.onRowsRendered = (x: RawRowsRendererParam) =>
-      onRowsRendered(x.startIndex, x.stopIndex).runNow()
+      onRowsRendered(x.overscanStartIndex, x.overscanStopIndex, x.startIndex, x.stopIndex).runNow()
     p.onScroll = (x: RawScrollParam) =>
       onScroll(x.clientHeight, x.scrollHeight, x.scrollTop).runNow()
     p.overscanRowCount = overscanRowCount
