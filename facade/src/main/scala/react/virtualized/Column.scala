@@ -20,19 +20,20 @@ object Column {
 
   @js.native
   trait Props extends js.Object {
+
     /** Optional aria-label value to set on the column header */
     var `aria-label`: js.UndefOr[String] = js.native
 
     /**
-     * Callback responsible for returning a cell's data, given its :dataKey
-     * ({ columnData: any, dataKey: string, rowData: any }): any
-     */
+      * Callback responsible for returning a cell's data, given its :dataKey
+      * ({ columnData: any, dataKey: string, rowData: any }): any
+      */
     var cellDataGetter: js.UndefOr[RawCellDataGetter] = js.native
 
     /**
-     * Callback responsible for rendering a cell's contents.
-     * ({ cellData: any, columnData: any, dataKey: string, rowData: any, rowIndex: number }): node
-     */
+      * Callback responsible for rendering a cell's contents.
+      * ({ cellData: any, columnData: any, dataKey: string, rowData: any, rowIndex: number }): node
+      */
     var cellRenderer: js.UndefOr[RawCellRenderer] = js.native
 
     /** Optional CSS class to apply to cell */
@@ -60,9 +61,9 @@ object Column {
     var headerClassName: js.UndefOr[String] = js.native
 
     /**
-     * Optional callback responsible for rendering a column header contents.
-     * ({ columnData: object, dataKey: string, disableSort: boolean, label: node, sortBy: string, sortDirection: string }): PropTypes.node
-     */
+      * Optional callback responsible for rendering a column header contents.
+      * ({ columnData: object, dataKey: string, disableSort: boolean, label: node, sortBy: string, sortDirection: string }): PropTypes.node
+      */
     var headerRenderer: RawHeaderRenderer = js.native
 
     /** Optional inline style to apply to this column's header */
@@ -88,38 +89,46 @@ object Column {
   }
 
   /**
-   * A Cell data
-   * B Column data
-   * C Row data
-   */
+    * A Cell data
+    * B Column data
+    * C Row data
+    */
   def props[A <: js.Object, B <: js.Object, C <: js.Object](
-    width: Int,
-    dataKey: String,
-    ariaLabel: js.UndefOr[String] = js.undefined,
-    cellDataGetter: Option[CellDataGetter[B, C, A]] = None,
-    cellRenderer: CellRenderer[A, B, C] = defaultCellRendererS,
-    className: js.UndefOr[String] = js.undefined,
-    columnData: js.UndefOr[B] = js.undefined,
-    disableSort: js.UndefOr[Boolean] = js.undefined,
-    defaultSortDirection: SortDirection = SortDirection.ASC,
-    flexGrow: js.UndefOr[JsNumber] = js.undefined,
-    flexShrink: js.UndefOr[JsNumber] = js.undefined,
-    headerClassName: js.UndefOr[String] = js.undefined,
-    headerRenderer: HeaderRenderer[B] = defaultHeaderRendererS,
-    headerStyle: js.UndefOr[Style] = js.undefined,
-    id: js.UndefOr[String] = js.undefined,
-    label: VdomNode = VdomNode.cast(()),
-    maxWidth: js.UndefOr[JsNumber] = js.undefined,
-    minWidth: js.UndefOr[JsNumber] = js.undefined,
-    style: js.UndefOr[Style] = js.undefined
+      width: Int,
+      dataKey: String,
+      ariaLabel: js.UndefOr[String] = js.undefined,
+      cellDataGetter: Option[CellDataGetter[B, C, A]] = None,
+      cellRenderer: CellRenderer[A, B, C] = defaultCellRendererS,
+      className: js.UndefOr[String] = js.undefined,
+      columnData: js.UndefOr[B] = js.undefined,
+      disableSort: js.UndefOr[Boolean] = js.undefined,
+      defaultSortDirection: SortDirection = SortDirection.ASC,
+      flexGrow: js.UndefOr[JsNumber] = js.undefined,
+      flexShrink: js.UndefOr[JsNumber] = js.undefined,
+      headerClassName: js.UndefOr[String] = js.undefined,
+      headerRenderer: HeaderRenderer[B] = defaultHeaderRendererS,
+      headerStyle: js.UndefOr[Style] = js.undefined,
+      id: js.UndefOr[String] = js.undefined,
+      label: VdomNode = VdomNode.cast(()),
+      maxWidth: js.UndefOr[JsNumber] = js.undefined,
+      minWidth: js.UndefOr[JsNumber] = js.undefined,
+      style: js.UndefOr[Style] = js.undefined
   ): Props = {
     val p = (new js.Object).asInstanceOf[Props]
     p.width = width
     p.dataKey = dataKey
     p.`aria-label` = ariaLabel
-    def rawCellDataGetter(cdg: CellDataGetter[B, C, A]): RawCellDataGetter = (cdp: RawCellDataParameter) => cdg(cdp.columnData.asInstanceOf[B], cdp.dataKey, cdp.asInstanceOf[C])
+    def rawCellDataGetter(cdg: CellDataGetter[B, C, A]): RawCellDataGetter =
+      (cdp: RawCellDataParameter) =>
+        cdg(cdp.columnData.asInstanceOf[B], cdp.dataKey, cdp.asInstanceOf[C])
     p.cellDataGetter = cellDataGetter.map(rawCellDataGetter).orUndefined
-    p.cellRenderer = Some[RawCellRenderer]((r: raw.RawCellRendererParameter) => cellRenderer(r.cellData.asInstanceOf[A], r.columnData.asInstanceOf[B], r.dataKey, r.rowData.asInstanceOf[C], r.rowIndex).toRaw).orUndefined
+    p.cellRenderer = Some[RawCellRenderer](
+      (r: raw.RawCellRendererParameter) =>
+        cellRenderer(r.cellData.asInstanceOf[A],
+                     r.columnData.asInstanceOf[B],
+                     r.dataKey,
+                     r.rowData.asInstanceOf[C],
+                     r.rowIndex).toRaw).orUndefined
     p.className = className
     p.columnData = columnData
     p.disableSort = disableSort
@@ -127,7 +136,15 @@ object Column {
     p.flexGrow = flexGrow
     p.flexShrink = flexShrink
     p.headerClassName = headerClassName
-    p.headerRenderer = (r: RawHeaderRendererParameter) => headerRenderer(r.columnData.asInstanceOf[B], r.dataKey, r.disableSort.toOption, VdomNode(r.label), r.sortBy.toOption, SortDirection.fromRaw(r.sortDirection.getOrElse(""))).toRaw
+    p.headerRenderer = (r: RawHeaderRendererParameter) =>
+      headerRenderer(
+        r.columnData.asInstanceOf[B],
+        r.dataKey,
+        r.disableSort.toOption,
+        VdomNode(r.label),
+        r.sortBy.toOption,
+        SortDirection.fromRaw(r.sortDirection.getOrElse(""))
+      ).toRaw
     p.headerStyle = headerStyle.map(Style.toJsObject)
     p.id = id
     p.label = label.rawNode
@@ -137,8 +154,11 @@ object Column {
     p
   }
 
-  private val component = JsComponent[Props, Children.None, Null](RawComponent).addFacade[Column]
+  private val component =
+    JsComponent[Props, Children.None, Null](RawComponent).addFacade[Column]
 
-  def apply(p: Props): UnmountedMapped[Id, Props, Null, RawMounted with Column, Props, Null] = component(p)
+  def apply(p: Props)
+    : UnmountedMapped[Id, Props, Null, RawMounted with Column, Props, Null] =
+    component(p)
 
 }

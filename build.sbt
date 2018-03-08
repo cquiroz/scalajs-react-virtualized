@@ -1,5 +1,5 @@
 val reactJS = "15.6.1"
-val reactVirtualized = "9.18.0"
+val reactVirtualized = "9.18.5"
 val scalaJsReact = "1.1.1"
 
 parallelExecution in (ThisBuild, Test) := false
@@ -154,7 +154,7 @@ lazy val pomData =
       <name>Carlos Quiroz</name>
       <url>https://github.com/cquiroz</url>
       <roles>
-        <role>Project Lead (current Scala version)</role>
+        <role>Project Lead</role>
       </roles>
     </developer>
   </developers>

@@ -1,5 +1,10 @@
 # Changes
 
+## 0.1.0
+- Updated to version 9.18.5
+- Renamed Table.scrollToRow to Table.scrollToRowCB
+- Code reformatted with scalafmt
+
 ## 0.0.9
 - Updated to version 9.18.0
 - Facade for methods Table.recomputeRowHeights, Table.forceUpdateGrid, Table.measureAllRows, Table.scrollToPosition, Table.getOffsetForRow

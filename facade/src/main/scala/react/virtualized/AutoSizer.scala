@@ -21,6 +21,7 @@ object AutoSizer {
 
   @js.native
   trait Props extends js.Object {
+
     /** Function responsible for rendering children.*/
     var children: RawChildren = js.native
 
@@ -50,15 +51,15 @@ object AutoSizer {
   }
 
   def props(
-    children: Children,
-    className: js.UndefOr[String] = js.undefined,
-    defaultHeight: js.UndefOr[JsNumber] = js.undefined,
-    defaultWidth: js.UndefOr[JsNumber] = js.undefined,
-    disableHeight: js.UndefOr[Boolean] = js.undefined,
-    disableWidth: js.UndefOr[Boolean] = js.undefined,
-    nonce: js.UndefOr[String] = js.undefined,
-    onResize: Size => Callback = _ => Callback.empty,
-    style: js.UndefOr[Style] = js.undefined
+      children: Children,
+      className: js.UndefOr[String] = js.undefined,
+      defaultHeight: js.UndefOr[JsNumber] = js.undefined,
+      defaultWidth: js.UndefOr[JsNumber] = js.undefined,
+      disableHeight: js.UndefOr[Boolean] = js.undefined,
+      disableWidth: js.UndefOr[Boolean] = js.undefined,
+      nonce: js.UndefOr[String] = js.undefined,
+      onResize: Size => Callback = _ => Callback.empty,
+      style: js.UndefOr[Style] = js.undefined
   ): Props = {
     val p = (new js.Object).asInstanceOf[Props]
     p.className = className
@@ -73,7 +74,10 @@ object AutoSizer {
     p
   }
 
-  private val component = JsComponent[Props, Children.Varargs, Null](RawComponent)
+  private val component =
+    JsComponent[Props, Children.Varargs, Null](RawComponent)
 
-  def apply(p: Props, children: VdomNode*): UnmountedMapped[Id, Props, Null, RawMounted, Props, Null] = component(p)(children: _*)
+  def apply(p: Props, children: VdomNode*)
+    : UnmountedMapped[Id, Props, Null, RawMounted, Props, Null] =
+    component(p)(children: _*)
 }
