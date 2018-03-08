@@ -18,7 +18,7 @@ package object virtualized {
     def recomputeRowHeightsCB(index: Int): Callback = Callback(m.recomputeRowHeights(index))
     def recomputeRowsHeightsCB(indexes: Int*): Callback = Callback.sequence(indexes.map(recomputeRowHeightsCB))
     def scrollToPositionCB(scrollTop: Int): Callback = Callback(m.scrollToPosition(scrollTop))
-    def scrollToRow(index: Int): Callback = Callback(m.scrollToRow(index))
+    def scrollToRowCB(index: Int): Callback = Callback(m.scrollToRow(index))
     def offsetForRow(alignment: String): JsNumber = m.getOffsetForRow(js.Dynamic.literal(alignment = alignment))
     def offsetForRow(index: Int): JsNumber = m.getOffsetForRow(js.Dynamic.literal(index = index))
     def offsetForRow(alignment: String, index: Int): JsNumber = m.getOffsetForRow(js.Dynamic.literal(alignment = alignment, index = index))
@@ -33,6 +33,7 @@ package object virtualized {
    * C Row data
    */
   type CellRenderer[A <: js.Object, B <: js.Any, C <: js.Object] = (A, B, String, C, Int) => VdomNode
+
   type HeaderRenderer[B <: js.Any] = (B, String, Option[Boolean], VdomNode, Option[String], SortDirection) => VdomNode
 
   type HeaderRowRenderer = (String, Array[VdomNode], Style) => VdomNode
