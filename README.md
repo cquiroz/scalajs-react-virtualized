@@ -6,4 +6,4 @@
 
 Scala.js facade for [react-virtualized](https://github.com/bvaughn/react-virtualized)
 
-For usage see [demo]
+For usage see [demo](demo/)
