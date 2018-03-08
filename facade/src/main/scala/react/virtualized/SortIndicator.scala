@@ -18,13 +18,12 @@ object SortIndicator {
   }
 
   def props(
-    sortDirection: SortDirection,
+      sortDirection: SortDirection,
   ): Props = {
     val p = (new js.Object).asInstanceOf[Props]
     p.sortDirection = sortDirection.toRaw
     p
   }
-
 
   private val component = JsFnComponent[Props, Children.None](RawComp)
   def apply(p: SortDirection): Unmounted[Props] = component(props(p))
