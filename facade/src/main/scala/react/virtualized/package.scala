@@ -95,7 +95,7 @@ package object virtualized {
 
   type OnHeaderClick = (js.Object, String) => Callback
 
-  type OnRowsRenderer = (Int, Int) => Callback
+  type OnRowsRenderer = (Int, Int, Int, Int) => Callback
 
   type OnScroll = (JsNumber, JsNumber, JsNumber) => Callback
 
@@ -364,12 +364,16 @@ package virtualized {
 
     // Rows renderer event
     trait RawRowsRendererParam extends js.Object {
+      var overscanStartIndex: Int
+      var overscanStopIndex: Int
       var startIndex: Int
       var stopIndex: Int
     }
     object RawRowsRendererParam {
-      def apply(startIndex: Int, stopIndex: Int): RawRowsRendererParam = {
+      def apply(overscanStartIndex: Int, overscanStopIndex: Int, startIndex: Int, stopIndex: Int): RawRowsRendererParam = {
         val p = (new js.Object).asInstanceOf[RawRowsRendererParam]
+        p.overscanStartIndex = overscanStartIndex
+        p.overscanStopIndex = overscanStopIndex
         p.startIndex = startIndex
         p.stopIndex = stopIndex
         p
