@@ -57,7 +57,26 @@ object CellMeasurerCacheParams {
 
 @js.native
 @JSImport("react-virtualized", "CellMeasurerCache")
-class CellMeasurerCache(params: CellMeasurerCacheParams) extends js.Object {}
+class CellMeasurerCache(params: CellMeasurerCacheParams) extends js.Object {
+  def clear(rowIndex: Int, columnIndex: Int = 0): Unit = js.native
+  def clearAll(): Unit = js.native
+  def columnWidth: js.Function1[raw.RawIndexParameter, Int] = js.native
+  def getHeight(rowIndex: Int, columnIndex: Int = 0): Int = js.native
+  def getWidth(rowIndex: Int, columnIndex: Int = 0): Int = js.native
+  def has(rowIndex: Int, columnIndex: Int = 0): Boolean = js.native
+  def rowHeight: js.Function1[raw.RawIndexParameter, Int] = js.native
+  def set(rowIndex: Int, columnIndex: Int, width: Int, height: Int): Unit = js.native
+}
+
+object CellMeasurerCache {
+  def apply(fixedDirection: FixedDirection,
+            defaultHeight: js.UndefOr[JsNumber] = js.undefined,
+            defaultWidth: js.UndefOr[JsNumber] = js.undefined,
+            fixedWidth: js.UndefOr[Boolean] = js.undefined,
+            minHeight: js.UndefOr[JsNumber] = js.undefined,
+            minWidth: js.UndefOr[JsNumber] = js.undefined): CellMeasurerCache =
+    new CellMeasurerCache(CellMeasurerCacheParams(fixedDirection, defaultHeight, defaultWidth, fixedWidth, minHeight, minWidth))
+}
 
 object CellMeasurer {
 
@@ -72,7 +91,6 @@ object CellMeasurer {
   }
 
   object Cell {
-
     def apply(columnIndex: JsNumber, rowIndex: JsNumber): Cell = {
       val p = (new js.Object).asInstanceOf[Cell]
       p.columnIndex = columnIndex

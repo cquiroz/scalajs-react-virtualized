@@ -100,6 +100,8 @@ package object virtualized {
 
   type OnScroll = (JsNumber, JsNumber, JsNumber) => Callback
 
+  type IndexParameter = raw.RawIndexParameter
+
 }
 
 package virtualized {

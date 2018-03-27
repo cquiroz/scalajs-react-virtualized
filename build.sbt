@@ -6,6 +6,8 @@ parallelExecution in (ThisBuild, Test) := false
 
 addCommandAlias("restartWDS", "; demo/fastOptJS::stopWebpackDevServer; demo/fastOptJS::startWebpackDevServer")
 
+addCommandAlias("restartWDS", "; demo/fastOptJS::stopWebpackDevServer; demo/fastOptJS::startWebpackDevServer")
+
 val root =
   project.in(file("."))
     .settings(commonSettings: _*)
