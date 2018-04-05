@@ -102,6 +102,10 @@ package object virtualized {
 
   type IndexParameter = raw.RawIndexParameter
 
+  implicit class RawIndexParameterOps(val r: js.Function1[IndexParameter, Int]) extends AnyVal {
+    def toScala: Int => JsNumber = (x: Int) => r(raw.RawIndexParameter(x))
+  }
+
 }
 
 package virtualized {

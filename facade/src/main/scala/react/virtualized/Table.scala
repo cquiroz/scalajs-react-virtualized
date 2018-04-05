@@ -58,6 +58,8 @@ object Table {
     /** Disable rendering the header at all */
     var disableHeader: js.UndefOr[Boolean] = js.native
 
+    var deferredMeasurementCache: js.UndefOr[CellMeasurerCache] = js.native
+
     /**
       * Used to estimate the total height of a Table before all of its rows have actually been measured.
       * The estimated total height is adjusted as rows are rendered.
@@ -239,6 +241,7 @@ object Table {
       ariaLabel: js.UndefOr[String] = js.undefined,
       autoHeight: js.UndefOr[Boolean] = js.undefined,
       className: js.UndefOr[String] = js.undefined,
+      deferredMeasurementCache: js.UndefOr[CellMeasurerCache] = js.undefined,
       disableHeader: js.UndefOr[Boolean] = js.undefined,
       estimatedRowSize: JsNumber = 30,
       gridClassName: js.UndefOr[String] = js.undefined,
@@ -278,6 +281,7 @@ object Table {
     p.`aria-label` = ariaLabel
     p.autoHeight = autoHeight
     p.className = className
+    p.deferredMeasurementCache = deferredMeasurementCache
     p.disableHeader = disableHeader
     p.estimatedRowSize = estimatedRowSize
     p.gridClassName = gridClassName

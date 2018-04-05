@@ -62,8 +62,11 @@ object TableStaticDemo {
   def apply(p: Props) = component(p)
 }
 
+object TableCache {
+  val cache = CellMeasurerCache(FixedHeight, defaultWidth = 100, minWidth = 25)
+}
+
 object TableDynamicDemo {
-  val cache = CellMeasurerCache(FixedHeight, defaultWidth = 100)
 
   def datum(data: List[DataRow])(i: Int) = data(i % data.length)
   def rowheight(data: List[DataRow])(i: Int) = datum(data)(i).size
@@ -80,9 +83,20 @@ object TableDynamicDemo {
     case _               => "oddRow"
   }
 
+  val dynamicCellRenderer: CellRenderer[DataRow, js.Object, js.Object] = (cellData: DataRow, _: js.Object, _: String, _: js.Object, rowIndex: Int) => {
+    CellMeasurer(CellMeasurer.props(
+        cache = TableCache.cache,
+        parent = CellMeasurer.Parent.Zero,
+        columnIndex = 2,
+        rowIndex = rowIndex,
+        children = <.div(cellData.toString)
+      ))
+  }
+
   val component = ScalaComponent.builder[Props]("TableDynamicDemo")
     .initialState(State(SortDirection.ASC, Data.generateRandomList))
     .renderPS{($, props, state) =>
+      TableCache.cache.clearAll()
       def sort(index: String, sortDirection: SortDirection): Callback = {
         val sorted = state.data.sortBy(_.index)
         $.setState(state.copy(data = if (sortDirection == SortDirection.ASC) sorted else sorted.reverse, sortDirection = sortDirection))
@@ -90,17 +104,18 @@ object TableDynamicDemo {
       val columns = List(
         Column(Column.props(60, "index", label = "Index", disableSort = false)),
         Column(Column.props(90, "name", disableSort = false, headerRenderer = headerRenderer(props.sortBy))),
-        Column(Column.props(210, "random", disableSort = true, className = "exampleColumn", label = "The description label is so long it will be truncated", flexGrow = 1, cellRenderer = (cellData: DataRow, _: js.Any, _: String, _: js.Any, _: Int) => cellData.toString))
+        Column(Column.props(TableCache.cache.getWidth(2), "random", disableSort = true, className = "exampleColumn", label = "The description label is so long it will be truncated", flexGrow = 1, cellRenderer = dynamicCellRenderer))
       )
       val t = Table(
         Table.props(
+          deferredMeasurementCache = TableCache.cache,
           disableHeader = false,
           noRowsRenderer = () => <.div(^.cls := "noRows", "No rows"),
           overscanRowCount = 10,
           rowClassName = rowClassName _,
           height = 270,
-          rowCount = 1000,
-          rowHeight = if (props.useDynamicRowHeight) rowheight(state.data) _ else 40,
+          rowCount = 10,
+          rowHeight = TableCache.cache.rowHeight.toScala,
           onRowClick = x => Callback.log(x),
           onScroll = (c, s, t) => Callback.log(s"$c $s $t"),
           width = props.s.width.toInt,

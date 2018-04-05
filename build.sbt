@@ -33,8 +33,8 @@ lazy val demo =
       webpackBundlingMode              := BundlingMode.LibraryOnly(),
       webpackDevServerExtraArgs        := Seq("--inline"),
       webpackConfigFile in fastOptJS   := Some(baseDirectory.value / "dev.webpack.config.js"),
-      version in webpack               := "4.5.0",
-      version in startWebpackDevServer := "3.1.3",
+      version in webpack               := "4.8.1",
+      version in startWebpackDevServer := "3.1.4",
       // don't publish the demo
       publish                          := {},
       publishLocal                     := {},
@@ -56,15 +56,11 @@ lazy val facade =
         "react-dom"         -> reactJS,
         "react-virtualized" -> reactVirtualized
       ),
-      npmDependencies in Test ++= Seq(
-        "raf"     -> "3.4.0" // Pollyfill
-      ),
       // Requires the DOM for tests
       requiresDOM in Test              := true,
       // Use yarn as it is faster than npm
       useYarn                          := true,
       version in webpack               := "4.5.0",
-      version in startWebpackDevServer := "3.1.3",
       scalaJSUseMainModuleInitializer  := false,
       // Compile tests to JS using fast-optimisation
       scalaJSStage in Test             := FastOptStage,

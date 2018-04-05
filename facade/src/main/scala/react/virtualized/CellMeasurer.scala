@@ -6,6 +6,7 @@ import japgolly.scalajs.react._
 import japgolly.scalajs.react.vdom.VdomNode
 import japgolly.scalajs.react.component.Js.{RawMounted, UnmountedMapped}
 import japgolly.scalajs.react.internal.Effect.Id
+import japgolly.scalajs.react.raw.ReactNode
 import scala.scalajs.js
 import js.annotation.JSImport
 import japgolly.scalajs.react.raw.JsNumber
@@ -126,6 +127,7 @@ object CellMeasurer {
     var columnIndex: js.UndefOr[JsNumber]
     var index: js.UndefOr[JsNumber]
     var parent: Parent
+    var children: ReactNode
     var rowIndex: js.UndefOr[JsNumber]
   }
 
@@ -135,6 +137,7 @@ object CellMeasurer {
       columnIndex: js.UndefOr[JsNumber] = js.undefined,
       index: js.UndefOr[JsNumber] = js.undefined,
       rowIndex: js.UndefOr[JsNumber] = js.undefined,
+      children: VdomNode
   ): Props = {
     val p = (new js.Object).asInstanceOf[Props]
     p.cache = cache
@@ -142,6 +145,7 @@ object CellMeasurer {
     p.index = index
     p.parent = parent
     p.rowIndex = rowIndex
+    p.children = children.rawNode
     p
   }
 
