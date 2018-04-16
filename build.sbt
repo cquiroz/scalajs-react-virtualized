@@ -48,9 +48,12 @@ lazy val facade =
     .settings(
       name                             := "scalajs-react-virtualized",
       npmDependencies in Compile      ++= Seq(
-        "react" -> reactJS,
-        "react-dom" -> reactJS,
+        "react"             -> reactJS,
+        "react-dom"         -> reactJS,
         "react-virtualized" -> reactVirtualized
+      ),
+      npmDependencies in Test ++= Seq(
+        "raf"     -> "3.4.0" // Pollyfill
       ),
       // Requires the DOM for tests
       requiresDOM in Test              := true,
@@ -64,8 +67,8 @@ lazy val facade =
       libraryDependencies    ++= Seq(
         "com.github.japgolly.scalajs-react" %%% "core"       % scalaJsReact,
         "com.github.japgolly.scalajs-react" %%% "test"       % scalaJsReact % "test",
-        "org.scalatest"                     %%% "scalatest"  % "3.0.3" % Test,
-        "org.typelevel"                     %%% "cats-core"  % "1.0.1" % Test
+        "org.scalatest"                     %%% "scalatest"  % "3.0.5" % Test,
+        "org.typelevel"                     %%% "cats-core"  % "1.1.0" % Test
       )
     )
 
