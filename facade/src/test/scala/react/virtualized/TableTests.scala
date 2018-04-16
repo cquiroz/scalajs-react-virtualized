@@ -1,7 +1,6 @@
 package react
 package virtualized
 
-import org.scalatest._
 import japgolly.scalajs.react.test._
 import japgolly.scalajs.react._
 import japgolly.scalajs.react.vdom.html_<^.{< => <<, _}
@@ -11,20 +10,23 @@ import js.JSConverters._
 import cats.syntax.eq._
 import raw._
 
-class TableSpec extends FlatSpec with Matchers with NonImplicitAssertions with TestUtils {
+import utest._
+
+object TabseTests extends TestSuite with TestUtils {
   trait Data extends js.Object
   val rowGetterF = (x: Int) => new js.Object()
-  "Table" should
-    "have some required properties" in {
-      Table(Table.props(headerHeight = 10, height = 200, rowCount = 20, rowHeight = 40, width = 500, rowGetter = rowGetterF)).props.height should be (200)
-      Table(Table.props(headerHeight = 10, height = 200, rowCount = 20, rowHeight = 40, width = 500, rowGetter = rowGetterF)).props.rowCount should be (20)
-      Table(Table.props(headerHeight = 10, height = 200, rowCount = 20, rowHeight = 40, width = 500, rowGetter = rowGetterF)).props.rowHeight should be (40)
-      Table(Table.props(headerHeight = 10, height = 200, rowCount = 20, rowHeight = 40, width = 500, rowGetter = rowGetterF)).props.width should be (500)
-      Table(Table.props(headerHeight = 10.5, height = 200, rowCount = 20, rowHeight = 40, width = 500, rowGetter = rowGetterF)).props.headerHeight should be (10.5)
-      Table(Table.props(headerHeight = 10, height = 200.5, rowCount = 20, rowHeight = 40, width = 500, rowGetter = rowGetterF)).props.height should be (200.5)
-      Table(Table.props(headerHeight = 10, height = 200, rowCount = 20, rowHeight = 40, width = 500.5, rowGetter = rowGetterF)).props.width should be (500.5)
+
+  val tests = Tests {
+    "have some required properties" - {
+      Table(Table.props(headerHeight = 10, height = 200, rowCount = 20, rowHeight = 40, width = 500, rowGetter = rowGetterF)).props.height ==> 200
+      Table(Table.props(headerHeight = 10, height = 200, rowCount = 20, rowHeight = 40, width = 500, rowGetter = rowGetterF)).props.rowCount ==> 20
+      Table(Table.props(headerHeight = 10, height = 200, rowCount = 20, rowHeight = 40, width = 500, rowGetter = rowGetterF)).props.rowHeight ==> 40
+      Table(Table.props(headerHeight = 10, height = 200, rowCount = 20, rowHeight = 40, width = 500, rowGetter = rowGetterF)).props.width ==> 500
+      Table(Table.props(headerHeight = 10.5, height = 200, rowCount = 20, rowHeight = 40, width = 500, rowGetter = rowGetterF)).props.headerHeight ==> 10.5
+      Table(Table.props(headerHeight = 10, height = 200.5, rowCount = 20, rowHeight = 40, width = 500, rowGetter = rowGetterF)).props.height ==> 200.5
+      Table(Table.props(headerHeight = 10, height = 200, rowCount = 20, rowHeight = 40, width = 500.5, rowGetter = rowGetterF)).props.width ==> 500.5
     }
-    it should "support rendering" in {
+    "support rendering" - {
       val table = Table(Table.props(headerHeight = 10, height = 200, rowCount = 1, rowHeight = 40, width = 500, rowGetter = rowGetterF))
       ReactTestUtils.withRenderedIntoDocument(table) { m =>
         val html =
@@ -39,7 +41,7 @@ class TableSpec extends FlatSpec with Matchers with NonImplicitAssertions with T
         assert(m.outerHtmlScrubbed() == html)
       }
     }
-    it should "support rendering with columns" in {
+    "support rendering with columns" - {
       val columns = List(Column(Column.props(200, "key")))
       val table = Table(Table.props(headerHeight = 10, height = 200, rowCount = 1, rowHeight = 40, width = 500, rowGetter = rowGetterF), columns: _*)
       val html =
@@ -59,183 +61,183 @@ class TableSpec extends FlatSpec with Matchers with NonImplicitAssertions with T
         assert(m.outerHtmlScrubbed() == html)
       }
     }
-    it should "support disableHeader" in {
+    "support disableHeader" - {
       val columns = List(Column(Column.props(200, "key")))
       val table = Table(Table.props(headerHeight = 10, height = 200, rowCount = 1, rowHeight = 40, width = 500, rowGetter = rowGetterF), columns: _*)
-      table.props.disableHeader.toOption should contain(false)
+      table.props.disableHeader.toOption ==> Some(false)
       val table2 = Table(Table.props(disableHeader = true, headerHeight = 10, height = 200, rowCount = 1, rowHeight = 40, width = 500, rowGetter = rowGetterF), columns: _*)
-      table2.props.disableHeader.toOption should contain(true)
+      table2.props.disableHeader.toOption ==> Some(true)
     }
-    it should "support noRowsRenderer" in {
+    "support noRowsRenderer" - {
       val columns = List(Column(Column.props(200, "key")))
       val table = Table(Table.props(headerHeight = 10, height = 200, rowCount = 1, rowHeight = 40, width = 500, rowGetter = rowGetterF), columns: _*)
-      table.props.noRowsRenderer.toOption shouldBe defined
+      table.props.noRowsRenderer.toOption.isDefined ==> true
       val noRowsRenderer: NoRowsRenderer = () => <<.div()
       val table2 = Table(Table.props(noRowsRenderer = noRowsRenderer, headerHeight = 10, height = 200, rowCount = 1, rowHeight = 40, width = 500, rowGetter = rowGetterF), columns: _*)
-      table2.props.disableHeader.toOption shouldBe defined
+      table2.props.disableHeader.toOption.isDefined ==> true
     }
-    it should "support overscanRowCount" in {
+    "support overscanRowCount" - {
       val columns = List(Column(Column.props(200, "key")))
       val table = Table(Table.props(headerHeight = 10, height = 200, rowCount = 1, rowHeight = 40, width = 500, rowGetter = rowGetterF), columns: _*)
-      table.props.overscanRowCount should be(10)
+      table.props.overscanRowCount ==> 10
       val table2 = Table(Table.props(overscanRowCount = 50, headerHeight = 10, height = 200, rowCount = 1, rowHeight = 40, width = 500, rowGetter = rowGetterF), columns: _*)
-      table2.props.overscanRowCount should be(50)
+      table2.props.overscanRowCount ==> 50
     }
-    it should "support rowClassName as string" in {
+    "support rowClassName as string" - {
       val columns = List(Column(Column.props(200, "key")))
       val table = Table(Table.props(headerHeight = 10, height = 200, rowCount = 1, rowHeight = 40, width = 500, rowGetter = rowGetterF), columns: _*)
-      table.props.rowClassName should be(())
+      table.props.rowClassName ==> (())
       val table2 = Table(Table.props(rowClassName = "class", headerHeight = 10, height = 200, rowCount = 1, rowHeight = 40, width = 500, rowGetter = rowGetterF), columns: _*)
-      table2.props.rowClassName should be("class")
+      table2.props.rowClassName ==> "class"
     }
-    it should "support rowClassName as a function" in {
+    "support rowClassName as a function" - {
       val columns = List(Column(Column.props(200, "key")))
       val rowClassNameFn = (x: Int) => if (x % 2 == 0) "even" else "odd"
       val table2 = Table(Table.props(rowClassName = rowClassNameFn, headerHeight = 10, height = 200, rowCount = 1, rowHeight = 40, width = 500, rowGetter = rowGetterF), columns: _*)
-      table2.props.rowClassName.asInstanceOf[RawRowClassName](RawIndexParameter(0)) should be("even")
-      table2.props.rowClassName.asInstanceOf[RawRowClassName](RawIndexParameter(1)) should be("odd")
+      table2.props.rowClassName.asInstanceOf[RawRowClassName](RawIndexParameter(0)) ==> "even"
+      table2.props.rowClassName.asInstanceOf[RawRowClassName](RawIndexParameter(1)) ==> "odd"
     }
-    it should "support style" in {
+    "support style" - {
       val columns = List(Column(Column.props(200, "key")))
       val table = Table(Table.props(rowHeight = 20, headerHeight = 10, height = 200, rowCount = 1, width = 500, rowGetter = rowGetterF), columns: _*)
-      table.props.style === Some(js.Object()).orUndefined should be(true)
+      table.props.style === Some(js.Object()).orUndefined ==> true
       val style = js.Dynamic.literal(foo = 42, bar = "foobar")
       val styleMap = Map[String, String | Int]("foo" -> 42, "bar" -> "foobar")
       val table2 = Table(Table.props(style = Style(styleMap), rowHeight = 20, headerHeight = 10, height = 200, rowCount = 1, width = 500, rowGetter = rowGetterF), columns: _*)
-      table2.props.style === Some(style).orUndefined should be(true)
+      table2.props.style === Some(style).orUndefined ==> true
     }
-    it should "support tabIndex" in {
+    "support tabIndex" - {
       val columns = List(Column(Column.props(200, "key")))
       val table = Table(Table.props(rowHeight = 20, headerHeight = 10, height = 200, rowCount = 1, width = 500, rowGetter = rowGetterF), columns: _*)
-      table.props.tabIndex should be(())
+      table.props.tabIndex ==> (())
       val table2 = Table(Table.props(tabIndex = 1, rowHeight = 20, headerHeight = 10, height = 200, rowCount = 1, width = 500, rowGetter = rowGetterF), columns: _*)
-      table2.props.tabIndex should be(1)
+      table2.props.tabIndex ==> 1
     }
-    it should "support sortBy" in {
+    "support sortBy" - {
       val columns = List(Column(Column.props(200, "key")))
       val table = Table(Table.props(rowHeight = 20, headerHeight = 10, height = 200, rowCount = 1, width = 500, rowGetter = rowGetterF), columns: _*)
-      table.props.sortBy should be(())
+      table.props.sortBy ==> (())
       val table2 = Table(Table.props(sortBy = "key", rowHeight = 20, headerHeight = 10, height = 200, rowCount = 1, width = 500, rowGetter = rowGetterF), columns: _*)
-      table2.props.sortBy should be("key")
+      table2.props.sortBy ==> "key"
     }
-    it should "support scrollToIndex" in {
+    "support scrollToIndex" - {
       val columns = List(Column(Column.props(200, "key")))
       val table = Table(Table.props(rowHeight = 20, headerHeight = 10, height = 200, rowCount = 1, width = 500, rowGetter = rowGetterF), columns: _*)
-      table.props.scrollToIndex should be(-1)
+      table.props.scrollToIndex ==> -1
       val table2 = Table(Table.props(scrollToIndex = 1, rowHeight = 20, headerHeight = 10, height = 200, rowCount = 1, width = 500, rowGetter = rowGetterF), columns: _*)
-      table2.props.scrollToIndex should be(1)
+      table2.props.scrollToIndex ==> 1
     }
-    it should "support scrollTop" in {
+    "support scrollTop" - {
       val columns = List(Column(Column.props(200, "key")))
       val table = Table(Table.props(rowHeight = 20, headerHeight = 10, height = 200, rowCount = 1, width = 500, rowGetter = rowGetterF), columns: _*)
-      table.props.scrollTop should be(())
+      table.props.scrollTop ==> (())
       val table2 = Table(Table.props(scrollTop = 1, rowHeight = 20, headerHeight = 10, height = 200, rowCount = 1, width = 500, rowGetter = rowGetterF), columns: _*)
-      table2.props.scrollTop should be(1)
+      table2.props.scrollTop ==> 1
       val table3 = Table(Table.props(scrollTop = 1.5, rowHeight = 20, headerHeight = 10, height = 200, rowCount = 1, width = 500, rowGetter = rowGetterF), columns: _*)
-      table3.props.scrollTop should be(1.5)
+      table3.props.scrollTop ==> 1.5
     }
-    it should "support sortDirection" in {
+    "support sortDirection" - {
       val columns = List(Column(Column.props(200, "key")))
       val table = Table(Table.props(rowHeight = 20, headerHeight = 10, height = 200, rowCount = 1, width = 500, rowGetter = rowGetterF), columns: _*)
-      table.props.sortDirection should be(())
+      table.props.sortDirection ==> (())
       val table2 = Table(Table.props(sortDirection = SortDirection.DESC, rowHeight = 20, headerHeight = 10, height = 200, rowCount = 1, width = 500, rowGetter = rowGetterF), columns: _*)
-      table2.props.sortDirection should be(raw.RawSortDirection.DESC)
+      table2.props.sortDirection ==> (raw.RawSortDirection.DESC)
     }
-    it should "support sort" in {
+    "support sort" - {
       val columns = List(Column(Column.props(200, "key")))
       val table = Table(Table.props(rowHeight = 20, headerHeight = 10, height = 200, rowCount = 1, width = 500, rowGetter = rowGetterF), columns: _*)
-      table.props.sort should be(())
+      table.props.sort ==> (())
       def sortFunction(s: String, d: SortDirection): Callback = Callback.empty
       val table2 = Table(Table.props(sort = sortFunction _, rowHeight = 20, headerHeight = 10, height = 200, rowCount = 1, width = 500, rowGetter = rowGetterF), columns: _*)
-      table2.props.sort.toOption.map(_(RawSortParam("key", "ASC"))) should contain(())
+      table2.props.sort.toOption.map(_(RawSortParam("key", "ASC"))) ==> Some(())
     }
-    it should "support scrollToAlignment" in {
+    "support scrollToAlignment" - {
       val columns = List(Column(Column.props(200, "key")))
       val table = Table(Table.props(rowHeight = 20, headerHeight = 10, height = 200, rowCount = 1, width = 500, rowGetter = rowGetterF), columns: _*)
-      table.props.scrollToAlignment should be("auto")
+      table.props.scrollToAlignment ==> "auto"
       val table2 = Table(Table.props(scrollToAlignment = ScrollToAlignment.Center, rowHeight = 20, headerHeight = 10, height = 200, rowCount = 1, width = 500, rowGetter = rowGetterF), columns: _*)
-      table2.props.scrollToAlignment should be("center")
+      table2.props.scrollToAlignment ==> "center"
     }
-    it should "support rowStyle as object" in {
+    "support rowStyle as object" - {
       val columns = List(Column(Column.props(200, "key")))
       val table = Table(Table.props(rowHeight = 20, headerHeight = 10, height = 200, rowCount = 1, width = 500, rowGetter = rowGetterF), columns: _*)
-      table.props.rowStyle.asInstanceOf[js.Object] === js.Object() should be(true)
+      table.props.rowStyle.asInstanceOf[js.Object] === js.Object() ==> true
       val style = js.Dynamic.literal(foo = 42, bar = "foobar")
       val styleMap = Map[String, String | Int]("foo" -> 42, "bar" -> "foobar")
       val table2 = Table(Table.props(rowStyle = Style(styleMap), rowHeight = 20, headerHeight = 10, height = 200, rowCount = 1, width = 500, rowGetter = rowGetterF), columns: _*)
-      table2.props.rowStyle.asInstanceOf[js.Object] === style should be(true)
+      table2.props.rowStyle.asInstanceOf[js.Object] === style ==> true
     }
-    it should "support rowStyle as function" in {
+    "support rowStyle as function" - {
       val columns = List(Column(Column.props(200, "key")))
       val style = js.Dynamic.literal(foo = 42, bar = "foobar")
       val styleMap = Map[String, String | Int]("foo" -> 42, "bar" -> "foobar")
       val rowStyleF = (i: Int) => Style(styleMap)
       val table = Table(Table.props(rowStyle = rowStyleF, rowHeight = 20, headerHeight = 10, height = 200, rowCount = 1, width = 500, rowGetter = rowGetterF), columns: _*)
-      table.props.rowStyle.asInstanceOf[RawRowStyle](RawIndexParameter(1)) === style should be(true)
+      table.props.rowStyle.asInstanceOf[RawRowStyle](RawIndexParameter(1)) === style ==> (true)
     }
-    it should "support aria-label" in {
+    "support aria-label" - {
       val columns = List(Column(Column.props(200, "key")))
       val table = Table(Table.props(rowHeight = 20, headerHeight = 10, height = 200, rowCount = 1, width = 500, rowGetter = rowGetterF), columns: _*)
-      table.props.`aria-label` should be(())
+      table.props.`aria-label` ==> (())
       val table2 = Table(Table.props(ariaLabel = "label", rowHeight = 20, headerHeight = 10, height = 200, rowCount = 1, width = 500, rowGetter = rowGetterF), columns: _*)
-      table2.props.`aria-label` should be("label")
+      table2.props.`aria-label` ==> "label"
     }
-    it should "support auto-height" in {
+    "support auto-height" - {
       val columns = List(Column(Column.props(200, "key")))
       val table = Table(Table.props(rowHeight = 20, headerHeight = 10, height = 200, rowCount = 1, width = 500, rowGetter = rowGetterF), columns: _*)
-      table.props.autoHeight should be(())
+      table.props.autoHeight ==> (())
       val table2 = Table(Table.props(autoHeight = true, rowHeight = 20, headerHeight = 10, height = 200, rowCount = 1, width = 500, rowGetter = rowGetterF), columns: _*)
-      table2.props.autoHeight.toOption should contain(true)
+      table2.props.autoHeight.toOption ==> Some(true)
     }
-    it should "support className" in {
+    "support className" - {
       val columns = List(Column(Column.props(200, "key")))
       val table = Table(Table.props(rowHeight = 20, headerHeight = 10, height = 200, rowCount = 1, width = 500, rowGetter = rowGetterF), columns: _*)
-      table.props.className should be(())
+      table.props.className ==> (())
       val table2 = Table(Table.props(className = "class", autoHeight = true, rowHeight = 20, headerHeight = 10, height = 200, rowCount = 1, width = 500, rowGetter = rowGetterF), columns: _*)
-      table2.props.className should be("class")
+      table2.props.className ==> "class"
     }
-    it should "support estimatedRowSize " in {
+    "support estimatedRowSize " - {
       val columns = List(Column(Column.props(200, "key")))
       val table = Table(Table.props(rowHeight = 20, headerHeight = 10, height = 200, rowCount = 1, width = 500, rowGetter = rowGetterF), columns: _*)
-      table.props.estimatedRowSize should be(30)
+      table.props.estimatedRowSize ==> 30
       val table2 = Table(Table.props(estimatedRowSize = 10, autoHeight = true, rowHeight = 20, headerHeight = 10, height = 200, rowCount = 1, width = 500, rowGetter = rowGetterF), columns: _*)
-      table2.props.estimatedRowSize should be(10)
+      table2.props.estimatedRowSize ==> 10
       val table3 = Table(Table.props(estimatedRowSize = 10.5, autoHeight = true, rowHeight = 20, headerHeight = 10, height = 200, rowCount = 1, width = 500, rowGetter = rowGetterF), columns: _*)
-      table3.props.estimatedRowSize should be(10.5)
+      table3.props.estimatedRowSize ==> 10.5
     }
-    it should "support gridClassName " in {
+    "support gridClassName " - {
       val columns = List(Column(Column.props(200, "key")))
       val table = Table(Table.props(rowHeight = 20, headerHeight = 10, height = 200, rowCount = 1, width = 500, rowGetter = rowGetterF), columns: _*)
-      table.props.gridClassName should be(())
+      table.props.gridClassName ==> (())
       val table2 = Table(Table.props(gridClassName = "class", autoHeight = true, rowHeight = 20, headerHeight = 10, height = 200, rowCount = 1, width = 500, rowGetter = rowGetterF), columns: _*)
-      table2.props.gridClassName should be("class")
+      table2.props.gridClassName ==> "class"
     }
-    it should "support gridStyle " in {
+    "support gridStyle " - {
       val columns = List(Column(Column.props(200, "key")))
       val table = Table(Table.props(rowHeight = 20, headerHeight = 10, height = 200, rowCount = 1, width = 500, rowGetter = rowGetterF), columns: _*)
-      table.props.gridStyle should be(())
+      table.props.gridStyle ==> (())
       val style = js.Dynamic.literal(foo = 42, bar = "foobar")
       val styleMap = Map[String, String | Int]("foo" -> 42, "bar" -> "foobar")
       val table2 = Table(Table.props(gridStyle = Style(styleMap), autoHeight = true, rowHeight = 20, headerHeight = 10, height = 200, rowCount = 1, width = 500, rowGetter = rowGetterF), columns: _*)
-      table2.props.gridStyle.toOption.map(_ === style) should contain(true)
+      table2.props.gridStyle.toOption.map(_ === style) ==> Some(true)
     }
-    it should "support headerStyle " in {
+    "support headerStyle " - {
       val columns = List(Column(Column.props(200, "key")))
       val table = Table(Table.props(rowHeight = 20, headerHeight = 10, height = 200, rowCount = 1, width = 500, rowGetter = rowGetterF), columns: _*)
-      table.props.headerStyle.toOption.map(_ === js.Object()) should contain(true)
+      table.props.headerStyle.toOption.map(_ === js.Object()) ==> Some(true)
       val style = js.Dynamic.literal(foo = 42, bar = "foobar")
       val styleMap = Map[String, String | Int]("foo" -> 42, "bar" -> "foobar")
       val table2 = Table(Table.props(headerStyle = Style(styleMap), autoHeight = true, rowHeight = 20, headerHeight = 10, height = 200, rowCount = 1, width = 500, rowGetter = rowGetterF), columns: _*)
-      table2.props.headerStyle.toOption.map(_ === style) should contain(true)
+      table2.props.headerStyle.toOption.map(_ === style) ==> Some(true)
     }
-    it should "support id " in {
+    "support id " - {
       val columns = List(Column(Column.props(200, "key")))
       val table = Table(Table.props(rowHeight = 20, headerHeight = 10, height = 200, rowCount = 1, width = 500, rowGetter = rowGetterF), columns: _*)
-      table.props.id should be(())
+      table.props.id ==> (())
       val table2 = Table(Table.props(id = "id", autoHeight = true, rowHeight = 20, headerHeight = 10, height = 200, rowCount = 1, width = 500, rowGetter = rowGetterF), columns: _*)
-      table2.props.id should be("id")
+      table2.props.id ==> ("id")
     }
-    it should "support a default headerRowRenderer " in {
+    "support a default headerRowRenderer " - {
       val Hello =
         ScalaComponent.builder[String]("Hello")
           .render_P(name => <<.div("Hello there ", name))
@@ -260,7 +262,7 @@ class TableSpec extends FlatSpec with Matchers with NonImplicitAssertions with T
         assert(m.outerHtmlScrubbed() == html)
       }
     }
-    it should "support a custom headerRowRenderer " in {
+    "support a custom headerRowRenderer " - {
       val Hello =
         ScalaComponent.builder[String]("Hello")
           .render_P(name => <<.div("Hello there ", name))
@@ -287,63 +289,63 @@ class TableSpec extends FlatSpec with Matchers with NonImplicitAssertions with T
         assert(m.outerHtmlScrubbed() == html)
       }
     }
-    it should "support a row click callback" in {
+    "support a row click callback" - {
       val columns = List(Column(Column.props(200, "key")))
       val table = Table(Table.props(rowHeight = 20, headerHeight = 10, height = 200, rowCount = 1, width = 500, rowGetter = rowGetterF), columns: _*)
-      table.props.onRowClick(RawIndexParameter(1)) should be(())
+      table.props.onRowClick(RawIndexParameter(1)) ==> (())
       val table2 = Table(Table.props(onRowClick = x => Callback.empty, rowHeight = 20, headerHeight = 10, height = 200, rowCount = 1, width = 500, rowGetter = rowGetterF), columns: _*)
-      table2.props.onRowClick(RawIndexParameter(1)) should be(())
+      table2.props.onRowClick(RawIndexParameter(1)) ==> (())
     }
-    it should "support a row double click callback" in {
+    "support a row double click callback" - {
       val columns = List(Column(Column.props(200, "key")))
       val table = Table(Table.props(rowHeight = 20, headerHeight = 10, height = 200, rowCount = 1, width = 500, rowGetter = rowGetterF), columns: _*)
-      table.props.onRowDoubleClick(RawIndexParameter(1)) should be(())
+      table.props.onRowDoubleClick(RawIndexParameter(1)) ==> (())
       val table2 = Table(Table.props(onRowDoubleClick = x => Callback.empty, rowHeight = 20, headerHeight = 10, height = 200, rowCount = 1, width = 500, rowGetter = rowGetterF), columns: _*)
-      table2.props.onRowDoubleClick(RawIndexParameter(1)) should be(())
+      table2.props.onRowDoubleClick(RawIndexParameter(1)) ==> (())
     }
-    it should "support a row mouse out callback" in {
+    "support a row mouse out callback" - {
       val columns = List(Column(Column.props(200, "key")))
       val table = Table(Table.props(rowHeight = 20, headerHeight = 10, height = 200, rowCount = 1, width = 500, rowGetter = rowGetterF), columns: _*)
-      table.props.onRowMouseOut(RawIndexParameter(1)) should be(())
+      table.props.onRowMouseOut(RawIndexParameter(1)) ==> (())
       val table2 = Table(Table.props(onRowMouseOut = x => Callback.empty, rowHeight = 20, headerHeight = 10, height = 200, rowCount = 1, width = 500, rowGetter = rowGetterF), columns: _*)
-      table2.props.onRowMouseOut(RawIndexParameter(1)) should be(())
+      table2.props.onRowMouseOut(RawIndexParameter(1)) ==> (())
     }
-    it should "support a row mouse over callback" in {
+    "support a row mouse over callback" - {
       val columns = List(Column(Column.props(200, "key")))
       val table = Table(Table.props(rowHeight = 20, headerHeight = 10, height = 200, rowCount = 1, width = 500, rowGetter = rowGetterF), columns: _*)
-      table.props.onRowMouseOver(RawIndexParameter(1)) should be(())
+      table.props.onRowMouseOver(RawIndexParameter(1)) ==> (())
       val table2 = Table(Table.props(onRowMouseOver = x => Callback.empty, rowHeight = 20, headerHeight = 10, height = 200, rowCount = 1, width = 500, rowGetter = rowGetterF), columns: _*)
-      table2.props.onRowMouseOver(RawIndexParameter(1)) should be(())
+      table2.props.onRowMouseOver(RawIndexParameter(1)) ==> (())
     }
-    it should "support a row right click callback" in {
+    "support a row right click callback" - {
       val columns = List(Column(Column.props(200, "key")))
       val table = Table(Table.props(rowHeight = 20, headerHeight = 10, height = 200, rowCount = 1, width = 500, rowGetter = rowGetterF), columns: _*)
-      table.props.onRowRightClick(RawIndexParameter(1)) should be(())
+      table.props.onRowRightClick(RawIndexParameter(1)) ==> (())
       val table2 = Table(Table.props(onRowRightClick = x => Callback.empty, rowHeight = 20, headerHeight = 10, height = 200, rowCount = 1, width = 500, rowGetter = rowGetterF), columns: _*)
-      table2.props.onRowRightClick(RawIndexParameter(1)) should be(())
+      table2.props.onRowRightClick(RawIndexParameter(1)) ==> (())
     }
-    it should "support a header click callback" in {
+    "support a header click callback" - {
       val columns = List(Column(Column.props(200, "key")))
       val table = Table(Table.props(rowHeight = 20, headerHeight = 10, height = 200, rowCount = 1, width = 500, rowGetter = rowGetterF), columns: _*)
-      table.props.onHeaderClick(RawHeaderClickParam(js.Object(), "key")) should be(())
+      table.props.onHeaderClick(RawHeaderClickParam(js.Object(), "key")) ==> (())
       val table2 = Table(Table.props(onHeaderClick = (_, _) => Callback.empty, rowHeight = 20, headerHeight = 10, height = 200, rowCount = 1, width = 500, rowGetter = rowGetterF), columns: _*)
-      table2.props.onHeaderClick(RawHeaderClickParam(js.Object(), "key")) should be(())
+      table2.props.onHeaderClick(RawHeaderClickParam(js.Object(), "key")) ==> (())
     }
-    it should "support on rows renderer callback" in {
+    "support on rows renderer callback" - {
       val columns = List(Column(Column.props(200, "key")))
       val table = Table(Table.props(rowHeight = 20, headerHeight = 10, height = 200, rowCount = 1, width = 500, rowGetter = rowGetterF), columns: _*)
-      table.props.onRowsRendered(RawRowsRendererParam(1, 10, 1, 10)) should be(())
+      table.props.onRowsRendered(RawRowsRendererParam(1, 10, 1, 10)) ==> (())
       val table2 = Table(Table.props(onRowsRendered = (_, _, _, _) => Callback.empty, rowHeight = 20, headerHeight = 10, height = 200, rowCount = 1, width = 500, rowGetter = rowGetterF), columns: _*)
-      table2.props.onRowsRendered(RawRowsRendererParam(1, 10, 1, 10)) should be(())
+      table2.props.onRowsRendered(RawRowsRendererParam(1, 10, 1, 10)) ==> (())
     }
-    it should "support on scroll callback" in {
+    "support on scroll callback" - {
       val columns = List(Column(Column.props(200, "key")))
       val table = Table(Table.props(rowHeight = 20, headerHeight = 10, height = 200, rowCount = 1, width = 500, rowGetter = rowGetterF), columns: _*)
-      table.props.onScroll(RawScrollParam(1, 10, 1)) should be(())
+      table.props.onScroll(RawScrollParam(1, 10, 1)) ==> (())
       val table2 = Table(Table.props(onScroll = (_, _, _) => Callback.empty, rowHeight = 20, headerHeight = 10, height = 200, rowCount = 1, width = 500, rowGetter = rowGetterF), columns: _*)
-      table2.props.onScroll(RawScrollParam(1, 10, 1)) should be(())
+      table2.props.onScroll(RawScrollParam(1, 10, 1)) ==> (())
     }
-    it should "support a custom rowRenderer " in {
+    "support a custom rowRenderer " - {
       val columns = List(Column(Column.props(200, "key")))
       val rowRendererF: RowRenderer[Data] = (className: String, cols: Array[VdomNode], index: Int, isScrolling: Boolean, key: String, data: Data, _: Option[OnRowClick], _: Option[OnRowClick], _: Option[OnRowClick], _: Option[OnRowClick], _: Option[OnRowClick], style: Style) => <<.li(^.cls := className, cols.toTagMod, ^.key := key, ^.style := Style.toJsObject(style))
       val table = Table(Table.props(rowRenderer = rowRendererF, rowHeight = 20, headerHeight = 10, height = 200, rowCount = 1, width = 500, rowGetter = rowGetterF), columns: _*)
@@ -367,4 +369,5 @@ class TableSpec extends FlatSpec with Matchers with NonImplicitAssertions with T
         assert(m.outerHtmlScrubbed() == html)
       }
     }
+  }
 }

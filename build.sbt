@@ -4,6 +4,8 @@ val scalaJsReact = "1.2.0"
 
 parallelExecution in (ThisBuild, Test) := false
 
+addCommandAlias("restartWDS", "; demo/fastOptJS::stopWebpackDevServer; demo/fastOptJS::startWebpackDevServer")
+
 val root =
   project.in(file("."))
     .settings(commonSettings: _*)
@@ -67,9 +69,11 @@ lazy val facade =
       libraryDependencies    ++= Seq(
         "com.github.japgolly.scalajs-react" %%% "core"       % scalaJsReact,
         "com.github.japgolly.scalajs-react" %%% "test"       % scalaJsReact % "test",
-        "org.scalatest"                     %%% "scalatest"  % "3.0.5" % Test,
+        "com.lihaoyi"                       %%% "utest"      % "0.6.0" % Test,
         "org.typelevel"                     %%% "cats-core"  % "1.1.0" % Test
-      )
+      ),
+      webpackConfigFile in Test       := Some(baseDirectory.value / "test.webpack.config.js"),
+      testFrameworks                  += new TestFramework("utest.runner.Framework")
     )
 
 lazy val commonSettings = Seq(
