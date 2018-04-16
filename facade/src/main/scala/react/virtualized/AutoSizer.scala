@@ -3,9 +3,9 @@ package virtualized
 
 import japgolly.scalajs.react._
 import japgolly.scalajs.react.vdom.VdomNode
-import japgolly.scalajs.react.raw.{JsNumber, ReactNode}
-import japgolly.scalajs.react.component.Js.{RawMounted, UnmountedMapped}
-import japgolly.scalajs.react.internal.Effect.Id
+import japgolly.scalajs.react.raw.JsNumber
+import japgolly.scalajs.react.raw.React
+import japgolly.scalajs.react.component.Js.{RawMounted, UnmountedWithRawType}
 
 import scala.scalajs.js
 import scala.scalajs.js.annotation.JSImport
@@ -16,7 +16,7 @@ object AutoSizer {
   object RawComponent extends js.Object
 
   type OnResize = js.Function1[Size, Unit]
-  type RawChildren = js.Function1[Size, ReactNode]
+  type RawChildren = js.Function1[Size, React.Node]
   type Children = js.Function1[Size, VdomNode]
 
   @js.native
@@ -78,6 +78,6 @@ object AutoSizer {
     JsComponent[Props, Children.Varargs, Null](RawComponent)
 
   def apply(p: Props, children: VdomNode*)
-    : UnmountedMapped[Id, Props, Null, RawMounted, Props, Null] =
+    : UnmountedWithRawType[Props, Null, RawMounted[Props, Null]] =
     component(p)(children: _*)
 }

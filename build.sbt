@@ -1,16 +1,8 @@
-val reactJS = "15.6.1"
+val reactJS = "16.2.0"
 val reactVirtualized = "9.18.5"
-val scalaJsReact = "1.1.1"
+val scalaJsReact = "1.2.0"
 
 parallelExecution in (ThisBuild, Test) := false
-
-lazy val semanticdbScalacSettings = Seq(
-  addCompilerPlugin("org.scalameta" % "semanticdb-scalac" % "2.1.2" cross CrossVersion.full),
-  scalacOptions ++= Seq(
-    "-Yrangepos",
-    "-Xplugin-require:semanticdb"
-  )
-)
 
 val root =
   project.in(file("."))
@@ -33,15 +25,17 @@ lazy val demo =
     .enablePlugins(ScalaJSBundlerPlugin)
     .settings(commonSettings: _*)
     .settings(
-      scalaJSUseMainModuleInitializer := true,
-      webpackBundlingMode             := BundlingMode.LibraryOnly(),
-      webpackDevServerExtraArgs       := Seq("--inline"),
-      webpackConfigFile in fastOptJS  := Some(baseDirectory.value / "dev.webpack.config.js"),
+      scalaJSUseMainModuleInitializer  := true,
+      webpackBundlingMode              := BundlingMode.LibraryOnly(),
+      webpackDevServerExtraArgs        := Seq("--inline"),
+      webpackConfigFile in fastOptJS   := Some(baseDirectory.value / "dev.webpack.config.js"),
+      version in webpack               := "4.5.0",
+      version in startWebpackDevServer := "3.1.3",
       // don't publish the demo
-      publish                         := {},
-      publishLocal                    := {},
-      publishArtifact                 := false,
-      Keys.`package`                  := file("")
+      publish                          := {},
+      publishLocal                     := {},
+      publishArtifact                  := false,
+      Keys.`package`                   := file("")
     )
     .dependsOn(facade)
 
@@ -52,20 +46,21 @@ lazy val facade =
     .enablePlugins(ScalaJSBundlerPlugin)
     .settings(commonSettings: _*)
     .settings(
-      name                            := "scalajs-react-virtualized",
-      npmDependencies in Compile     ++= Seq(
+      name                             := "scalajs-react-virtualized",
+      npmDependencies in Compile      ++= Seq(
         "react" -> reactJS,
         "react-dom" -> reactJS,
         "react-virtualized" -> reactVirtualized
       ),
       // Requires the DOM for tests
-      requiresDOM in Test             := true,
+      requiresDOM in Test              := true,
       // Use yarn as it is faster than npm
-      useYarn                         := true,
-      version in webpack              := "3.5.5",
-      scalaJSUseMainModuleInitializer := false,
+      useYarn                          := true,
+      version in webpack               := "4.5.0",
+      version in startWebpackDevServer := "3.1.3",
+      scalaJSUseMainModuleInitializer  := false,
       // Compile tests to JS using fast-optimisation
-      scalaJSStage in Test            := FastOptStage,
+      scalaJSStage in Test             := FastOptStage,
       libraryDependencies    ++= Seq(
         "com.github.japgolly.scalajs-react" %%% "core"       % scalaJsReact,
         "com.github.japgolly.scalajs-react" %%% "test"       % scalaJsReact % "test",
@@ -73,7 +68,6 @@ lazy val facade =
         "org.typelevel"                     %%% "cats-core"  % "1.0.1" % Test
       )
     )
-
 
 lazy val commonSettings = Seq(
   scalaVersion            := "2.12.4",
@@ -138,14 +132,15 @@ lazy val commonSettings = Seq(
       // "-Ywarn-unused:patvars",             // Warn if a variable bound in a pattern is unused.
       "-Ywarn-unused:privates",            // Warn if a private member is unused.
       "-Ywarn-value-discard",              // Warn when non-Unit expression results are unused.
-      "-P:scalajs:sjsDefinedByDefault"
+      "-P:scalajs:sjsDefinedByDefault",
+      "-Yrangepos"
     ),
     // Settings to use git to define the version of the project
     git.useGitDescribe := true,
     git.formattedShaVersion := git.gitHeadCommit.value map { sha => s"v$sha" },
     git.uncommittedSignifier in ThisBuild := Some("UNCOMMITTED"),
     useGpg := true
-  ) ++ semanticdbScalacSettings ++ scalafixSettings
+  )
 
 lazy val pomData =
   <developers>

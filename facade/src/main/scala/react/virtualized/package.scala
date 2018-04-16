@@ -5,12 +5,13 @@ import scala.scalajs.js.|
 import js.annotation.JSImport
 import js.JSConverters._
 import japgolly.scalajs.react.Callback
-import japgolly.scalajs.react.raw.{JsNumber, ReactNode}
+import japgolly.scalajs.react.raw.JsNumber
+import japgolly.scalajs.react.raw.React
 import japgolly.scalajs.react.vdom.VdomNode
 
 package object virtualized {
   implicit class VdomToRaw(val node: VdomNode) extends AnyVal {
-    def toRaw: ReactNode = node.rawNode
+    def toRaw: React.Node = node.rawNode
   }
   implicit class TableJsMethodsOps(val m: virtualized.Table.JsMethods)
       extends AnyVal {
@@ -152,12 +153,12 @@ package virtualized {
     //
     trait RawHeaderRowRendererParameter extends js.Object {
       var className: String
-      var columns: js.Array[ReactNode]
+      var columns: js.Array[React.Node]
       var style: js.Object
     }
     object RawHeaderRowRendererParameter {
       def apply(className: String,
-                columns: js.Array[ReactNode],
+                columns: js.Array[React.Node],
                 style: js.Object): RawHeaderRowRendererParameter = {
         val p = (new js.Object).asInstanceOf[RawHeaderRowRendererParameter]
         p.className = className
@@ -168,7 +169,7 @@ package virtualized {
     }
 
     type RawHeaderRowRenderer =
-      js.Function1[RawHeaderRowRendererParameter, ReactNode]
+      js.Function1[RawHeaderRowRendererParameter, React.Node]
 
     // Types for cellDataGetter
     trait RawCellDataParameter extends js.Object {
@@ -212,14 +213,14 @@ package virtualized {
         p
       }
     }
-    type RawCellRenderer = js.Function1[RawCellRendererParameter, ReactNode]
+    type RawCellRenderer = js.Function1[RawCellRendererParameter, React.Node]
 
     // types for headerRenderer
     trait RawHeaderRendererParameter extends js.Object {
       var columnData: js.Any
       var dataKey: String
       var disableSort: js.UndefOr[Boolean]
-      var label: ReactNode
+      var label: React.Node
       var sortBy: js.UndefOr[String]
       var sortDirection: js.UndefOr[String]
     }
@@ -241,14 +242,14 @@ package virtualized {
         p
       }
     }
-    type RawHeaderRenderer = js.Function1[RawHeaderRendererParameter, ReactNode]
+    type RawHeaderRenderer = js.Function1[RawHeaderRendererParameter, React.Node]
 
     // Table types
     //
 
     trait RawRowRendererParameter extends js.Object {
       var className: String
-      var columns: js.Array[ReactNode]
+      var columns: js.Array[React.Node]
       var index: Int
       var isScrolling: Boolean
       var key: String
@@ -263,7 +264,7 @@ package virtualized {
 
     object RawRowRendererParameter {
       def apply(className: String,
-                columns: js.Array[ReactNode],
+                columns: js.Array[React.Node],
                 index: Int,
                 isScrolling: Boolean,
                 key: String,
@@ -290,7 +291,7 @@ package virtualized {
         p
       }
     }
-    type RawRowRenderer = js.Function1[RawRowRendererParameter, ReactNode]
+    type RawRowRenderer = js.Function1[RawRowRendererParameter, React.Node]
 
     // Types for row getter
     trait RawIndexParameter extends js.Object {
@@ -306,7 +307,7 @@ package virtualized {
     type RawRowGetter = js.Function1[RawIndexParameter, Any]
 
     // No rows renderer
-    type RawNoRowsRenderer = js.Function0[ReactNode]
+    type RawNoRowsRenderer = js.Function0[React.Node]
 
     // Class for rows
     type RawRowClassNameParam = String | RawRowClassName
@@ -413,8 +414,8 @@ package virtualized {
               "defaultTableHeaderRenderer",
               JSImport.Default)
     object defaultHeaderRenderer
-        extends js.Function1[RawHeaderRendererParameter, ReactNode] {
-      def apply(i: RawHeaderRendererParameter): ReactNode = js.native
+        extends js.Function1[RawHeaderRendererParameter, React.Node] {
+      def apply(i: RawHeaderRendererParameter): React.Node = js.native
     }
     val defaultHeaderRendererS = (columnData: js.Any,
                                   dataKey: String,
@@ -434,8 +435,8 @@ package virtualized {
     @js.native
     @JSImport("react-virtualized", "defaultTableCellRenderer", JSImport.Default)
     object defaultCellRenderer
-        extends js.Function1[RawCellRendererParameter, ReactNode] {
-      def apply(i: RawCellRendererParameter): ReactNode = js.native
+        extends js.Function1[RawCellRendererParameter, React.Node] {
+      def apply(i: RawCellRendererParameter): React.Node = js.native
     }
     val defaultCellRendererS = (cellData: js.Any,
                                 columnData: js.Any,
@@ -455,8 +456,8 @@ package virtualized {
               "defaultTableHeaderRowRenderer",
               JSImport.Default)
     object defaultHeaderRowRenderer
-        extends js.Function1[RawHeaderRowRendererParameter, ReactNode] {
-      def apply(i: RawHeaderRowRendererParameter): ReactNode = js.native
+        extends js.Function1[RawHeaderRowRendererParameter, React.Node] {
+      def apply(i: RawHeaderRowRendererParameter): React.Node = js.native
     }
     val defaultHeaderRowRendererS: HeaderRowRenderer =
       (className: String, columns: Array[VdomNode], style: Style) =>
@@ -469,8 +470,8 @@ package virtualized {
     @js.native
     @JSImport("react-virtualized", "defaultTableRowRenderer", JSImport.Default)
     object defaultRowRenderer
-        extends js.Function1[RawRowRendererParameter, ReactNode] {
-      def apply(i: RawRowRendererParameter): ReactNode = js.native
+        extends js.Function1[RawRowRendererParameter, React.Node] {
+      def apply(i: RawRowRendererParameter): React.Node = js.native
     }
     def defaultRowRendererS[C <: js.Object]: RowRenderer[C] =
       (className: String,

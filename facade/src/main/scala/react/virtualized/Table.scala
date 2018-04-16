@@ -19,7 +19,7 @@ object Table {
   type ColumnArg = UnmountedMapped[Id,
                                    Column.Props,
                                    Null,
-                                   RawMounted with Column,
+                                   RawMounted[Column.Props, Null] with Column,
                                    Column.Props,
                                    Null]
 
@@ -361,7 +361,7 @@ object Table {
     .addFacade[JsMethods]
 
   def apply(p: Props, children: ColumnArg*)
-    : UnmountedMapped[Id, Props, Null, RawMounted with JsMethods, Props, Null] =
+    : UnmountedMapped[Id, Props, Null, RawMounted[Props, Null] with JsMethods, Props, Null] =
     component.apply(p)(children.map(_.vdomElement): _*)
 
 }

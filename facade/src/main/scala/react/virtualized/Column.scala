@@ -7,7 +7,8 @@ import js.JSConverters._
 import japgolly.scalajs.react._
 import japgolly.scalajs.react.component.Js.{RawMounted, UnmountedMapped}
 import japgolly.scalajs.react.internal.Effect.Id
-import japgolly.scalajs.react.raw.{JsNumber, ReactNode}
+import japgolly.scalajs.react.raw.JsNumber
+import japgolly.scalajs.react.raw.React
 import japgolly.scalajs.react.vdom.VdomNode
 import raw._
 
@@ -73,7 +74,7 @@ object Column {
     var id: js.UndefOr[String] = js.native
 
     /** Header label for this column */
-    var label: js.UndefOr[ReactNode] = js.native
+    var label: js.UndefOr[React.Node] = js.native
 
     /** Maximum width of column; this property will only be used if :flexGrow is > 0. */
     var maxWidth: js.UndefOr[JsNumber] = js.native
@@ -158,7 +159,7 @@ object Column {
     JsComponent[Props, Children.None, Null](RawComponent).addFacade[Column]
 
   def apply(p: Props)
-    : UnmountedMapped[Id, Props, Null, RawMounted with Column, Props, Null] =
+    : UnmountedMapped[Id, Props, Null, RawMounted[Props, Null] with Column, Props, Null] =
     component(p)
 
 }

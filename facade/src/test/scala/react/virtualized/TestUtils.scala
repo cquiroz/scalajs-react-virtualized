@@ -7,7 +7,7 @@ import scala.scalajs.js
 import cats.Eq
 import cats.syntax.eq._
 import japgolly.scalajs.react.vdom.html_<^._
-import japgolly.scalajs.react.raw.{ReactElement, ReactNode}
+import japgolly.scalajs.react.raw.React
 import japgolly.scalajs.react.vdom.{TagOf, TopNode}
 import org.scalajs.dom.Element
 
@@ -47,16 +47,16 @@ trait TestUtils extends Matchers with NonImplicitAssertions { self: FlatSpec =>
   def assertRender(e: VdomElement, expected: String): Assertion =
     assertRender(e.rawElement, expected)
 
-  def assertRender(e: ReactElement, expected: String): Assertion = {
+  def assertRender(e: React.Element, expected: String): Assertion = {
     val rendered: String = ReactDOMServer.raw.renderToStaticMarkup(e)
     rendered should be(expected.trim.replaceAll("\n", ""))
   }
 
-  def assertRender(e: ReactNode, expected: String): Assertion = {
+  def assertRender(e: React.Node, expected: String): Assertion = {
     assertRenderNode(Some(e), expected)
   }
 
-  def assertRenderNode[N <: TopNode](e: Option[ReactNode], expected: String): Assertion =
+  def assertRenderNode[N <: TopNode](e: Option[React.Node], expected: String): Assertion =
     e.map(x => HtmlTag("div").apply(VdomNode(x))) match {
       case Some(e) => assertRender(e.rawElement, expected)
       case _       => fail()
