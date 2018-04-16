@@ -1,13 +1,13 @@
 package react
 package virtualized
 
-import org.scalatest._
 import japgolly.scalajs.react.vdom.html_<^.{< => <<, _}
+import utest._
 
-class SortIndicatorSpec extends FlatSpec with Matchers with NonImplicitAssertions with TestUtils {
+object SortIndicaterTests extends TestSuite with TestUtils {
 
-  "SortIndicator" should
-    "render none" in {
+  val tests = Tests {
+    'renderNone - {
       val unmounted = <<.div(SortIndicator(SortDirection.NONE))
       val html =
         """<div>
@@ -15,7 +15,7 @@ class SortIndicatorSpec extends FlatSpec with Matchers with NonImplicitAssertion
         |""".stripMargin
       assertRender(Some(unmounted), html)
     }
-    it should "render asc" in {
+    'renderAsc - {
       val unmounted = <<.div(SortIndicator(SortDirection.DESC))
       val html =
         """<div>
@@ -23,7 +23,7 @@ class SortIndicatorSpec extends FlatSpec with Matchers with NonImplicitAssertion
         |""".stripMargin
       assertRender(Some(unmounted), html)
     }
-    it should "render desc" in {
+    'renderDesc - {
       val unmounted = <<.div(SortIndicator(SortDirection.ASC))
       val html =
         """<div>
@@ -31,4 +31,5 @@ class SortIndicatorSpec extends FlatSpec with Matchers with NonImplicitAssertion
         |""".stripMargin
       assertRender(Some(unmounted), html)
     }
+  }
 }

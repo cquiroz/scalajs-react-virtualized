@@ -2,16 +2,16 @@ package react
 package virtualized
 
 import japgolly.scalajs.react.ReactDOMServer
-import org.scalatest._
 import scala.scalajs.js
 import cats.Eq
 import cats.syntax.eq._
 import japgolly.scalajs.react.vdom.html_<^._
-import japgolly.scalajs.react.raw.{ReactElement, ReactNode}
+import japgolly.scalajs.react.raw.React
 import japgolly.scalajs.react.vdom.{TagOf, TopNode}
 import org.scalajs.dom.Element
+import utest._
 
-trait TestUtils extends Matchers with NonImplicitAssertions { self: FlatSpec =>
+trait TestUtils { self: TestSuite =>
   implicit def jsUndefOr[A: Eq]: Eq[js.UndefOr[A]] = Eq.instance { (a, b) =>
     (a.toOption, b.toOption) match {
       case (Some(a), Some(b)) => a === b
@@ -44,32 +44,32 @@ trait TestUtils extends Matchers with NonImplicitAssertions { self: FlatSpec =>
     }
   }
 
-  def assertRender(e: VdomElement, expected: String): Assertion =
+  def assertRender(e: VdomElement, expected: String): Unit =
     assertRender(e.rawElement, expected)
 
-  def assertRender(e: ReactElement, expected: String): Assertion = {
+  def assertRender(e: React.Element, expected: String): Unit = {
     val rendered: String = ReactDOMServer.raw.renderToStaticMarkup(e)
-    rendered should be(expected.trim.replaceAll("\n", ""))
+    rendered ==> expected.trim.replaceAll("\n", "")
   }
 
-  def assertRender(e: ReactNode, expected: String): Assertion = {
+  def assertRender(e: React.Node, expected: String): Unit = {
     assertRenderNode(Some(e), expected)
   }
 
-  def assertRenderNode[N <: TopNode](e: Option[ReactNode], expected: String): Assertion =
+  def assertRenderNode[N <: TopNode](e: Option[React.Node], expected: String): Unit =
     e.map(x => HtmlTag("div").apply(VdomNode(x))) match {
       case Some(e) => assertRender(e.rawElement, expected)
-      case _       => fail()
+      case _       => assert(false)
     }
 
-  def assertRender[N <: TopNode](e: Option[TagOf[N]], expected: String): Assertion =
+  def assertRender[N <: TopNode](e: Option[TagOf[N]], expected: String): Unit =
     e match {
       case Some(e) => assertRender(e.rawElement, expected)
-      case _       => fail()
+      case _       => assert(false)
     }
 
-  def assertOuterHTML(node: Element, expect: String): Assertion =
-    scrubReactHtml(node.outerHTML) should be(expect)
+  def assertOuterHTML(node: Element, expect: String): Unit =
+    scrubReactHtml(node.outerHTML) ==> expect
 
   private val reactRubbish =
   """\s+data-react\S*?\s*?=\s*?".*?"|<!--(?:.|[\r\n])*?-->""".r
