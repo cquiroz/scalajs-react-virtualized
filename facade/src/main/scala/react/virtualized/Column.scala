@@ -95,7 +95,7 @@ object Column {
     * C Row data
     */
   def props[A <: js.Object, B <: js.Object, C <: js.Object](
-      width: Int,
+      width: JsNumber,
       dataKey: String,
       ariaLabel: js.UndefOr[String] = js.undefined,
       cellDataGetter: Option[CellDataGetter[B, C, A]] = None,
