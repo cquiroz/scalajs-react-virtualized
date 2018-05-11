@@ -143,8 +143,7 @@ object Demo {
     .stateless
     .render_P { _ =>
       <.div(
-        AutoSizer(AutoSizer.props(tableF, disableHeight = true)),
-        AutoSizer(AutoSizer.props(tableD, disableHeight = true))
+        AutoSizer(AutoSizer.props(tableF, disableHeight = true))
       )
     }.build
 

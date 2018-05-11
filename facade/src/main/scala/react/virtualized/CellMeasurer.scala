@@ -6,7 +6,7 @@ import japgolly.scalajs.react._
 import japgolly.scalajs.react.vdom.VdomNode
 import japgolly.scalajs.react.component.Js.{RawMounted, UnmountedMapped}
 import japgolly.scalajs.react.internal.Effect.Id
-import japgolly.scalajs.react.raw.ReactNode
+import japgolly.scalajs.react.raw.React
 import scala.scalajs.js
 import js.annotation.JSImport
 import japgolly.scalajs.react.raw.JsNumber
@@ -127,7 +127,7 @@ object CellMeasurer {
     var columnIndex: js.UndefOr[JsNumber]
     var index: js.UndefOr[JsNumber]
     var parent: Parent
-    var children: ReactNode
+    var children: React.Node
     var rowIndex: js.UndefOr[JsNumber]
   }
 
@@ -151,7 +151,7 @@ object CellMeasurer {
 
   val component = JsComponent[Props, Children.Varargs, Null](RawComponent)
 
-  def apply(p: Props, children: VdomNode*): UnmountedMapped[Id, Props, Null, RawMounted, Props, Null] =
+  def apply(p: Props, children: VdomNode*): UnmountedMapped[Id, Props, Null, RawMounted[Props, Null], Props, Null] =
     component.apply(p)(children: _*)
 
 }
