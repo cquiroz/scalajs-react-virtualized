@@ -67,7 +67,7 @@ lazy val facade =
       libraryDependencies    ++= Seq(
         "com.github.japgolly.scalajs-react" %%% "core"       % scalaJsReact,
         "com.github.japgolly.scalajs-react" %%% "test"       % scalaJsReact % "test",
-        "com.lihaoyi"                       %%% "utest"      % "0.6.0" % Test,
+        "com.lihaoyi"                       %%% "utest"      % "0.6.4" % Test,
         "org.typelevel"                     %%% "cats-core"  % "1.1.0" % Test
       ),
       webpackConfigFile in Test       := Some(baseDirectory.value / "test.webpack.config.js"),
@@ -75,7 +75,7 @@ lazy val facade =
     )
 
 lazy val commonSettings = Seq(
-  scalaVersion            := "2.12.4",
+  scalaVersion            := "2.12.6",
   organization            := "io.github.cquiroz",
   description             := "scala.js facade for react-virtualized",
   homepage                := Some(url("https://github.com/cquiroz/scalajs-react-virtualized")),
