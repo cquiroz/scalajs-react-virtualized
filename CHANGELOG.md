@@ -1,5 +1,10 @@
 # Changes
 
+## 0.3.0
+
+* Support CellMeasurer
+* Column width can be expressed with floating point precission
+
 ## 0.2.0
 
 * Updated to scalajs-react 1.2.0
