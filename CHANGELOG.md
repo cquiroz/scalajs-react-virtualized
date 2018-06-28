@@ -1,5 +1,10 @@
 # Changes
 
+## 0.3.1
+
+* Updated to scala.js 0.6.24
+* Updated to react-virtualized version 9.20.0
+
 ## 0.3.0
 
 * Support CellMeasurer

@@ -122,6 +122,7 @@ package virtualized {
       Style(map)
     }
   }
+
   sealed trait ScrollToAlignment
   object ScrollToAlignment {
     case object Auto extends ScrollToAlignment
