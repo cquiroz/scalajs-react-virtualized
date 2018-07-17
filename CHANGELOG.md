@@ -1,5 +1,10 @@
 # Changes
 
+## 0.3.2
+
+* Updated to scala.js react 1.2.3
+* Updated to react-virtualized version 9.20.1
+
 ## 0.3.1
 
 * Updated to scala.js 0.6.24
