@@ -60,7 +60,7 @@ lazy val facade =
       requiresDOM in Test              := true,
       // Use yarn as it is faster than npm
       useYarn                          := true,
-      version in webpack               := "4.5.0",
+      version in webpack               := "4.16.1",
       scalaJSUseMainModuleInitializer  := false,
       // Compile tests to JS using fast-optimisation
       scalaJSStage in Test             := FastOptStage,

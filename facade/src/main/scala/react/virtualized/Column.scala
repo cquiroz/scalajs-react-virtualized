@@ -155,6 +155,54 @@ object Column {
     p
   }
 
+  /**
+    * Create a column with flexGrow/flexShrink as 0 by default
+    *
+    * A Cell data
+    * B Column data
+    * C Row data
+    */
+  def propsNoFlex[A <: js.Object, B <: js.Object, C <: js.Object](
+      width: JsNumber,
+      dataKey: String,
+      ariaLabel: js.UndefOr[String] = js.undefined,
+      cellDataGetter: Option[CellDataGetter[B, C, A]] = None,
+      cellRenderer: CellRenderer[A, B, C] = defaultCellRendererS,
+      className: js.UndefOr[String] = js.undefined,
+      columnData: js.UndefOr[B] = js.undefined,
+      disableSort: js.UndefOr[Boolean] = js.undefined,
+      defaultSortDirection: SortDirection = SortDirection.ASC,
+      flexGrow: js.UndefOr[JsNumber] = 0,
+      flexShrink: js.UndefOr[JsNumber] = 0,
+      headerClassName: js.UndefOr[String] = js.undefined,
+      headerRenderer: HeaderRenderer[B] = defaultHeaderRendererS,
+      headerStyle: js.UndefOr[Style] = js.undefined,
+      id: js.UndefOr[String] = js.undefined,
+      label: VdomNode = VdomNode.cast(()),
+      maxWidth: js.UndefOr[JsNumber] = js.undefined,
+      minWidth: js.UndefOr[JsNumber] = js.undefined,
+      style: js.UndefOr[Style] = js.undefined
+  ): Props = props(width,
+      dataKey,
+      ariaLabel,
+      cellDataGetter,
+      cellRenderer,
+      className,
+      columnData,
+      disableSort,
+      defaultSortDirection,
+      flexGrow,
+      flexShrink,
+      headerClassName,
+      headerRenderer,
+      headerStyle,
+      id,
+      label,
+      maxWidth,
+      minWidth,
+      style
+    )
+
   private val component =
     JsComponent[Props, Children.None, Null](RawComponent).addFacade[Column]
 

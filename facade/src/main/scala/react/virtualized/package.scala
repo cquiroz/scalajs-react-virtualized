@@ -106,6 +106,76 @@ package object virtualized {
     def toScala: Int => JsNumber = (x: Int) => r(raw.RawIndexParameter(x))
   }
 
+  private implicit class ClickCallbackOps(val cb: OnRowClick) extends AnyVal {
+    def toJsCallback: raw.RawOnRowEvent =
+      (i: raw.RawIndexParameter) => cb(i.index).runNow()
+  }
+
+  val defaultHeaderRendererS = (columnData: js.Any,
+                                dataKey: String,
+                                disableSort: Option[Boolean],
+                                label: VdomNode,
+                                sortBy: Option[String],
+                                sortDirection: SortDirection) =>
+    VdomNode(
+      raw.defaultHeaderRenderer(
+        raw.RawHeaderRendererParameter(columnData,
+                                   dataKey,
+                                   disableSort.orUndefined,
+                                   label,
+                                   sortBy.orUndefined,
+                                   sortDirection.toRaw)))
+
+    val defaultCellRendererS = (cellData: js.Any,
+                                columnData: js.Any,
+                                dataKey: String,
+                                rowData: js.Any,
+                                rowIndex: Int) =>
+      VdomNode(
+        raw.defaultCellRenderer(
+          raw.RawCellRendererParameter(cellData,
+                                   columnData,
+                                   dataKey,
+                                   rowData,
+                                   rowIndex)))
+
+    val defaultHeaderRowRendererS: HeaderRowRenderer =
+      (className: String, columns: Array[VdomNode], style: Style) =>
+        VdomNode(
+          raw.defaultHeaderRowRenderer(
+            raw.RawHeaderRowRendererParameter(className,
+                                          columns.map(_.rawNode).toJSArray,
+                                          Style.toJsObject(style))))
+
+    def defaultRowRendererS[C <: js.Object]: RowRenderer[C] =
+      (className: String,
+       columns: Array[VdomNode],
+       index: Int,
+       isScrolling: Boolean,
+       key: String,
+       rowData: C,
+       onRowClick: Option[OnRowClick],
+       onRowDoubleClick: Option[OnRowClick],
+       onRowMouseOut: Option[OnRowClick],
+       onRowMouseOver: Option[OnRowClick],
+       onRowRightClick: Option[OnRowClick],
+       style: Style) =>
+        VdomNode(
+          raw.defaultRowRenderer(
+            raw.RawRowRendererParameter(
+              className,
+              columns.map(_.rawNode).toJSArray,
+              index,
+              isScrolling,
+              key,
+              rowData,
+              onRowClick.map(_.toJsCallback).orUndefined,
+              onRowDoubleClick.map(_.toJsCallback).orUndefined,
+              onRowMouseOut.map(_.toJsCallback).orUndefined,
+              onRowMouseOver.map(_.toJsCallback).orUndefined,
+              onRowRightClick.map(_.toJsCallback).orUndefined,
+              Style.toJsObject(style)
+            )))
 }
 
 package virtualized {
@@ -360,11 +430,6 @@ package virtualized {
     }
     type RawHeaderClickEvent = js.Function1[RawHeaderClickParam, Unit]
 
-    implicit class ClickCallbackOps(val cb: OnRowClick) extends AnyVal {
-      def toJsCallback: RawOnRowEvent =
-        (i: RawIndexParameter) => cb(i.index).runNow()
-    }
-
     implicit class RawClickCallbackOps(val cb: RawOnRowEvent) extends AnyVal {
       def toCallback: OnRowClick =
         (i: Int) => Callback(cb(RawIndexParameter(i)))
@@ -424,20 +489,6 @@ package virtualized {
         extends js.Function1[RawHeaderRendererParameter, React.Node] {
       def apply(i: RawHeaderRendererParameter): React.Node = js.native
     }
-    val defaultHeaderRendererS = (columnData: js.Any,
-                                  dataKey: String,
-                                  disableSort: Option[Boolean],
-                                  label: VdomNode,
-                                  sortBy: Option[String],
-                                  sortDirection: SortDirection) =>
-      VdomNode(
-        defaultHeaderRenderer(
-          RawHeaderRendererParameter(columnData,
-                                     dataKey,
-                                     disableSort.orUndefined,
-                                     label,
-                                     sortBy.orUndefined,
-                                     sortDirection.toRaw)))
 
     @js.native
     @JSImport("react-virtualized", "defaultTableCellRenderer", JSImport.Default)
@@ -445,18 +496,6 @@ package virtualized {
         extends js.Function1[RawCellRendererParameter, React.Node] {
       def apply(i: RawCellRendererParameter): React.Node = js.native
     }
-    val defaultCellRendererS = (cellData: js.Any,
-                                columnData: js.Any,
-                                dataKey: String,
-                                rowData: js.Any,
-                                rowIndex: Int) =>
-      VdomNode(
-        defaultCellRenderer(
-          RawCellRendererParameter(cellData,
-                                   columnData,
-                                   dataKey,
-                                   rowData,
-                                   rowIndex)))
 
     @js.native
     @JSImport("react-virtualized",
@@ -466,13 +505,6 @@ package virtualized {
         extends js.Function1[RawHeaderRowRendererParameter, React.Node] {
       def apply(i: RawHeaderRowRendererParameter): React.Node = js.native
     }
-    val defaultHeaderRowRendererS: HeaderRowRenderer =
-      (className: String, columns: Array[VdomNode], style: Style) =>
-        VdomNode(
-          defaultHeaderRowRenderer(
-            RawHeaderRowRendererParameter(className,
-                                          columns.map(_.rawNode).toJSArray,
-                                          Style.toJsObject(style))))
 
     @js.native
     @JSImport("react-virtualized", "defaultTableRowRenderer", JSImport.Default)
@@ -480,35 +512,6 @@ package virtualized {
         extends js.Function1[RawRowRendererParameter, React.Node] {
       def apply(i: RawRowRendererParameter): React.Node = js.native
     }
-    def defaultRowRendererS[C <: js.Object]: RowRenderer[C] =
-      (className: String,
-       columns: Array[VdomNode],
-       index: Int,
-       isScrolling: Boolean,
-       key: String,
-       rowData: C,
-       onRowClick: Option[OnRowClick],
-       onRowDoubleClick: Option[OnRowClick],
-       onRowMouseOut: Option[OnRowClick],
-       onRowMouseOver: Option[OnRowClick],
-       onRowRightClick: Option[OnRowClick],
-       style: Style) =>
-        VdomNode(
-          defaultRowRenderer(
-            RawRowRendererParameter(
-              className,
-              columns.map(_.rawNode).toJSArray,
-              index,
-              isScrolling,
-              key,
-              rowData,
-              onRowClick.map(_.toJsCallback).orUndefined,
-              onRowDoubleClick.map(_.toJsCallback).orUndefined,
-              onRowMouseOut.map(_.toJsCallback).orUndefined,
-              onRowMouseOver.map(_.toJsCallback).orUndefined,
-              onRowRightClick.map(_.toJsCallback).orUndefined,
-              Style.toJsObject(style)
-            )))
   }
 
 }
