@@ -170,7 +170,7 @@ object Column {
       cellRenderer: CellRenderer[A, B, C] = defaultCellRendererS,
       className: js.UndefOr[String] = js.undefined,
       columnData: js.UndefOr[B] = js.undefined,
-      disableSort: js.UndefOr[Boolean] = js.undefined,
+      disableSort: js.UndefOr[Boolean] = true,
       defaultSortDirection: SortDirection = SortDirection.ASC,
       flexGrow: js.UndefOr[JsNumber] = 0,
       flexShrink: js.UndefOr[JsNumber] = 0,
