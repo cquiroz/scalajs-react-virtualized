@@ -1,6 +1,10 @@
 # Changes
 
-## 0.3.3
+## 0.4.0
+
+* Upgraded to scala.js react 1.3.0
+
+## 0.3.4
 
 * Addeed method to create columns with flexGrow/flexShrink set to 0
 * Make defaultRendererXXX functions public

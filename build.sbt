@@ -1,6 +1,6 @@
-val reactJS = "16.2.0"
+val reactJS = "16.5.0"
 val reactVirtualized = "9.20.1"
-val scalaJsReact = "1.2.3"
+val scalaJsReact = "1.3.0"
 
 parallelExecution in (ThisBuild, Test) := false
 
@@ -33,8 +33,8 @@ lazy val demo =
       webpackBundlingMode              := BundlingMode.LibraryOnly(),
       webpackDevServerExtraArgs        := Seq("--inline"),
       webpackConfigFile in fastOptJS   := Some(baseDirectory.value / "dev.webpack.config.js"),
-      version in webpack               := "4.8.1",
-      version in startWebpackDevServer := "3.1.4",
+      version in webpack               := "4.19.1",
+      version in startWebpackDevServer := "3.1.8",
       // don't publish the demo
       publish                          := {},
       publishLocal                     := {},
@@ -60,15 +60,15 @@ lazy val facade =
       requiresDOM in Test              := true,
       // Use yarn as it is faster than npm
       useYarn                          := true,
-      version in webpack               := "4.16.1",
+      version in webpack               := "4.19.1",
       scalaJSUseMainModuleInitializer  := false,
       // Compile tests to JS using fast-optimisation
       scalaJSStage in Test             := FastOptStage,
       libraryDependencies    ++= Seq(
         "com.github.japgolly.scalajs-react" %%% "core"       % scalaJsReact,
         "com.github.japgolly.scalajs-react" %%% "test"       % scalaJsReact % "test",
-        "com.lihaoyi"                       %%% "utest"      % "0.6.4" % Test,
-        "org.typelevel"                     %%% "cats-core"  % "1.1.0" % Test
+        "com.lihaoyi"                       %%% "utest"      % "0.6.5" % Test,
+        "org.typelevel"                     %%% "cats-core"  % "1.4.0" % Test
       ),
       webpackConfigFile in Test       := Some(baseDirectory.value / "test.webpack.config.js"),
       testFrameworks                  += new TestFramework("utest.runner.Framework")
