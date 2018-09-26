@@ -1,6 +1,6 @@
 val reactJS = "16.5.0"
 val reactVirtualized = "9.20.1"
-val scalaJsReact = "1.3.0"
+val scalaJsReact = "1.3.1"
 
 parallelExecution in (ThisBuild, Test) := false
 
@@ -61,6 +61,7 @@ lazy val facade =
       // Use yarn as it is faster than npm
       useYarn                          := true,
       version in webpack               := "4.19.1",
+      version in startWebpackDevServer := "3.1.8",
       scalaJSUseMainModuleInitializer  := false,
       // Compile tests to JS using fast-optimisation
       scalaJSStage in Test             := FastOptStage,
