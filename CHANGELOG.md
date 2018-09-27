@@ -1,5 +1,9 @@
 # Changes
 
+## 0.4.1
+
+* Upgraded to scala.js react 1.3.1
+
 ## 0.4.0
 
 * Upgraded to scala.js react 1.3.0
