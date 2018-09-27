@@ -61,6 +61,7 @@ lazy val facade =
       // Use yarn as it is faster than npm
       useYarn                          := true,
       version in webpack               := "4.19.1",
+      version in startWebpackDevServer := "3.1.8",
       scalaJSUseMainModuleInitializer  := false,
       // Compile tests to JS using fast-optimisation
       scalaJSStage in Test             := FastOptStage,
