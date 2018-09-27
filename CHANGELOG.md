@@ -1,5 +1,9 @@
 # Changes
 
+## 0.4.2
+
+* Upgraded to react-virtualized 9.21.0
+
 ## 0.4.1
 
 * Upgraded to scala.js react 1.3.1

@@ -223,9 +223,9 @@ package virtualized {
   }
 
   /**
-    * Raw facades, shouldn't be exposed to final users
+    * Raw facades
     */
-  private[virtualized] object raw {
+  object raw {
     // Column types
     //
     trait RawHeaderRowRendererParameter extends js.Object {
