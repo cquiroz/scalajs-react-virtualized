@@ -106,7 +106,7 @@ package object virtualized {
     def toScala: Int => JsNumber = (x: Int) => r(raw.RawIndexParameter(x))
   }
 
-  private implicit class ClickCallbackOps(val cb: OnRowClick) extends AnyVal {
+  implicit class ClickCallbackOps(val cb: OnRowClick) extends AnyVal {
     def toJsCallback: raw.RawOnRowEvent =
       (i: raw.RawIndexParameter) => cb(i.index).runNow()
   }
@@ -225,7 +225,7 @@ package virtualized {
   /**
     * Raw facades
     */
-  private object raw {
+  object raw {
     // Column types
     //
     trait RawHeaderRowRendererParameter extends js.Object {
@@ -475,7 +475,7 @@ package virtualized {
 
     @js.native
     @JSImport("react-virtualized", "SortDirection")
-    private[virtualized] object RawSortDirection extends js.Object {
+    object RawSortDirection extends js.Object {
       val ASC: String = js.native
       val DESC: String = js.native
     }

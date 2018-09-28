@@ -1,5 +1,9 @@
 # Changes
 
+## 0.3.4
+
+* Make the raw package public
+
 ## 0.3.3
 
 * Addeed method to create columns with flexGrow/flexShrink set to 0
