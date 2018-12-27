@@ -4,3 +4,4 @@ target/
 .idea/
 react-virtualized
 .metals/
+.bloop/
