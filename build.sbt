@@ -33,8 +33,8 @@ lazy val demo =
       webpackBundlingMode              := BundlingMode.LibraryOnly(),
       webpackDevServerExtraArgs        := Seq("--inline"),
       webpackConfigFile in fastOptJS   := Some(baseDirectory.value / "dev.webpack.config.js"),
-      version in webpack               := "4.19.1",
-      version in startWebpackDevServer := "3.1.8",
+      version in webpack               := "4.28.2",
+      version in startWebpackDevServer := "3.1.14",
       // don't publish the demo
       publish                          := {},
       publishLocal                     := {},
@@ -57,26 +57,26 @@ lazy val facade =
         "react-virtualized" -> reactVirtualized
       ),
       // Requires the DOM for tests
-      requiresDOM in Test              := true,
+      requireJsDomEnv in Test          := true,
       // Use yarn as it is faster than npm
       useYarn                          := true,
-      version in webpack               := "4.19.1",
-      version in startWebpackDevServer := "3.1.8",
+      version in webpack               := "4.28.2",
+      version in startWebpackDevServer := "3.1.14",
       scalaJSUseMainModuleInitializer  := false,
       // Compile tests to JS using fast-optimisation
       scalaJSStage in Test             := FastOptStage,
       libraryDependencies    ++= Seq(
         "com.github.japgolly.scalajs-react" %%% "core"       % scalaJsReact,
         "com.github.japgolly.scalajs-react" %%% "test"       % scalaJsReact % "test",
-        "com.lihaoyi"                       %%% "utest"      % "0.6.5" % Test,
-        "org.typelevel"                     %%% "cats-core"  % "1.4.0" % Test
+        "com.lihaoyi"                       %%% "utest"      % "0.6.6" % Test,
+        "org.typelevel"                     %%% "cats-core"  % "1.5.0" % Test
       ),
       webpackConfigFile in Test       := Some(baseDirectory.value / "test.webpack.config.js"),
       testFrameworks                  += new TestFramework("utest.runner.Framework")
     )
 
 lazy val commonSettings = Seq(
-  scalaVersion            := "2.12.6",
+  scalaVersion            := "2.12.8",
   organization            := "io.github.cquiroz",
   description             := "scala.js facade for react-virtualized",
   homepage                := Some(url("https://github.com/cquiroz/scalajs-react-virtualized")),
