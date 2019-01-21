@@ -9,11 +9,9 @@ import japgolly.scalajs.react.raw.JsNumber
 import japgolly.scalajs.react.raw.React
 import japgolly.scalajs.react.vdom.VdomNode
 import react.common.Style
+import react.common.EnumValue
 
 package object virtualized {
-  implicit class VdomToRaw(val node: VdomNode) extends AnyVal {
-    def toRaw: React.Node = node.rawNode
-  }
   implicit class TableJsMethodsOps(val m: virtualized.Table.JsMethods) extends AnyVal {
     def forceUpdateGridCB: Callback = Callback(m.forceUpdateGrid)
     def measureAllRowsCB: Callback  = Callback(m.measureAllRows)
@@ -174,12 +172,7 @@ package virtualized {
     case object Start extends ScrollToAlignment
     case object Center extends ScrollToAlignment
 
-    def toRaw(s: ScrollToAlignment): String = s match {
-      case Auto   => "auto"
-      case End    => "end"
-      case Start  => "start"
-      case Center => "center"
-    }
+    implicit val enum: EnumValue[ScrollToAlignment] = EnumValue.toLowerCaseString
   }
 
   @js.native
@@ -187,6 +180,7 @@ package virtualized {
     var height: Double = js.native
     var width: Double  = js.native
   }
+
   object Size {
     def apply(height: Double, width: Double): Size = {
       val p = (new js.Object).asInstanceOf[Size]

@@ -8,6 +8,7 @@ import japgolly.scalajs.react.raw.React
 import japgolly.scalajs.react.component.Js.RawMounted
 import japgolly.scalajs.react.component.Js.UnmountedWithRawType
 import react.common.Style
+import react.common.syntax._
 import scala.scalajs.js
 import scala.scalajs.js.annotation.JSImport
 

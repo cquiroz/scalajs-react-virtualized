@@ -11,6 +11,7 @@ import scala.scalajs.js
 import scala.scalajs.js.|
 import scala.scalajs.js.JSConverters._
 import react.common.Style
+import react.common.syntax._
 import scala.scalajs.js.annotation.JSImport
 import react.virtualized.raw._
 
@@ -314,7 +315,7 @@ object Table {
     p.sort = sort.map { f => (i: RawSortParam) =>
       f(i.sortBy, SortDirection.fromRaw(i.sortDirection)).runNow()
     }
-    p.scrollToAlignment = ScrollToAlignment.toRaw(scrollToAlignment)
+    p.scrollToAlignment = scrollToAlignment.toJs
     // some uglies to get scala and js to talk
     p.rowStyle = (rowStyle: Any) match {
       case o: Style => Style.toJsObject(o)

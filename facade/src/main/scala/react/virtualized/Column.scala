@@ -12,6 +12,7 @@ import japgolly.scalajs.react.raw.JsNumber
 import japgolly.scalajs.react.raw.React
 import japgolly.scalajs.react.vdom.VdomNode
 import react.common.Style
+import react.common.syntax._
 import raw._
 
 trait Column extends js.Object
