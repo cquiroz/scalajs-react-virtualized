@@ -1,5 +1,9 @@
 # Changes
 
+## 0.4.4
+
+* Use scalajs-react-common
+
 ## 0.4.3
 
 * Upgraded to scala.js 0.6.26
