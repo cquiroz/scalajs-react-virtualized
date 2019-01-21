@@ -5,11 +5,14 @@ import scala.scalajs.js
 import js.annotation.JSImport
 import js.JSConverters._
 import japgolly.scalajs.react._
-import japgolly.scalajs.react.component.Js.{RawMounted, UnmountedMapped}
+import japgolly.scalajs.react.component.Js.RawMounted
+import japgolly.scalajs.react.component.Js.UnmountedMapped
 import japgolly.scalajs.react.internal.Effect.Id
 import japgolly.scalajs.react.raw.JsNumber
 import japgolly.scalajs.react.raw.React
 import japgolly.scalajs.react.vdom.VdomNode
+import react.common.Style
+import react.common.syntax._
 import raw._
 
 trait Column extends js.Object
@@ -95,29 +98,29 @@ object Column {
     * C Row data
     */
   def props[A <: js.Object, B <: js.Object, C <: js.Object](
-      width: JsNumber,
-      dataKey: String,
-      ariaLabel: js.UndefOr[String] = js.undefined,
-      cellDataGetter: Option[CellDataGetter[B, C, A]] = None,
-      cellRenderer: CellRenderer[A, B, C] = defaultCellRendererS,
-      className: js.UndefOr[String] = js.undefined,
-      columnData: js.UndefOr[B] = js.undefined,
-      disableSort: js.UndefOr[Boolean] = js.undefined,
-      defaultSortDirection: SortDirection = SortDirection.ASC,
-      flexGrow: js.UndefOr[JsNumber] = js.undefined,
-      flexShrink: js.UndefOr[JsNumber] = js.undefined,
-      headerClassName: js.UndefOr[String] = js.undefined,
-      headerRenderer: HeaderRenderer[B] = defaultHeaderRendererS,
-      headerStyle: js.UndefOr[Style] = js.undefined,
-      id: js.UndefOr[String] = js.undefined,
-      label: VdomNode = VdomNode.cast(()),
-      maxWidth: js.UndefOr[JsNumber] = js.undefined,
-      minWidth: js.UndefOr[JsNumber] = js.undefined,
-      style: js.UndefOr[Style] = js.undefined
+    width:                JsNumber,
+    dataKey:              String,
+    ariaLabel:            js.UndefOr[String] = js.undefined,
+    cellDataGetter:       Option[CellDataGetter[B, C, A]] = None,
+    cellRenderer:         CellRenderer[A, B, C] = defaultCellRendererS,
+    className:            js.UndefOr[String] = js.undefined,
+    columnData:           js.UndefOr[B] = js.undefined,
+    disableSort:          js.UndefOr[Boolean] = js.undefined,
+    defaultSortDirection: SortDirection = SortDirection.ASC,
+    flexGrow:             js.UndefOr[JsNumber] = js.undefined,
+    flexShrink:           js.UndefOr[JsNumber] = js.undefined,
+    headerClassName:      js.UndefOr[String] = js.undefined,
+    headerRenderer:       HeaderRenderer[B] = defaultHeaderRendererS,
+    headerStyle:          js.UndefOr[Style] = js.undefined,
+    id:                   js.UndefOr[String] = js.undefined,
+    label:                VdomNode = VdomNode.cast(()),
+    maxWidth:             js.UndefOr[JsNumber] = js.undefined,
+    minWidth:             js.UndefOr[JsNumber] = js.undefined,
+    style:                js.UndefOr[Style] = js.undefined
   ): Props = {
     val p = (new js.Object).asInstanceOf[Props]
-    p.width = width
-    p.dataKey = dataKey
+    p.width        = width
+    p.dataKey      = dataKey
     p.`aria-label` = ariaLabel
     def rawCellDataGetter(cdg: CellDataGetter[B, C, A]): RawCellDataGetter =
       (cdp: RawCellDataParameter) =>
@@ -130,13 +133,13 @@ object Column {
                      r.dataKey,
                      r.rowData.asInstanceOf[C],
                      r.rowIndex).toRaw).orUndefined
-    p.className = className
-    p.columnData = columnData
-    p.disableSort = disableSort
+    p.className            = className
+    p.columnData           = columnData
+    p.disableSort          = disableSort
     p.defaultSortDirection = defaultSortDirection.toRaw
-    p.flexGrow = flexGrow
-    p.flexShrink = flexShrink
-    p.headerClassName = headerClassName
+    p.flexGrow             = flexGrow
+    p.flexShrink           = flexShrink
+    p.headerClassName      = headerClassName
     p.headerRenderer = (r: RawHeaderRendererParameter) =>
       headerRenderer(
         r.columnData.asInstanceOf[B],
@@ -147,11 +150,11 @@ object Column {
         SortDirection.fromRaw(r.sortDirection.getOrElse(""))
       ).toRaw
     p.headerStyle = headerStyle.map(Style.toJsObject)
-    p.id = id
-    p.label = label.rawNode
-    p.maxWidth = maxWidth
-    p.minWidth = minWidth
-    p.style = style.map(Style.toJsObject)
+    p.id          = id
+    p.label       = label.rawNode
+    p.maxWidth    = maxWidth
+    p.minWidth    = minWidth
+    p.style       = style.map(Style.toJsObject)
     p
   }
 
@@ -163,26 +166,28 @@ object Column {
     * C Row data
     */
   def propsNoFlex[A <: js.Object, B <: js.Object, C <: js.Object](
-      width: JsNumber,
-      dataKey: String,
-      ariaLabel: js.UndefOr[String] = js.undefined,
-      cellDataGetter: Option[CellDataGetter[B, C, A]] = None,
-      cellRenderer: CellRenderer[A, B, C] = defaultCellRendererS,
-      className: js.UndefOr[String] = js.undefined,
-      columnData: js.UndefOr[B] = js.undefined,
-      disableSort: js.UndefOr[Boolean] = true,
-      defaultSortDirection: SortDirection = SortDirection.ASC,
-      flexGrow: js.UndefOr[JsNumber] = 0,
-      flexShrink: js.UndefOr[JsNumber] = 0,
-      headerClassName: js.UndefOr[String] = js.undefined,
-      headerRenderer: HeaderRenderer[B] = defaultHeaderRendererS,
-      headerStyle: js.UndefOr[Style] = js.undefined,
-      id: js.UndefOr[String] = js.undefined,
-      label: VdomNode = VdomNode.cast(()),
-      maxWidth: js.UndefOr[JsNumber] = js.undefined,
-      minWidth: js.UndefOr[JsNumber] = js.undefined,
-      style: js.UndefOr[Style] = js.undefined
-  ): Props = props(width,
+    width:                JsNumber,
+    dataKey:              String,
+    ariaLabel:            js.UndefOr[String] = js.undefined,
+    cellDataGetter:       Option[CellDataGetter[B, C, A]] = None,
+    cellRenderer:         CellRenderer[A, B, C] = defaultCellRendererS,
+    className:            js.UndefOr[String] = js.undefined,
+    columnData:           js.UndefOr[B] = js.undefined,
+    disableSort:          js.UndefOr[Boolean] = true,
+    defaultSortDirection: SortDirection = SortDirection.ASC,
+    flexGrow:             js.UndefOr[JsNumber] = 0,
+    flexShrink:           js.UndefOr[JsNumber] = 0,
+    headerClassName:      js.UndefOr[String] = js.undefined,
+    headerRenderer:       HeaderRenderer[B] = defaultHeaderRendererS,
+    headerStyle:          js.UndefOr[Style] = js.undefined,
+    id:                   js.UndefOr[String] = js.undefined,
+    label:                VdomNode = VdomNode.cast(()),
+    maxWidth:             js.UndefOr[JsNumber] = js.undefined,
+    minWidth:             js.UndefOr[JsNumber] = js.undefined,
+    style:                js.UndefOr[Style] = js.undefined
+  ): Props =
+    props(
+      width,
       dataKey,
       ariaLabel,
       cellDataGetter,
@@ -206,8 +211,8 @@ object Column {
   private val component =
     JsComponent[Props, Children.None, Null](RawComponent).addFacade[Column]
 
-  def apply(p: Props)
-    : UnmountedMapped[Id, Props, Null, RawMounted[Props, Null] with Column, Props, Null] =
+  def apply(
+    p: Props): UnmountedMapped[Id, Props, Null, RawMounted[Props, Null] with Column, Props, Null] =
     component(p)
 
 }
