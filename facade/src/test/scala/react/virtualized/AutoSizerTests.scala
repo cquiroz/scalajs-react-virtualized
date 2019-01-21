@@ -3,7 +3,8 @@ package virtualized
 
 import japgolly.scalajs.react._
 import japgolly.scalajs.react.test._
-import japgolly.scalajs.react.vdom.html_<^.{< => <<, _}
+import japgolly.scalajs.react.vdom.html_<^.{ < => <<, _ }
+import react.common.Style
 import scala.scalajs.js
 import scala.scalajs.js.|
 import cats.syntax.eq._
@@ -32,15 +33,18 @@ object AutoSizerTests extends TestSuite with TestUtils {
     }
     'supportDisableWidth - {
       AutoSizer(AutoSizer.props(children = children)).props.disableWidth.toOption ==> Some(false)
-      AutoSizer(AutoSizer.props(children = children, disableWidth = true)).props.disableWidth.toOption ==> Some(true)
+      AutoSizer(AutoSizer.props(children = children, disableWidth = true)).props.disableWidth.toOption ==> Some(
+        true)
     }
     'supportDisableHeight - {
       AutoSizer(AutoSizer.props(children = children)).props.disableHeight.toOption ==> Some(false)
-      AutoSizer(AutoSizer.props(children = children, disableHeight = true)).props.disableHeight.toOption ==> Some(true)
+      AutoSizer(AutoSizer.props(children = children, disableHeight = true)).props.disableHeight.toOption ==> Some(
+        true)
     }
     'supportOnResize - {
       val size = Size(height = 10, width = 20)
-      AutoSizer(AutoSizer.props(children = children, onResize = x => Callback.empty)).props.onResize(size) ==> (())
+      AutoSizer(AutoSizer.props(children = children, onResize = x => Callback.empty)).props
+        .onResize(size) ==> (())
     }
     'supportClassName - {
       AutoSizer(AutoSizer.props(children = children)).props.className ==> (())
@@ -56,7 +60,7 @@ object AutoSizerTests extends TestSuite with TestUtils {
       AutoSizer(AutoSizer.props(children = children, defaultWidth = 43)).props.defaultWidth ==> 43
     }
     'supportStyle - {
-      val style = js.Dynamic.literal(foo = 42, bar = "foobar")
+      val style    = js.Dynamic.literal(foo = 42, bar = "foobar")
       val styleMap = Map[String, String | Int]("foo" -> 42, "bar" -> "foobar")
       AutoSizer(AutoSizer.props(children = children)).props.style === new js.Object() ==> true
       AutoSizer(AutoSizer.props(children = children, style = Style(styleMap))).props.style === style ==> true

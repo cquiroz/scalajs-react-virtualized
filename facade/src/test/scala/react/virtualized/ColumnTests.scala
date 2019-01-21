@@ -1,11 +1,12 @@
 package react
 package virtualized
 
+import cats.syntax.eq._
 import scala.scalajs.js
 import scala.scalajs.js.|
 import js.JSConverters._
-import japgolly.scalajs.react.vdom.html_<^.{< => <<, _}
-import cats.syntax.eq._
+import japgolly.scalajs.react.vdom.html_<^.{ < => <<, _ }
+import react.common.Style
 import raw._
 import utest._
 
@@ -22,17 +23,28 @@ object ColumnTests extends TestSuite with TestUtils {
     }
     "have a default cellDataGetter" - {
       val dataMap = Map("key" -> 1, "b" -> 2).toJSDictionary
-      Column(Column.props(200, "key")).props.cellDataGetter.toOption.map(_(RawCellDataParameter("col", "key", dataMap))) ==> Some(1)
+      Column(Column.props(200, "key")).props.cellDataGetter.toOption
+        .map(_(RawCellDataParameter("col", "key", dataMap))) ==> Some(1)
     }
     "support cellDataGetter" - {
       val cell: js.Object = js.Dynamic.literal(foo = 42, bar = "foobar")
-      Column(Column.props(200, "key", cellDataGetter = Some((_: js.Any, _: String, _: js.Object) => cell))).props.cellDataGetter.toOption.map(_(RawCellDataParameter("col", "key", "row"))).map(_ === cell) ==> Some(true)
+      Column(Column.props(
+        200,
+        "key",
+        cellDataGetter = Some((_: js.Any, _: String, _: js.Object) => cell))).props.cellDataGetter.toOption
+        .map(_(RawCellDataParameter("col", "key", "row")))
+        .map(_ === cell) ==> Some(true)
     }
     "have a default cellRenderer" - {
-      Column(Column.props(200, "key")).props.cellRenderer.toOption.map(_(RawCellRendererParameter("cellData", "col", "key", "row", 1))) ==> Some("cellData")
+      Column(Column.props(200, "key")).props.cellRenderer.toOption
+        .map(_(RawCellRendererParameter("cellData", "col", "key", "row", 1))) ==> Some("cellData")
     }
     "support cellRenderer" - {
-      val r = Column(Column.props(200, "key", cellRenderer = (_: js.Any, _: js.Any, _, _: js.Any, _) => <<.div("abc"))).props.cellRenderer.toOption.map(_(RawCellRendererParameter("cellData", "col", "key", "row", 1)))
+      val r = Column(Column.props(200,
+                                  "key",
+                                  cellRenderer = (_: js.Any, _: js.Any, _, _: js.Any, _) =>
+                                    <<.div("abc"))).props.cellRenderer.toOption
+        .map(_(RawCellRendererParameter("cellData", "col", "key", "row", 1)))
       assertRenderNode(r, "<div><div>abc</div></div>")
     }
     "support className" - {
@@ -66,15 +78,22 @@ object ColumnTests extends TestSuite with TestUtils {
     }
     "have a default headerRenderer" - {
       val label = <<.div("Label")
-      val headerParam = RawHeaderRendererParameter(js.undefined, "key", disableSort = true, label, "key", "ASC")
+      val headerParam =
+        RawHeaderRendererParameter(js.undefined, "key", disableSort = true, label, "key", "ASC")
       val unmounted = Column(Column.props(200, "key")).props.headerRenderer(headerParam)
-      assertRender(unmounted,
-        """<div><span class="ReactVirtualized__Table__headerTruncatedText" title="[object Object]"><div>Label</div></span><svg class="ReactVirtualized__Table__sortableHeaderIcon ReactVirtualized__Table__sortableHeaderIcon--ASC" width="18" height="18" viewBox="0 0 24 24"><path d="M7 14l5-5 5 5z"></path><path d="M0 0h24v24H0z" fill="none"></path></svg></div>""")
+      assertRender(
+        unmounted,
+        """<div><span class="ReactVirtualized__Table__headerTruncatedText" title="[object Object]"><div>Label</div></span><svg class="ReactVirtualized__Table__sortableHeaderIcon ReactVirtualized__Table__sortableHeaderIcon--ASC" width="18" height="18" viewBox="0 0 24 24"><path d="M7 14l5-5 5 5z"></path><path d="M0 0h24v24H0z" fill="none"></path></svg></div>"""
+      )
     }
     "support headerRenderer" - {
       val label = <<.div("Label")
-      val headerParam = RawHeaderRendererParameter(js.undefined, "key", disableSort = true, label, "key", "ASC")
-      val unmounted = Column(Column.props(200, "key", headerRenderer = (_: js.Any, _, _, _, _, _) => <<.div("header"))).props.headerRenderer(headerParam)
+      val headerParam =
+        RawHeaderRendererParameter(js.undefined, "key", disableSort = true, label, "key", "ASC")
+      val unmounted = Column(
+        Column
+          .props(200, "key", headerRenderer = (_: js.Any, _, _, _, _, _) => <<.div("header"))).props
+        .headerRenderer(headerParam)
       assertRender(unmounted, """<div><div>header</div></div>""")
     }
     "support id" - {
@@ -95,16 +114,18 @@ object ColumnTests extends TestSuite with TestUtils {
       Column(Column.props(200, "key", minWidth = 100)).props.minWidth ==> 100
     }
     "support style" - {
-      val style = js.Dynamic.literal(foo = 42, bar = "foobar")
+      val style    = js.Dynamic.literal(foo = 42, bar = "foobar")
       val styleMap = Map[String, String | Int]("foo" -> 42, "bar" -> "foobar")
       Column(Column.props(200, "key")).props.style === Some(js.Object()).orUndefined ==> true
-      Column(Column.props(200, "key", style = Style(styleMap))).props.style.toOption.map(_ === style) ==> Some(true)
+      Column(Column.props(200, "key", style = Style(styleMap))).props.style.toOption
+        .map(_ === style) ==> Some(true)
     }
     "support header style" - {
-      val style = js.Dynamic.literal(foo = 42, bar = "foobar")
+      val style    = js.Dynamic.literal(foo = 42, bar = "foobar")
       val styleMap = Map[String, String | Int]("foo" -> 42, "bar" -> "foobar")
       Column(Column.props(200, "key")).props.headerStyle ==> (())
-      Column(Column.props(200, "key", headerStyle = Style(styleMap))).props.headerStyle.toOption.map(_ === style) ==> Some(true)
+      Column(Column.props(200, "key", headerStyle = Style(styleMap))).props.headerStyle.toOption
+        .map(_ === style) ==> Some(true)
     }
   }
 }

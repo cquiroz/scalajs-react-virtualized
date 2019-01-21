@@ -2,17 +2,17 @@ package react
 package virtualized
 
 import japgolly.scalajs.react._
-import japgolly.scalajs.react.component.Js.{RawMounted, UnmountedMapped}
+import japgolly.scalajs.react.vdom.VdomNode
+import japgolly.scalajs.react.raw.JsNumber
+import japgolly.scalajs.react.component.Js.RawMounted
+import japgolly.scalajs.react.component.Js.UnmountedMapped
 import japgolly.scalajs.react.internal.Effect.Id
-
 import scala.scalajs.js
 import scala.scalajs.js.|
-import js.JSConverters._
-import japgolly.scalajs.react.raw.JsNumber
-import japgolly.scalajs.react.vdom.Exports._
-
+import scala.scalajs.js.JSConverters._
+import react.common.Style
 import scala.scalajs.js.annotation.JSImport
-import raw._
+import react.virtualized.raw._
 
 object Table {
 
@@ -32,9 +32,9 @@ object Table {
     def forceUpdateGrid(): Unit = js.native
     def getOffsetForRow(o: js.Object): JsNumber = js.native
     def measureAllRows(): Unit = js.native
-    def recomputeRowHeights(index: Int): Unit = js.native
+    def recomputeRowHeights(index:  Int): Unit = js.native
     def scrollToPosition(scrollTop: Int): Unit = js.native
-    def scrollToRow(index: Int): Unit = js.native
+    def scrollToRow(index:          Int): Unit = js.native
   }
 
   @js.native
@@ -232,90 +232,85 @@ object Table {
   }
 
   def props[C <: js.Object](
-      headerHeight: JsNumber,
-      height: JsNumber,
-      rowCount: Int,
-      rowGetter: RowGetter,
-      rowHeight: JsNumber | RowHeight,
-      width: JsNumber,
-      ariaLabel: js.UndefOr[String] = js.undefined,
-      autoHeight: js.UndefOr[Boolean] = js.undefined,
-      className: js.UndefOr[String] = js.undefined,
-      deferredMeasurementCache: js.UndefOr[CellMeasurerCache] = js.undefined,
-      disableHeader: js.UndefOr[Boolean] = js.undefined,
-      estimatedRowSize: JsNumber = 30,
-      gridClassName: js.UndefOr[String] = js.undefined,
-      gridStyle: js.UndefOr[Style] = js.undefined,
-      headerClassName: js.UndefOr[String] = js.undefined,
-      headerStyle: js.UndefOr[Style] = js.undefined,
-      headerRowRenderer: HeaderRowRenderer = defaultHeaderRowRendererS,
-      id: js.UndefOr[String] = js.undefined,
-      noRowsRenderer: NoRowsRenderer = () => null, // default from react-virtualized
-      onHeaderClick: OnHeaderClick = (_, _) => Callback.empty,
-      onRowClick: OnRowClick = _ => Callback.empty,
-      onRowDoubleClick: OnRowClick = _ => Callback.empty,
-      onRowMouseOut: OnRowClick = _ => Callback.empty,
-      onRowMouseOver: OnRowClick = _ => Callback.empty,
-      onRowRightClick: OnRowClick = _ => Callback.empty,
-      onRowsRendered: OnRowsRenderer = (_, _, _, _) => Callback.empty,
-      onScroll: OnScroll = (_, _, _) => Callback.empty,
-      overscanRowCount: Int = 10, // default from react-virtualized
-      rowClassName: String | RowClassName = null,
-      style: js.UndefOr[Style] = js.undefined,
-      tabIndex: js.UndefOr[Int] = js.undefined,
-      sort: js.UndefOr[Sort] = js.undefined,
-      sortBy: js.UndefOr[String] = js.undefined,
-      scrollToIndex: Int = -1,
-      scrollTop: js.UndefOr[JsNumber] = js.undefined,
-      sortDirection: js.UndefOr[SortDirection] = js.undefined,
-      scrollToAlignment: ScrollToAlignment = ScrollToAlignment.Auto,
-      rowRenderer: RowRenderer[C] = defaultRowRendererS,
-      rowStyle: Style | RowStyle = Style(Map.empty)
+    headerHeight:             JsNumber,
+    height:                   JsNumber,
+    rowCount:                 Int,
+    rowGetter:                RowGetter,
+    rowHeight:                JsNumber | RowHeight,
+    width:                    JsNumber,
+    ariaLabel:                js.UndefOr[String] = js.undefined,
+    autoHeight:               js.UndefOr[Boolean] = js.undefined,
+    className:                js.UndefOr[String] = js.undefined,
+    deferredMeasurementCache: js.UndefOr[CellMeasurerCache] = js.undefined,
+    disableHeader:            js.UndefOr[Boolean] = js.undefined,
+    estimatedRowSize:         JsNumber = 30,
+    gridClassName:            js.UndefOr[String] = js.undefined,
+    gridStyle:                js.UndefOr[Style] = js.undefined,
+    headerClassName:          js.UndefOr[String] = js.undefined,
+    headerStyle:              js.UndefOr[Style] = js.undefined,
+    headerRowRenderer:        HeaderRowRenderer = defaultHeaderRowRendererS,
+    id:                       js.UndefOr[String] = js.undefined,
+    noRowsRenderer:           NoRowsRenderer = () => null, // default from react-virtualized
+    onHeaderClick:            OnHeaderClick = (_, _) => Callback.empty,
+    onRowClick:               OnRowClick = _ => Callback.empty,
+    onRowDoubleClick:         OnRowClick = _ => Callback.empty,
+    onRowMouseOut:            OnRowClick = _ => Callback.empty,
+    onRowMouseOver:           OnRowClick = _ => Callback.empty,
+    onRowRightClick:          OnRowClick = _ => Callback.empty,
+    onRowsRendered:           OnRowsRenderer = (_, _, _, _) => Callback.empty,
+    onScroll:                 OnScroll = (_, _, _) => Callback.empty,
+    overscanRowCount:         Int = 10, // default from react-virtualized
+    rowClassName:             String | RowClassName = null,
+    style:                    js.UndefOr[Style] = js.undefined,
+    tabIndex:                 js.UndefOr[Int] = js.undefined,
+    sort:                     js.UndefOr[Sort] = js.undefined,
+    sortBy:                   js.UndefOr[String] = js.undefined,
+    scrollToIndex:            Int = -1,
+    scrollTop:                js.UndefOr[JsNumber] = js.undefined,
+    sortDirection:            js.UndefOr[SortDirection] = js.undefined,
+    scrollToAlignment:        ScrollToAlignment = ScrollToAlignment.Auto,
+    rowRenderer:              RowRenderer[C] = defaultRowRendererS,
+    rowStyle:                 Style | RowStyle = Style(Map.empty)
   ): Props = {
     val p = (new js.Object).asInstanceOf[Props]
-    p.headerHeight = headerHeight
-    p.height = height
-    p.rowCount = rowCount
-    p.rowGetter = (i: RawIndexParameter) => rowGetter(i.index)
-    p.width = width
-    p.`aria-label` = ariaLabel
-    p.autoHeight = autoHeight
-    p.className = className
+    p.headerHeight             = headerHeight
+    p.height                   = height
+    p.rowCount                 = rowCount
+    p.rowGetter                = (i: RawIndexParameter) => rowGetter(i.index)
+    p.width                    = width
+    p.`aria-label`             = ariaLabel
+    p.autoHeight               = autoHeight
+    p.className                = className
     p.deferredMeasurementCache = deferredMeasurementCache
-    p.disableHeader = disableHeader
-    p.estimatedRowSize = estimatedRowSize
-    p.gridClassName = gridClassName
-    p.gridStyle = gridStyle.map(Style.toJsObject)
-    p.headerClassName = headerClassName
-    p.headerStyle = headerStyle.map(Style.toJsObject)
+    p.disableHeader            = disableHeader
+    p.estimatedRowSize         = estimatedRowSize
+    p.gridClassName            = gridClassName
+    p.gridStyle                = gridStyle.map(Style.toJsObject)
+    p.headerClassName          = headerClassName
+    p.headerStyle              = headerStyle.map(Style.toJsObject)
     p.headerRowRenderer = (r: RawHeaderRowRendererParameter) =>
       headerRowRenderer(r.className,
                         r.columns.map(VdomNode.apply).toArray,
                         Style.fromJsObject(r.style)).toRaw
-    p.id = id
-    p.noRowsRenderer =
-      Some[RawNoRowsRenderer](() => noRowsRenderer.apply.rawNode).orUndefined
-    p.onHeaderClick = (x: RawHeaderClickParam) =>
-      onHeaderClick(x.columnData, x.dataKey).runNow()
-    p.onRowClick = (x: RawIndexParameter) => onRowClick(x.index).runNow()
-    p.onRowDoubleClick = (x: RawIndexParameter) =>
-      onRowDoubleClick(x.index).runNow()
-    p.onRowMouseOut = (x: RawIndexParameter) => onRowMouseOut(x.index).runNow()
-    p.onRowMouseOver = (x: RawIndexParameter) =>
-      onRowMouseOver(x.index).runNow()
-    p.onRowRightClick = (x: RawIndexParameter) =>
-      onRowRightClick(x.index).runNow()
+    p.id               = id
+    p.noRowsRenderer   = Some[RawNoRowsRenderer](() => noRowsRenderer.apply.rawNode).orUndefined
+    p.onHeaderClick    = (x: RawHeaderClickParam) => onHeaderClick(x.columnData, x.dataKey).runNow()
+    p.onRowClick       = (x: RawIndexParameter) => onRowClick(x.index).runNow()
+    p.onRowDoubleClick = (x: RawIndexParameter) => onRowDoubleClick(x.index).runNow()
+    p.onRowMouseOut    = (x: RawIndexParameter) => onRowMouseOut(x.index).runNow()
+    p.onRowMouseOver   = (x: RawIndexParameter) => onRowMouseOver(x.index).runNow()
+    p.onRowRightClick  = (x: RawIndexParameter) => onRowRightClick(x.index).runNow()
     p.onRowsRendered = (x: RawRowsRendererParam) =>
       onRowsRendered(x.overscanStartIndex, x.overscanStopIndex, x.startIndex, x.stopIndex).runNow()
     p.onScroll = (x: RawScrollParam) =>
       onScroll(x.clientHeight, x.scrollHeight, x.scrollTop).runNow()
     p.overscanRowCount = overscanRowCount
-    p.style = style.map(Style.toJsObject)
-    p.tabIndex = tabIndex
-    p.sortBy = sortBy
-    p.scrollToIndex = scrollToIndex
-    p.scrollTop = scrollTop
-    p.sortDirection = sortDirection.map(_.toRaw)
+    p.style            = style.map(Style.toJsObject)
+    p.tabIndex         = tabIndex
+    p.sortBy           = sortBy
+    p.scrollToIndex    = scrollToIndex
+    p.scrollTop        = scrollTop
+    p.sortDirection    = sortDirection.map(_.toRaw)
     p.sort = sort.map { f => (i: RawSortParam) =>
       f(i.sortBy, SortDirection.fromRaw(i.sortDirection)).runNow()
     }
@@ -324,8 +319,7 @@ object Table {
     p.rowStyle = (rowStyle: Any) match {
       case o: Style => Style.toJsObject(o)
       case f =>
-        ((i: RawIndexParameter) =>
-          Style.toJsObject(f.asInstanceOf[RowStyle](i.index))): RawRowStyle
+        ((i: RawIndexParameter) => Style.toJsObject(f.asInstanceOf[RowStyle](i.index))): RawRowStyle
     }
     p.rowRenderer = (r: RawRowRendererParameter) =>
       rowRenderer(
@@ -347,16 +341,15 @@ object Table {
       case s: String =>
         p.rowClassName = s
       case f =>
-        p.rowClassName = ((i: RawIndexParameter) =>
-          f.asInstanceOf[RowClassName](i.index)): RawRowClassName
+        p.rowClassName =
+          ((i: RawIndexParameter) => f.asInstanceOf[RowClassName](i.index)): RawRowClassName
     }
     (rowHeight: Any) match {
       case null =>
       case s: Int =>
         p.rowHeight = s
       case f =>
-        p.rowHeight = ((i: RawIndexParameter) =>
-          f.asInstanceOf[RowHeight](i.index)): RawRowHeight
+        p.rowHeight = ((i: RawIndexParameter) => f.asInstanceOf[RowHeight](i.index)): RawRowHeight
     }
     p
   }
