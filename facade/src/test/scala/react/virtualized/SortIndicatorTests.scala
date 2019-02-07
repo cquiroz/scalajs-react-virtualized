@@ -2,6 +2,7 @@ package react
 package virtualized
 
 import japgolly.scalajs.react.vdom.html_<^.{< => <<, _}
+import react.common.TestUtils
 import utest._
 
 object SortIndicaterTests extends TestSuite with TestUtils {

@@ -8,6 +8,8 @@ addCommandAlias("restartWDS", "; demo/fastOptJS::stopWebpackDevServer; demo/fast
 
 addCommandAlias("restartWDS", "; demo/fastOptJS::stopWebpackDevServer; demo/fastOptJS::startWebpackDevServer")
 
+resolvers in Global += Resolver.sonatypeRepo("staging")
+
 // sbt-release-early
 inThisBuild(List(
   homepage                := Some(url("https://github.com/cquiroz/scalajs-react-virtualized")),
@@ -76,9 +78,11 @@ lazy val facade =
       libraryDependencies    ++= Seq(
         "com.github.japgolly.scalajs-react" %%% "core"       % scalaJsReact,
         "com.github.japgolly.scalajs-react" %%% "test"       % scalaJsReact % "test",
-        "io.github.cquiroz"                 %%% "scalajs-react-common" % "0.0.6",
+        "io.github.cquiroz.react"           %%% "common"     % "0.1.0",
+        "io.github.cquiroz.react"           %%% "test"       % "0.1.0" % Test,
+        "io.github.cquiroz.react"           %%% "cats"       % "0.1.0" % Test,
         "com.lihaoyi"                       %%% "utest"      % "0.6.6" % Test,
-        "org.typelevel"                     %%% "cats-core"  % "1.5.0" % Test
+        "org.typelevel"                     %%% "cats-core"  % "1.6.0" % Test
       ),
       webpackConfigFile in Test       := Some(baseDirectory.value / "test.webpack.config.js"),
       testFrameworks                  += new TestFramework("utest.runner.Framework")

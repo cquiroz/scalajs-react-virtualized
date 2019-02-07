@@ -1,6 +1,7 @@
 package react
 package virtualized
 
+import react.common.TestUtils
 import utest._
 
 class CellMeasurerTest extends TestSuite with TestUtils {
