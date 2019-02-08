@@ -1,5 +1,9 @@
 # Changes
 
+## 0.4.7
+
+* Change package name
+
 ## 0.4.6
 
 * Change organization id

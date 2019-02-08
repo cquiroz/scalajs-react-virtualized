@@ -60,7 +60,7 @@ lazy val facade =
     .enablePlugins(ScalaJSBundlerPlugin)
     .settings(commonSettings: _*)
     .settings(
-      name                             := "scalajs-react-virtualized",
+      name                             := "react-virtualized",
       npmDependencies in Compile      ++= Seq(
         "react"             -> reactJS,
         "react-dom"         -> reactJS,
