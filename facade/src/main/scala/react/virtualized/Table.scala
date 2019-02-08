@@ -15,6 +15,7 @@ import react.common.syntax._
 import scala.scalajs.js.annotation.JSImport
 import react.virtualized.raw._
 
+
 object Table {
 
   type ColumnArg = UnmountedMapped[Id,
