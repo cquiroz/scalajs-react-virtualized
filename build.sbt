@@ -90,8 +90,8 @@ lazy val facade =
 
 lazy val commonSettings = Seq(
   scalaVersion            := "2.12.8",
-  organization            := "io.github.cquiroz",
-  // sonatypeProfileName     := "io.github.cquiroz",
+  organization            := "io.github.cquiroz.react",
+  sonatypeProfileName     := "io.github.cquiroz",
   description             := "scala.js facade for react-virtualized",
   homepage                := Some(url("https://github.com/cquiroz/scalajs-react-virtualized")),
   licenses                := Seq("BSD 3-Clause License" -> url("https://opensource.org/licenses/BSD-3-Clause")),

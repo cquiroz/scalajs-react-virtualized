@@ -1,5 +1,9 @@
 # Changes
 
+## 0.4.6
+
+* Change organization id
+
 ## 0.4.5
 
 * Use scalajs-react-common
