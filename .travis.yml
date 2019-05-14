@@ -1,32 +1,32 @@
 language: scala
 scala:
-- 2.12.6
+  - 2.12.6
 jdk:
-- oraclejdk8
+  - oraclejdk8
 cache:
   directories:
-  - "$HOME/.ivy2/cache"
-  - "$HOME/.sbt/boot/"
+    - "$HOME/.ivy2/cache"
+    - "$HOME/.sbt/boot/"
 before_cache:
-- find $HOME/.ivy2 -name "ivydata-*.properties" -delete
-- find $HOME/.sbt -name "*.lock" -delete
+  - find $HOME/.ivy2 -name "ivydata-*.properties" -delete
+  - find $HOME/.sbt -name "*.lock" -delete
 install:
-- ". $HOME/.nvm/nvm.sh"
-- nvm install 9.4.0
-- nvm use 9.4.0
-- npm install jsdom
+  - ". $HOME/.nvm/nvm.sh"
+  - nvm install 9.4.0
+  - nvm use 9.4.0
+  - npm install jsdom
 script:
-- node --version
-- sbt facade/test demo/fastOptJS::webpack demo/fastOptJS
+  - node --version
+  - sbt facade/test demo/fastOptJS::webpack demo/fastOptJS
 after_success:
-- if [ $TRAVIS_PULL_REQUEST = 'false' ]; then git status; sbt ++$TRAVIS_SCALA_VERSION
-  releaseEarly; fi
+  - if [ $TRAVIS_PULL_REQUEST = 'false' ]; then sbt ++$TRAVIS_SCALA_VERSION
+    releaseEarly; fi
 before_install:
-- if [ $TRAVIS_PULL_REQUEST = 'false' ]; then openssl aes-256-cbc -K $encrypted_48c11a27c481_key
-  -iv $encrypted_48c11a27c481_iv -in travis/secrets.tar.enc -out travis/secrets.tar
-  -d; tar xv -C travis -f travis/secrets.tar; fi
+  - if [ $TRAVIS_PULL_REQUEST = 'false' ]; then openssl aes-256-cbc -K $encrypted_48c11a27c481_key
+    -iv $encrypted_48c11a27c481_iv -in travis/secrets.tar.enc -out travis/secrets.tar
+    -d; tar xv -C travis -f travis/secrets.tar; fi
 env:
   global:
-  - secure: BTdJrrLxl8SVp0QTVCUSC5bJ5wt9vqvwughGZfHJSh+R0LE+QtQT5XfwTmiUHNQ6Ft1i/aWHyV//Q7ERzoVSPfYOra2iXxHarWTjj7ZV/vZvDfNmd+dBj9enCpvsZ4VAI3fm7xQ2kUf0yam89DZpjtYdpFgF6jX6x7+uSREQ2EtSF12a/qPV/4Bp8hOqELAFXEhpvH2k9N2tBMaqkmyQUeW3+A93WGaYTn75kEh8kE7nqiYf+VxvfPaduCGSPkJ/0JR6RsNaoskTRonGgQTZ8Jlz6292hyHZM5+FnATa0hHKrnR/gvHS8Al4uGm6uVPVrfOKSreLI3gvZHAEjLuwLdVHOukBycG3gYucK/AznC5oUUPbwt16sugyrvrB3Y4R498dmGggLucm43Mpl8+3j7gzflXKliCPRqhEEvMcnXTFp3o3frtBmN2kSV9nJ/ybUAXC5X9hvGlF8DoVKatP4LbdKPrssbtcql2uyDtClBaT0qeHVQfisGxK8IrQBa50TGkAbKa2melnj+8ftz7OZvZ67WK5SZ+TZeQQHT8s6pfjeYZ21zDGQ6vbdQIuU+/hykQcU01+1bDW5dTvxYLNNALbzx7WAJOdVGWqIhZIu6rrrUV+Wf97Fxi95MWyj76FvG0eMTnTFih7bxYPKuMWihH1s/2yiouOLFTk1tkwxQA=
-  - secure: MCDCyubemcrEdzaXEx23PXk/TCHEQbi4E9fqk+UjMkkqxb1oIzjgxBOq77defO9o+WNR/eEJqfDgek7b6uMekAapZeY+99tE7J+Foztv8HTR1G4xmR6FZD9k8ZC73/8hACiX4wSZRiAo0mqVfsYJ7vyVTIyAHbyYQwNgc2frX88fyMS90CdevMJkQqmuz2ee1vDU/0KQTKpmhjlha2JdVfrwjFdE6f+tJ9t4Vx5GlcG9rX7a8S+Ks77BWLyvyKsByXZRu6UvZ2ML855/mQHkgEItzWvkKYR5P1hOPeUwICEd3ef+xwJg1kGw+dMmFXC/bNkshJmbGLK+gGxzEHjdyY8TZyapr6mq/mFhd63IRe6YVYJeEn7+Zc1Q/FSVQXMlXThCQOHEOsSPA4Lo1xBuuJmRsoK9zLQ4TPuVW5assNKf5k3YXTEx/7cSiM7rUTD+rQrAtEXA0x563QrVg7m6PFW9+Hxi/RN/3sWlxt87zwLN/+LT3GGiWk+B/hRRJZQoGEIN+YgzFP9LUssPYM1BAJtkIS47uOUwH4lIuPjISm/0cEr4weM8k5CqJCU4mJUgCp7/jzSrKpy1TITRoStV0oIICjOiR8pguzNrqtxbVk0i57jG6BfvdQBLEN7t5rb45fzOyzaIl6huL+q/YYWGsx5aenT+wI41YsjAXMBctKQ=
-  - secure: TeeTXFoORzsop05UYWuMI3TRbdUy88VksO74V2VR/mldDyvOvPAO9CS577UFYIgjzsnCXeiFMIHkUTe6Xfsq/pg9I0gpg8yamWwHs4RK3PuIpYG7q2M6huK9y89P6yWOEar+BBQxuGcCQ/DCsyg8Nda+uvh4nWuiyaVgP1L841HZrSVCDOeV35R47ZWgnbJL85h3N+7qbByserKENQO7WdhDy9WzxTaaMTBIU2FkYQ4HDyp/i1EdwEBSppfKDF6wPck1GjsbfGt2yyO1D+x34m8csF6u82GLlRO2WovDP8aLg2pJmTXojq6xK+x7EDICMv/hkW1dVs4z8ZF3k01W9Rz0uuGDCKf4xiQT2KFUWI6MpKB93/vi8Ev+DTPq8qxq8qt6hO9wVBSMBN4e0ICDPBkdnQ1Hjy/n4YZOBuDDPHAvI9giO/8F6I6MDMAF9VX8sNu3zhiqJJVOaAHUfLQp2508lmMXjWGK+1XxtmHkT1gitP+0JNJq4pmmqnKce08ZpC48A34t/e8mwP4LvVPpRrchZnfcmXe40v8ixrfEFtCkRfRmUlp/Dbmai1hKHKE9PmLYyXWR5kDYSn9r3X6LobgHOJy+J8bKkjj4kcOHSGyoX/tj1R8HL+Dnh/3jErDZ1ehrBMuXCDnfCMbZsPPCZ18b5JpIBn3lu0mgk/m3MD0=
+    - secure: BTdJrrLxl8SVp0QTVCUSC5bJ5wt9vqvwughGZfHJSh+R0LE+QtQT5XfwTmiUHNQ6Ft1i/aWHyV//Q7ERzoVSPfYOra2iXxHarWTjj7ZV/vZvDfNmd+dBj9enCpvsZ4VAI3fm7xQ2kUf0yam89DZpjtYdpFgF6jX6x7+uSREQ2EtSF12a/qPV/4Bp8hOqELAFXEhpvH2k9N2tBMaqkmyQUeW3+A93WGaYTn75kEh8kE7nqiYf+VxvfPaduCGSPkJ/0JR6RsNaoskTRonGgQTZ8Jlz6292hyHZM5+FnATa0hHKrnR/gvHS8Al4uGm6uVPVrfOKSreLI3gvZHAEjLuwLdVHOukBycG3gYucK/AznC5oUUPbwt16sugyrvrB3Y4R498dmGggLucm43Mpl8+3j7gzflXKliCPRqhEEvMcnXTFp3o3frtBmN2kSV9nJ/ybUAXC5X9hvGlF8DoVKatP4LbdKPrssbtcql2uyDtClBaT0qeHVQfisGxK8IrQBa50TGkAbKa2melnj+8ftz7OZvZ67WK5SZ+TZeQQHT8s6pfjeYZ21zDGQ6vbdQIuU+/hykQcU01+1bDW5dTvxYLNNALbzx7WAJOdVGWqIhZIu6rrrUV+Wf97Fxi95MWyj76FvG0eMTnTFih7bxYPKuMWihH1s/2yiouOLFTk1tkwxQA=
+    - secure: MCDCyubemcrEdzaXEx23PXk/TCHEQbi4E9fqk+UjMkkqxb1oIzjgxBOq77defO9o+WNR/eEJqfDgek7b6uMekAapZeY+99tE7J+Foztv8HTR1G4xmR6FZD9k8ZC73/8hACiX4wSZRiAo0mqVfsYJ7vyVTIyAHbyYQwNgc2frX88fyMS90CdevMJkQqmuz2ee1vDU/0KQTKpmhjlha2JdVfrwjFdE6f+tJ9t4Vx5GlcG9rX7a8S+Ks77BWLyvyKsByXZRu6UvZ2ML855/mQHkgEItzWvkKYR5P1hOPeUwICEd3ef+xwJg1kGw+dMmFXC/bNkshJmbGLK+gGxzEHjdyY8TZyapr6mq/mFhd63IRe6YVYJeEn7+Zc1Q/FSVQXMlXThCQOHEOsSPA4Lo1xBuuJmRsoK9zLQ4TPuVW5assNKf5k3YXTEx/7cSiM7rUTD+rQrAtEXA0x563QrVg7m6PFW9+Hxi/RN/3sWlxt87zwLN/+LT3GGiWk+B/hRRJZQoGEIN+YgzFP9LUssPYM1BAJtkIS47uOUwH4lIuPjISm/0cEr4weM8k5CqJCU4mJUgCp7/jzSrKpy1TITRoStV0oIICjOiR8pguzNrqtxbVk0i57jG6BfvdQBLEN7t5rb45fzOyzaIl6huL+q/YYWGsx5aenT+wI41YsjAXMBctKQ=
+    - secure: TeeTXFoORzsop05UYWuMI3TRbdUy88VksO74V2VR/mldDyvOvPAO9CS577UFYIgjzsnCXeiFMIHkUTe6Xfsq/pg9I0gpg8yamWwHs4RK3PuIpYG7q2M6huK9y89P6yWOEar+BBQxuGcCQ/DCsyg8Nda+uvh4nWuiyaVgP1L841HZrSVCDOeV35R47ZWgnbJL85h3N+7qbByserKENQO7WdhDy9WzxTaaMTBIU2FkYQ4HDyp/i1EdwEBSppfKDF6wPck1GjsbfGt2yyO1D+x34m8csF6u82GLlRO2WovDP8aLg2pJmTXojq6xK+x7EDICMv/hkW1dVs4z8ZF3k01W9Rz0uuGDCKf4xiQT2KFUWI6MpKB93/vi8Ev+DTPq8qxq8qt6hO9wVBSMBN4e0ICDPBkdnQ1Hjy/n4YZOBuDDPHAvI9giO/8F6I6MDMAF9VX8sNu3zhiqJJVOaAHUfLQp2508lmMXjWGK+1XxtmHkT1gitP+0JNJq4pmmqnKce08ZpC48A34t/e8mwP4LvVPpRrchZnfcmXe40v8ixrfEFtCkRfRmUlp/Dbmai1hKHKE9PmLYyXWR5kDYSn9r3X6LobgHOJy+J8bKkjj4kcOHSGyoX/tj1R8HL+Dnh/3jErDZ1ehrBMuXCDnfCMbZsPPCZ18b5JpIBn3lu0mgk/m3MD0=

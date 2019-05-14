@@ -1,5 +1,14 @@
 # Changes
 
+## 0.6.0
+
+* Update to scala-js-react 1.4.2 and react 16.7.0
+
+## 0.5.1
+
+* Update react-virtualized to 9.21.1
+* Upgraded to scala.js 0.6.27
+
 ## 0.5.0
 
 * Change package name

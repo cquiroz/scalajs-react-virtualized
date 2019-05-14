@@ -1,6 +1,6 @@
-val reactJS = "16.5.1"
-val reactVirtualized = "9.21.0"
-val scalaJsReact = "1.3.1"
+val reactJS = "16.7.0"
+val reactVirtualized = "9.21.1"
+val scalaJsReact = "1.4.2"
 
 parallelExecution in (ThisBuild, Test) := false
 
@@ -45,8 +45,9 @@ lazy val demo =
       webpackBundlingMode              := BundlingMode.LibraryOnly(),
       webpackDevServerExtraArgs        := Seq("--inline"),
       webpackConfigFile in fastOptJS   := Some(baseDirectory.value / "dev.webpack.config.js"),
-      version in webpack               := "4.28.2",
-      version in startWebpackDevServer := "3.1.14",
+      version in webpack               := "4.30.0",
+      version in webpackCliVersion     := "3.3.2",
+      version in startWebpackDevServer := "3.3.1",
       // don't publish the demo
       publish                          := {},
       publishLocal                     := {},
@@ -70,18 +71,19 @@ lazy val facade =
       requireJsDomEnv in Test          := true,
       // Use yarn as it is faster than npm
       useYarn                          := true,
-      version in webpack               := "4.28.2",
-      version in startWebpackDevServer := "3.1.14",
+      version in webpack               := "4.30.0",
+      version in webpackCliVersion     := "3.3.2",
+      version in startWebpackDevServer := "3.3.1",
       scalaJSUseMainModuleInitializer  := false,
       // Compile tests to JS using fast-optimisation
       scalaJSStage in Test             := FastOptStage,
       libraryDependencies    ++= Seq(
         "com.github.japgolly.scalajs-react" %%% "core"       % scalaJsReact,
         "com.github.japgolly.scalajs-react" %%% "test"       % scalaJsReact % "test",
-        "io.github.cquiroz.react"           %%% "common"     % "0.1.0",
-        "io.github.cquiroz.react"           %%% "test"       % "0.1.0" % Test,
-        "io.github.cquiroz.react"           %%% "cats"       % "0.1.0" % Test,
-        "com.lihaoyi"                       %%% "utest"      % "0.6.6" % Test,
+        "io.github.cquiroz.react"           %%% "common"     % "0.2.0",
+        "io.github.cquiroz.react"           %%% "test"       % "0.2.0" % Test,
+        "io.github.cquiroz.react"           %%% "cats"       % "0.2.0" % Test,
+        "com.lihaoyi"                       %%% "utest"      % "0.6.7" % Test,
         "org.typelevel"                     %%% "cats-core"  % "1.6.0" % Test
       ),
       webpackConfigFile in Test       := Some(baseDirectory.value / "test.webpack.config.js"),
