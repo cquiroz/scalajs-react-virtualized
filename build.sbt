@@ -1,6 +1,6 @@
-val reactJS = "16.5.1"
+val reactJS = "16.7.0"
 val reactVirtualized = "9.21.1"
-val scalaJsReact = "1.3.1"
+val scalaJsReact = "1.4.2"
 
 parallelExecution in (ThisBuild, Test) := false
 
@@ -80,10 +80,10 @@ lazy val facade =
       libraryDependencies    ++= Seq(
         "com.github.japgolly.scalajs-react" %%% "core"       % scalaJsReact,
         "com.github.japgolly.scalajs-react" %%% "test"       % scalaJsReact % "test",
-        "io.github.cquiroz.react"           %%% "common"     % "0.1.0",
-        "io.github.cquiroz.react"           %%% "test"       % "0.1.0" % Test,
-        "io.github.cquiroz.react"           %%% "cats"       % "0.1.0" % Test,
-        "com.lihaoyi"                       %%% "utest"      % "0.6.6" % Test,
+        "io.github.cquiroz.react"           %%% "common"     % "0.2.0",
+        "io.github.cquiroz.react"           %%% "test"       % "0.2.0" % Test,
+        "io.github.cquiroz.react"           %%% "cats"       % "0.2.0" % Test,
+        "com.lihaoyi"                       %%% "utest"      % "0.6.7" % Test,
         "org.typelevel"                     %%% "cats-core"  % "1.6.0" % Test
       ),
       webpackConfigFile in Test       := Some(baseDirectory.value / "test.webpack.config.js"),
