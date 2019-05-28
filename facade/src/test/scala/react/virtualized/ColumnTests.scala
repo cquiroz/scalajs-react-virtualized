@@ -85,7 +85,7 @@ object ColumnTests extends TestSuite with TestUtils {
       val unmounted = Column(Column.props(200, "key")).props.headerRenderer(headerParam)
       assertRender(
         unmounted,
-        """<div><span class="ReactVirtualized__Table__headerTruncatedText"><div>Label</div></span><svg class="ReactVirtualized__Table__sortableHeaderIcon ReactVirtualized__Table__sortableHeaderIcon--ASC" width="18" height="18" viewBox="0 0 24 24"><path d="M7 14l5-5 5 5z"></path><path d="M0 0h24v24H0z" fill="none"></path></svg></div>"""
+        """<div><span class="ReactVirtualized__Table__headerTruncatedText" title="[object Object]"><div>Label</div></span><svg class="ReactVirtualized__Table__sortableHeaderIcon ReactVirtualized__Table__sortableHeaderIcon--ASC" width="18" height="18" viewBox="0 0 24 24"><path d="M7 14l5-5 5 5z"></path><path d="M0 0h24v24H0z" fill="none"></path></svg></div>"""
       )
     }
     "support headerRenderer" - {
