@@ -36,7 +36,7 @@ object TableStaticDemo {
         Column(Column.props(90, "name", disableSort = false, headerRenderer = headerRenderer(props.sortBy))),
         Column(Column.props(210, "random", disableSort = true, className = "exampleColumn", label = "The description label is so long it will be truncated", flexGrow = 1, cellRenderer = (cellData: DataRow, _: js.Any, _: String, _: js.Any, _: Int) => cellData.toString))
       )
-      val t = Table(
+      Table(
         Table.props(
           disableHeader = false,
           noRowsRenderer = () => <.div(^.cls := "noRows", "No rows"),
@@ -47,15 +47,14 @@ object TableStaticDemo {
           rowHeight = if (props.useDynamicRowHeight) rowheight(state.data) _ else 40,
           onRowClick = x => Callback.log(x),
           onScroll = (c, s, t) => Callback.log(s"$c $s $t"),
-          width = props.s.width.toInt,
+          width = scala.math.max(1, props.s.width.toInt),
           rowGetter = datum(state.data),
           headerClassName = "headerColumn",
           sort = sort _,
           sortBy = props.sortBy,
           sortDirection = state.sortDirection,
+          scrollTop = 2000,
           headerHeight = 30), columns: _*)
-      t.mapMounted(_.raw.scrollToRow(20))
-      t
     }
     .build
 
@@ -113,7 +112,7 @@ object TableDynamicDemo {
           noRowsRenderer = () => <.div(^.cls := "noRows", "No rows"),
           overscanRowCount = 10,
           rowClassName = rowClassName _,
-          height = 270,
+          height = 600,
           rowCount = 10,
           rowHeight = TableCache.cache.rowHeight.toScala,
           onRowClick = x => Callback.log(x),
@@ -124,6 +123,7 @@ object TableDynamicDemo {
           sort = sort _,
           sortBy = props.sortBy,
           sortDirection = state.sortDirection,
+          scrollTop = 2000,
           headerHeight = 30), columns: _*)
       t.mapMounted(_.raw.scrollToRow(20))
       t
@@ -132,6 +132,7 @@ object TableDynamicDemo {
 
   def apply(p: Props) = component(p)
 }
+
 object Demo {
   val tableF = (s: Size) =>
     TableStaticDemo(TableStaticDemo.Props(true, "index", s)).vdomElement
