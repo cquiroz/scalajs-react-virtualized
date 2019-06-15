@@ -7,7 +7,7 @@ import japgolly.scalajs.react.raw.JsNumber
 import japgolly.scalajs.react.raw.React
 import japgolly.scalajs.react.component.Js.RawMounted
 import japgolly.scalajs.react.component.Js.UnmountedWithRawType
-import react.common.Style
+import react.common._
 import react.common.syntax._
 import scala.scalajs.js
 import scala.scalajs.js.annotation.JSImport
@@ -55,6 +55,7 @@ object AutoSizer {
   def props(
     children:      Children,
     className:     js.UndefOr[String] = js.undefined,
+    clazz:         js.UndefOr[Css] = js.undefined,
     defaultHeight: js.UndefOr[JsNumber] = js.undefined,
     defaultWidth:  js.UndefOr[JsNumber] = js.undefined,
     disableHeight: js.UndefOr[Boolean] = js.undefined,
@@ -64,7 +65,7 @@ object AutoSizer {
     style:         js.UndefOr[Style] = js.undefined
   ): Props = {
     val p = (new js.Object).asInstanceOf[Props]
-    p.className     = className
+    p.className     = (className, clazz).toJs
     p.defaultHeight = defaultHeight
     p.defaultWidth  = defaultWidth
     p.disableHeight = disableHeight

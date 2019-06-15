@@ -5,7 +5,7 @@ import japgolly.scalajs.react.test._
 import japgolly.scalajs.react._
 import japgolly.scalajs.react.vdom.html_<^.{ < => <<, _ }
 import scala.scalajs.js
-import react.common.Style
+import react.common.style._
 import react.common.TestUtils
 import cats.implicits._
 import raw._
