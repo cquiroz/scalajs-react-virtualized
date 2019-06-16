@@ -10,7 +10,7 @@ import japgolly.scalajs.react.internal.Effect.Id
 import scala.scalajs.js
 import scala.scalajs.js.|
 import scala.scalajs.js.JSConverters._
-import react.common.Style
+import react.common.style._
 import react.common.syntax._
 import scala.scalajs.js.annotation.JSImport
 import react.virtualized.raw._
@@ -242,6 +242,7 @@ object Table {
     ariaLabel:                js.UndefOr[String] = js.undefined,
     autoHeight:               js.UndefOr[Boolean] = js.undefined,
     className:                js.UndefOr[String] = js.undefined,
+    clazz:                    js.UndefOr[Css] = js.undefined,
     deferredMeasurementCache: js.UndefOr[CellMeasurerCache] = js.undefined,
     disableHeader:            js.UndefOr[Boolean] = js.undefined,
     estimatedRowSize:         JsNumber = 30,
@@ -281,7 +282,7 @@ object Table {
     p.width                    = width
     p.`aria-label`             = ariaLabel
     p.autoHeight               = autoHeight
-    p.className                = className
+    p.className                = (className, clazz).toJs
     p.deferredMeasurementCache = deferredMeasurementCache
     p.disableHeader            = disableHeader
     p.estimatedRowSize         = estimatedRowSize

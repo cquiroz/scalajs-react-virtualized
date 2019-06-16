@@ -3,7 +3,6 @@ package virtualized
 
 import japgolly.scalajs.react._
 import japgolly.scalajs.react.component.JsFn.Unmounted
-
 import scala.scalajs.js
 import scala.scalajs.js.annotation.JSImport
 
@@ -18,7 +17,7 @@ object SortIndicator {
   }
 
   def props(
-      sortDirection: SortDirection,
+    sortDirection: SortDirection,
   ): Props = {
     val p = (new js.Object).asInstanceOf[Props]
     p.sortDirection = sortDirection.toRaw

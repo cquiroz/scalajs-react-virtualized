@@ -4,7 +4,7 @@ package virtualized
 import japgolly.scalajs.react._
 import japgolly.scalajs.react.test._
 import japgolly.scalajs.react.vdom.html_<^.{ < => <<, _ }
-import react.common.Style
+import react.common.style._
 import react.common.TestUtils
 import react.common.implicits._
 import scala.scalajs.js
@@ -37,6 +37,10 @@ object AutoSizerTests extends TestSuite with TestUtils {
       AutoSizer(AutoSizer.props(children = children)).props.disableWidth.toOption ==> Some(false)
       AutoSizer(AutoSizer.props(children = children, disableWidth = true)).props.disableWidth.toOption ==> Some(
         true)
+    }
+    'clazz - {
+      AutoSizer(AutoSizer.props(children = children, clazz = Css("class"))).props.className.toOption ==> Some("class")
+      AutoSizer(AutoSizer.props(children = children, className = "class1", clazz = Css("class2"))).props.className.toOption ==> Some("class1 class2")
     }
     'supportDisableHeight - {
       AutoSizer(AutoSizer.props(children = children)).props.disableHeight.toOption ==> Some(false)

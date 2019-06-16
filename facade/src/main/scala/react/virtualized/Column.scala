@@ -11,7 +11,7 @@ import japgolly.scalajs.react.internal.Effect.Id
 import japgolly.scalajs.react.raw.JsNumber
 import japgolly.scalajs.react.raw.React
 import japgolly.scalajs.react.vdom.VdomNode
-import react.common.Style
+import react.common.style._
 import react.common.syntax._
 import raw._
 
@@ -104,6 +104,7 @@ object Column {
     cellDataGetter:       Option[CellDataGetter[B, C, A]] = None,
     cellRenderer:         CellRenderer[A, B, C] = defaultCellRendererS,
     className:            js.UndefOr[String] = js.undefined,
+    clazz:                js.UndefOr[Css] = js.undefined,
     columnData:           js.UndefOr[B] = js.undefined,
     disableSort:          js.UndefOr[Boolean] = js.undefined,
     defaultSortDirection: SortDirection = SortDirection.ASC,
@@ -133,7 +134,7 @@ object Column {
                      r.dataKey,
                      r.rowData.asInstanceOf[C],
                      r.rowIndex).toRaw).orUndefined
-    p.className            = className
+    p.className            = (className, clazz).toJs
     p.columnData           = columnData
     p.disableSort          = disableSort
     p.defaultSortDirection = defaultSortDirection.toRaw
@@ -172,6 +173,7 @@ object Column {
     cellDataGetter:       Option[CellDataGetter[B, C, A]] = None,
     cellRenderer:         CellRenderer[A, B, C] = defaultCellRendererS,
     className:            js.UndefOr[String] = js.undefined,
+    clazz:                js.UndefOr[Css] = js.undefined,
     columnData:           js.UndefOr[B] = js.undefined,
     disableSort:          js.UndefOr[Boolean] = true,
     defaultSortDirection: SortDirection = SortDirection.ASC,
@@ -193,6 +195,7 @@ object Column {
       cellDataGetter,
       cellRenderer,
       className,
+      clazz,
       columnData,
       disableSort,
       defaultSortDirection,
