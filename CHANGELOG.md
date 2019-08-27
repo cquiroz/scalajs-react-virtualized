@@ -1,5 +1,10 @@
 # Changes
 
+## 0.6.5
+
+* Updated to scala 2.12.9
+* Improved default for noRows #33
+
 ## 0.6.4
 
 * Update scalajs-react-common
