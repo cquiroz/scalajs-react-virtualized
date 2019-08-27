@@ -2,6 +2,7 @@ package react
 package virtualized
 
 import japgolly.scalajs.react._
+import japgolly.scalajs.react.vdom.html_<^.EmptyVdom
 import japgolly.scalajs.react.vdom.VdomNode
 import japgolly.scalajs.react.raw.JsNumber
 import japgolly.scalajs.react.component.Js.RawMounted
@@ -252,7 +253,7 @@ object Table {
     headerStyle:              js.UndefOr[Style] = js.undefined,
     headerRowRenderer:        HeaderRowRenderer = defaultHeaderRowRendererS,
     id:                       js.UndefOr[String] = js.undefined,
-    noRowsRenderer:           NoRowsRenderer = () => null, // default from react-virtualized
+    noRowsRenderer:           NoRowsRenderer = () => EmptyVdom,
     onHeaderClick:            OnHeaderClick = (_, _) => Callback.empty,
     onRowClick:               OnRowClick = _ => Callback.empty,
     onRowDoubleClick:         OnRowClick = _ => Callback.empty,
