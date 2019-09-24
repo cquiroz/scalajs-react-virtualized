@@ -1,5 +1,10 @@
 # Changes
 
+## 0.7.0
+
+* Update scalajs-react-common
+* Update to cats 2.0.0
+
 ## 0.6.5
 
 * Updated to scala 2.12.9
