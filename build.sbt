@@ -10,16 +10,11 @@ addCommandAlias("restartWDS", "; demo/fastOptJS::stopWebpackDevServer; demo/fast
 
 // resolvers in Global += Resolver.sonatypeRepo("staging")
 
-// sbt-release-early
 inThisBuild(List(
   homepage                := Some(url("https://github.com/cquiroz/scalajs-react-virtualized")),
   licenses                := Seq("BSD 3-Clause License" -> url("https://opensource.org/licenses/BSD-3-Clause")),
     developers := List(Developer("cquiroz", "Carlos Quiroz", "carlos.m.quiroz@gmail.com", url("https://github.com/cquiroz"))),
-    scmInfo := Some(ScmInfo(url("https://github.com/cquiroz/scalajs-react-virtualized"), "scm:git:git@github.com:cquiroz/scalajs-react-virtualized.git")),
-    // These are the sbt-release-early settings to configure
-    pgpPublicRing := file("./travis/local.pubring.asc"),
-    pgpSecretRing := file("./travis/local.secring.asc"),
-    releaseEarlyWith := SonatypePublisher
+    scmInfo := Some(ScmInfo(url("https://github.com/cquiroz/scalajs-react-virtualized"), "scm:git:git@github.com:cquiroz/scalajs-react-virtualized.git"))
 ))
 
 val root =
@@ -91,14 +86,13 @@ lazy val facade =
     )
 
 lazy val commonSettings = Seq(
-  scalaVersion            := "2.12.9",
+  scalaVersion            := "2.12.10",
   organization            := "io.github.cquiroz.react",
   sonatypeProfileName     := "io.github.cquiroz",
   description             := "scala.js facade for react-virtualized",
   homepage                := Some(url("https://github.com/cquiroz/scalajs-react-virtualized")),
   licenses                := Seq("BSD 3-Clause License" -> url("https://opensource.org/licenses/BSD-3-Clause")),
   publishArtifact in Test := false,
-  publishMavenStyle       := true,
   scalacOptions           := Seq(
       "-deprecation",                      // Emit warning and location for usages of deprecated APIs.
       "-encoding", "utf-8",                // Specify character encoding used by source files.
