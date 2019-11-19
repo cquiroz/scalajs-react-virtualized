@@ -3,14 +3,41 @@ package virtualized
 
 import japgolly.scalajs.react._
 import japgolly.scalajs.react.vdom.VdomNode
+import japgolly.scalajs.react.vdom.VdomElement
 import japgolly.scalajs.react.raw.JsNumber
 import japgolly.scalajs.react.raw.React
-import japgolly.scalajs.react.component.Js.RawMounted
-import japgolly.scalajs.react.component.Js.UnmountedWithRawType
 import react.common._
 import react.common.syntax._
 import scala.scalajs.js
 import scala.scalajs.js.annotation.JSImport
+
+final case class AutoSizer(
+  children:      AutoSizer.Children,
+  className:     js.UndefOr[String] = js.undefined,
+  clazz:         js.UndefOr[Css] = js.undefined,
+  defaultHeight: js.UndefOr[JsNumber] = js.undefined,
+  defaultWidth:  js.UndefOr[JsNumber] = js.undefined,
+  disableHeight: js.UndefOr[Boolean] = js.undefined,
+  disableWidth:  js.UndefOr[Boolean] = js.undefined,
+  nonce:         js.UndefOr[String] = js.undefined,
+  onResize:      Size => Callback = _ => Callback.empty,
+  style:         js.UndefOr[Style] = js.undefined
+) extends ReactPropsWithChildren {
+  @inline def render: Seq[CtorType.ChildArg] => VdomElement = {
+    val p = (new js.Object).asInstanceOf[AutoSizer.Props]
+    p.className     = (className, clazz).toJs
+    p.defaultHeight = defaultHeight
+    p.defaultWidth  = defaultWidth
+    p.disableHeight = disableHeight
+    p.disableWidth  = disableWidth
+    p.nonce         = nonce
+    p.onResize      = (s: Size) => onResize(s).runNow
+    p.children      = (s: Size) => children(s).toRaw
+    p.style         = style.map(Style.toJsObject).getOrElse(new js.Object())
+    AutoSizer.component(p)
+  }
+
+}
 
 object AutoSizer {
   @js.native
@@ -52,35 +79,7 @@ object AutoSizer {
     var style: js.Object = js.native
   }
 
-  def props(
-    children:      Children,
-    className:     js.UndefOr[String] = js.undefined,
-    clazz:         js.UndefOr[Css] = js.undefined,
-    defaultHeight: js.UndefOr[JsNumber] = js.undefined,
-    defaultWidth:  js.UndefOr[JsNumber] = js.undefined,
-    disableHeight: js.UndefOr[Boolean] = js.undefined,
-    disableWidth:  js.UndefOr[Boolean] = js.undefined,
-    nonce:         js.UndefOr[String] = js.undefined,
-    onResize:      Size => Callback = _ => Callback.empty,
-    style:         js.UndefOr[Style] = js.undefined
-  ): Props = {
-    val p = (new js.Object).asInstanceOf[Props]
-    p.className     = (className, clazz).toJs
-    p.defaultHeight = defaultHeight
-    p.defaultWidth  = defaultWidth
-    p.disableHeight = disableHeight
-    p.disableWidth  = disableWidth
-    p.nonce         = nonce
-    p.onResize      = (s: Size) => onResize(s).runNow
-    p.children      = (s: Size) => children(s).toRaw
-    p.style         = style.map(Style.toJsObject).getOrElse(new js.Object())
-    p
-  }
-
   private val component =
     JsComponent[Props, Children.Varargs, Null](RawComponent)
 
-  def apply(p:        Props,
-            children: VdomNode*): UnmountedWithRawType[Props, Null, RawMounted[Props, Null]] =
-    component(p)(children: _*)
 }

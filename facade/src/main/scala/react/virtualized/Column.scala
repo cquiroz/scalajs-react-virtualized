@@ -118,7 +118,7 @@ object Column {
     maxWidth:             js.UndefOr[JsNumber] = js.undefined,
     minWidth:             js.UndefOr[JsNumber] = js.undefined,
     style:                js.UndefOr[Style] = js.undefined
-  ): Props = {
+  ): UnmountedMapped[Id, Props, Null, RawMounted[Props, Null] with Column, Props, Null] = {
     val p = (new js.Object).asInstanceOf[Props]
     p.width        = width
     p.dataKey      = dataKey
@@ -133,7 +133,8 @@ object Column {
                      r.columnData.asInstanceOf[B],
                      r.dataKey,
                      r.rowData.asInstanceOf[C],
-                     r.rowIndex).toRaw).orUndefined
+                     r.rowIndex).toRaw
+    ).orUndefined
     p.className            = (className, clazz).toJs
     p.columnData           = columnData
     p.disableSort          = disableSort
@@ -156,7 +157,7 @@ object Column {
     p.maxWidth    = maxWidth
     p.minWidth    = minWidth
     p.style       = style.map(Style.toJsObject)
-    p
+    component(p)
   }
 
   /**
@@ -166,7 +167,7 @@ object Column {
     * B Column data
     * C Row data
     */
-  def propsNoFlex[A <: js.Object, B <: js.Object, C <: js.Object](
+  def apply[A <: js.Object, B <: js.Object, C <: js.Object](
     width:                JsNumber,
     dataKey:              String,
     ariaLabel:            js.UndefOr[String] = js.undefined,
@@ -187,7 +188,7 @@ object Column {
     maxWidth:             js.UndefOr[JsNumber] = js.undefined,
     minWidth:             js.UndefOr[JsNumber] = js.undefined,
     style:                js.UndefOr[Style] = js.undefined
-  ): Props =
+  ): UnmountedMapped[Id, Props, Null, RawMounted[Props, Null] with Column, Props, Null] =
     props(
       width,
       dataKey,
@@ -213,9 +214,5 @@ object Column {
 
   private val component =
     JsComponent[Props, Children.None, Null](RawComponent).addFacade[Column]
-
-  def apply(
-    p: Props): UnmountedMapped[Id, Props, Null, RawMounted[Props, Null] with Column, Props, Null] =
-    component(p)
 
 }

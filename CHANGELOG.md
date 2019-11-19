@@ -1,5 +1,9 @@
 # Changes
 
+## 0.8.0
+
+* Update scalajs-react-common and simplify how components are built
+
 ## 0.7.0
 
 * Update scalajs-react-common

@@ -2,9 +2,17 @@ package react
 package virtualized
 
 import japgolly.scalajs.react._
-import japgolly.scalajs.react.component.JsFn.Unmounted
+import japgolly.scalajs.react.vdom.VdomElement
 import scala.scalajs.js
 import scala.scalajs.js.annotation.JSImport
+import react.common.ReactProps
+
+final case class SortIndicator(
+  sortDirection: SortDirection
+) extends ReactProps {
+  @inline def render: VdomElement =
+    SortIndicator.component(SortIndicator.props(this.sortDirection))
+}
 
 object SortIndicator {
   @js.native
@@ -17,13 +25,12 @@ object SortIndicator {
   }
 
   def props(
-    sortDirection: SortDirection,
+    sortDirection: SortDirection
   ): Props = {
     val p = (new js.Object).asInstanceOf[Props]
     p.sortDirection = sortDirection.toRaw
     p
   }
 
-  private val component = JsFnComponent[Props, Children.None](RawComp)
-  def apply(p: SortDirection): Unmounted[Props] = component(props(p))
+  private def component = JsFnComponent[Props, Children.None](RawComp)
 }

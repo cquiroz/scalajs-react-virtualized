@@ -4,12 +4,15 @@ package virtualized
 
 import japgolly.scalajs.react._
 import japgolly.scalajs.react.vdom.VdomNode
-import japgolly.scalajs.react.component.Js.{RawMounted, UnmountedMapped}
+import japgolly.scalajs.react.vdom.VdomElement
+import japgolly.scalajs.react.component.Js.RawMounted
+import japgolly.scalajs.react.component.Js.UnmountedMapped
 import japgolly.scalajs.react.internal.Effect.Id
 import japgolly.scalajs.react.raw.React
 import scala.scalajs.js
 import js.annotation.JSImport
 import japgolly.scalajs.react.raw.JsNumber
+import react.common.ReactPropsWithChildren
 
 trait CellMeasurerCacheParams extends js.Object {
   var defaultHeight: js.UndefOr[JsNumber]
@@ -21,17 +24,19 @@ trait CellMeasurerCacheParams extends js.Object {
 }
 
 sealed trait FixedDirection
-case object FixedWidth  extends FixedDirection
+case object FixedWidth extends FixedDirection
 case object FixedHeight extends FixedDirection
 
 object CellMeasurerCacheParams {
 
-  def apply(fixedDirection: FixedDirection,
-            defaultHeight: js.UndefOr[JsNumber] = js.undefined,
-            defaultWidth: js.UndefOr[JsNumber] = js.undefined,
-            fixedWidth: js.UndefOr[Boolean] = js.undefined,
-            minHeight: js.UndefOr[JsNumber] = js.undefined,
-            minWidth: js.UndefOr[JsNumber] = js.undefined): CellMeasurerCacheParams =
+  def apply(
+    fixedDirection: FixedDirection,
+    defaultHeight:  js.UndefOr[JsNumber] = js.undefined,
+    defaultWidth:   js.UndefOr[JsNumber] = js.undefined,
+    fixedWidth:     js.UndefOr[Boolean] = js.undefined,
+    minHeight:      js.UndefOr[JsNumber] = js.undefined,
+    minWidth:       js.UndefOr[JsNumber] = js.undefined
+  ): CellMeasurerCacheParams =
     rawapply(defaultHeight,
              defaultWidth,
              fixedDirection == FixedHeight,
@@ -39,19 +44,21 @@ object CellMeasurerCacheParams {
              minHeight,
              minWidth)
 
-  private def rawapply(defaultHeight: js.UndefOr[JsNumber],
-                       defaultWidth: js.UndefOr[JsNumber],
-                       fixedHeight: js.UndefOr[Boolean],
-                       fixedWidth: js.UndefOr[Boolean],
-                       minHeight: js.UndefOr[JsNumber],
-                       minWidth: js.UndefOr[JsNumber]): CellMeasurerCacheParams = {
+  private def rawapply(
+    defaultHeight: js.UndefOr[JsNumber],
+    defaultWidth:  js.UndefOr[JsNumber],
+    fixedHeight:   js.UndefOr[Boolean],
+    fixedWidth:    js.UndefOr[Boolean],
+    minHeight:     js.UndefOr[JsNumber],
+    minWidth:      js.UndefOr[JsNumber]
+  ): CellMeasurerCacheParams = {
     val p = (new js.Object).asInstanceOf[CellMeasurerCacheParams]
     p.defaultHeight = defaultHeight
-    p.defaultWidth = defaultWidth
-    p.fixedHeight = fixedHeight
-    p.fixedWidth = fixedWidth
-    p.minHeight = minHeight
-    p.minWidth = minWidth
+    p.defaultWidth  = defaultWidth
+    p.fixedHeight   = fixedHeight
+    p.fixedWidth    = fixedWidth
+    p.minHeight     = minHeight
+    p.minWidth      = minWidth
     p
   }
 }
@@ -60,23 +67,53 @@ object CellMeasurerCacheParams {
 @JSImport("react-virtualized", "CellMeasurerCache")
 class CellMeasurerCache(params: CellMeasurerCacheParams) extends js.Object {
   def clear(rowIndex: Int, columnIndex: Int = 0): Unit = js.native
-  def clearAll(): Unit = js.native
+  def clearAll(): Unit                                      = js.native
   def columnWidth: js.Function1[raw.RawIndexParameter, Int] = js.native
-  def getHeight(rowIndex: Int, columnIndex: Int = 0): Int = js.native
-  def getWidth(rowIndex: Int, columnIndex: Int = 0): Int = js.native
-  def has(rowIndex: Int, columnIndex: Int = 0): Boolean = js.native
+  def getHeight(rowIndex: Int, columnIndex: Int = 0): Int     = js.native
+  def getWidth(rowIndex:  Int, columnIndex: Int = 0): Int     = js.native
+  def has(rowIndex:       Int, columnIndex: Int = 0): Boolean = js.native
   def rowHeight: js.Function1[raw.RawIndexParameter, Int] = js.native
   def set(rowIndex: Int, columnIndex: Int, width: Int, height: Int): Unit = js.native
 }
 
 object CellMeasurerCache {
-  def apply(fixedDirection: FixedDirection,
-            defaultHeight: js.UndefOr[JsNumber] = js.undefined,
-            defaultWidth: js.UndefOr[JsNumber] = js.undefined,
-            fixedWidth: js.UndefOr[Boolean] = js.undefined,
-            minHeight: js.UndefOr[JsNumber] = js.undefined,
-            minWidth: js.UndefOr[JsNumber] = js.undefined): CellMeasurerCache =
-    new CellMeasurerCache(CellMeasurerCacheParams(fixedDirection, defaultHeight, defaultWidth, fixedWidth, minHeight, minWidth))
+  def apply(
+    fixedDirection: FixedDirection,
+    defaultHeight:  js.UndefOr[JsNumber] = js.undefined,
+    defaultWidth:   js.UndefOr[JsNumber] = js.undefined,
+    fixedWidth:     js.UndefOr[Boolean] = js.undefined,
+    minHeight:      js.UndefOr[JsNumber] = js.undefined,
+    minWidth:       js.UndefOr[JsNumber] = js.undefined
+  ): CellMeasurerCache =
+    new CellMeasurerCache(
+      CellMeasurerCacheParams(fixedDirection,
+                              defaultHeight,
+                              defaultWidth,
+                              fixedWidth,
+                              minHeight,
+                              minWidth)
+    )
+}
+
+final case class CellMeasurer(
+  cache:       CellMeasurerCache,
+  parent:      CellMeasurer.Parent,
+  columnIndex: js.UndefOr[JsNumber] = js.undefined,
+  index:       js.UndefOr[JsNumber] = js.undefined,
+  rowIndex:    js.UndefOr[JsNumber] = js.undefined,
+  children:    VdomNode
+) extends ReactPropsWithChildren {
+  @inline def render: Seq[CtorType.ChildArg] => VdomElement = {
+    val p = (new js.Object).asInstanceOf[CellMeasurer.Props]
+    p.cache       = cache
+    p.columnIndex = columnIndex
+    p.index       = index
+    p.parent      = parent
+    p.rowIndex    = rowIndex
+    p.children    = children.rawNode
+    CellMeasurer.component(p)
+  }
+
 }
 
 object CellMeasurer {
@@ -95,7 +132,7 @@ object CellMeasurer {
     def apply(columnIndex: JsNumber, rowIndex: JsNumber): Cell = {
       val p = (new js.Object).asInstanceOf[Cell]
       p.columnIndex = columnIndex
-      p.rowIndex = rowIndex
+      p.rowIndex    = rowIndex
       p
     }
   }
@@ -110,11 +147,13 @@ object CellMeasurer {
 
   object Parent {
 
-    def apply(invalidateCellSizeAfterRender: js.UndefOr[ParentFn] = js.undefined,
-              recomputeGridSize: js.UndefOr[ParentFn] = js.undefined): Parent = {
+    def apply(
+      invalidateCellSizeAfterRender: js.UndefOr[ParentFn] = js.undefined,
+      recomputeGridSize:             js.UndefOr[ParentFn] = js.undefined
+    ): Parent = {
       val p = (new js.Object).asInstanceOf[Parent]
       p.invalidateCellSizeAfterRender = invalidateCellSizeAfterRender
-      p.recomputeGridSize = recomputeGridSize
+      p.recomputeGridSize             = recomputeGridSize
       p
     }
 
@@ -131,27 +170,12 @@ object CellMeasurer {
     var rowIndex: js.UndefOr[JsNumber]
   }
 
-  def props(
-      cache: CellMeasurerCache,
-      parent: Parent,
-      columnIndex: js.UndefOr[JsNumber] = js.undefined,
-      index: js.UndefOr[JsNumber] = js.undefined,
-      rowIndex: js.UndefOr[JsNumber] = js.undefined,
-      children: VdomNode
-  ): Props = {
-    val p = (new js.Object).asInstanceOf[Props]
-    p.cache = cache
-    p.columnIndex = columnIndex
-    p.index = index
-    p.parent = parent
-    p.rowIndex = rowIndex
-    p.children = children.rawNode
-    p
-  }
-
   val component = JsComponent[Props, Children.Varargs, Null](RawComponent)
 
-  def apply(p: Props, children: VdomNode*): UnmountedMapped[Id, Props, Null, RawMounted[Props, Null], Props, Null] =
+  def apply(
+    p:        Props,
+    children: VdomNode*
+  ): UnmountedMapped[Id, Props, Null, RawMounted[Props, Null], Props, Null] =
     component.apply(p)(children: _*)
 
 }
