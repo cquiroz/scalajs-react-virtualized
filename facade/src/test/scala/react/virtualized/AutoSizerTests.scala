@@ -36,16 +36,22 @@ object AutoSizerTests extends TestSuite with TestUtils {
     'supportDisableWidth - {
       AutoSizer(AutoSizer.props(children = children)).props.disableWidth.toOption ==> Some(false)
       AutoSizer(AutoSizer.props(children = children, disableWidth = true)).props.disableWidth.toOption ==> Some(
-        true)
+        true
+      )
     }
     'clazz - {
-      AutoSizer(AutoSizer.props(children = children, clazz = Css("class"))).props.className.toOption ==> Some("class")
-      AutoSizer(AutoSizer.props(children = children, className = "class1", clazz = Css("class2"))).props.className.toOption ==> Some("class1 class2")
+      AutoSizer(AutoSizer.props(children = children, clazz = Css("class"))).props.className.toOption ==> Some(
+        "class"
+      )
+      AutoSizer(AutoSizer.props(children = children, className = "class1", clazz = Css("class2"))).props.className.toOption ==> Some(
+        "class1 class2"
+      )
     }
     'supportDisableHeight - {
       AutoSizer(AutoSizer.props(children = children)).props.disableHeight.toOption ==> Some(false)
       AutoSizer(AutoSizer.props(children = children, disableHeight = true)).props.disableHeight.toOption ==> Some(
-        true)
+        true
+      )
     }
     'supportOnResize - {
       val size = Size(height = 10, width = 20)

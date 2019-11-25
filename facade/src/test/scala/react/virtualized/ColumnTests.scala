@@ -30,10 +30,11 @@ object ColumnTests extends TestSuite with TestUtils {
     }
     "support cellDataGetter" - {
       val cell: js.Object = js.Dynamic.literal(foo = 42, bar = "foobar")
-      Column(Column.props(
-        200,
-        "key",
-        cellDataGetter = Some((_: js.Any, _: String, _: js.Object) => cell))).props.cellDataGetter.toOption
+      Column(
+        Column.props(200,
+                     "key",
+                     cellDataGetter = Some((_: js.Any, _: String, _: js.Object) => cell))
+      ).props.cellDataGetter.toOption
         .map(_(RawCellDataParameter("col", "key", "row")))
         .map(_ === cell) ==> Some(true)
     }
@@ -42,10 +43,11 @@ object ColumnTests extends TestSuite with TestUtils {
         .map(_(RawCellRendererParameter("cellData", "col", "key", "row", 1))) ==> Some("cellData")
     }
     "support cellRenderer" - {
-      val r = Column(Column.props(200,
-                                  "key",
-                                  cellRenderer = (_: js.Any, _: js.Any, _, _: js.Any, _) =>
-                                    <<.div("abc"))).props.cellRenderer.toOption
+      val r = Column(
+        Column.props(200,
+                     "key",
+                     cellRenderer = (_: js.Any, _: js.Any, _, _: js.Any, _) => <<.div("abc"))
+      ).props.cellRenderer.toOption
         .map(_(RawCellRendererParameter("cellData", "col", "key", "row", 1)))
       assertRenderNode(r, "<div><div>abc</div></div>")
     }
@@ -94,7 +96,8 @@ object ColumnTests extends TestSuite with TestUtils {
         RawHeaderRendererParameter(js.undefined, "key", disableSort = true, label, "key", "ASC")
       val unmounted = Column(
         Column
-          .props(200, "key", headerRenderer = (_: js.Any, _, _, _, _, _) => <<.div("header"))).props
+          .props(200, "key", headerRenderer = (_: js.Any, _, _, _, _, _) => <<.div("header"))
+      ).props
         .headerRenderer(headerParam)
       assertRender(unmounted, """<div><div>header</div></div>""")
     }

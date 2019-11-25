@@ -18,12 +18,14 @@ import react.virtualized.raw._
 
 object Table {
 
-  type ColumnArg = UnmountedMapped[Id,
-                                   Column.Props,
-                                   Null,
-                                   RawMounted[Column.Props, Null] with Column,
-                                   Column.Props,
-                                   Null]
+  type ColumnArg = UnmountedMapped[
+    Id,
+    Column.Props,
+    Null,
+    RawMounted[Column.Props, Null] with Column,
+    Column.Props,
+    Null
+  ]
 
   @js.native
   @JSImport("react-virtualized", "Table")
@@ -360,8 +362,10 @@ object Table {
   val component = JsComponent[Props, Children.Varargs, Null](RawComponent)
     .addFacade[JsMethods]
 
-  def apply(p: Props, children: ColumnArg*)
-    : UnmountedMapped[Id, Props, Null, RawMounted[Props, Null] with JsMethods, Props, Null] =
+  def apply(
+    p:        Props,
+    children: ColumnArg*
+  ): UnmountedMapped[Id, Props, Null, RawMounted[Props, Null] with JsMethods, Props, Null] =
     component.apply(p)(children.map(_.vdomElement): _*)
 
 }

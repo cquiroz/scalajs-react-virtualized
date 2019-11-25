@@ -13,14 +13,21 @@ object Data {
     var size: Int
   }
   object DataRow {
-    def apply(color: String, index: Int, name: String, random: String, randomLong: String, size: Int): DataRow = {
+    def apply(
+      color:      String,
+      index:      Int,
+      name:       String,
+      random:     String,
+      randomLong: String,
+      size:       Int
+    ): DataRow = {
       val p = (new js.Object).asInstanceOf[DataRow]
-      p.color = color
-      p.index = index
-      p.name = name
-      p.random = random
+      p.color      = color
+      p.index      = index
+      p.name       = name
+      p.random     = random
       p.randomLong = randomLong
-      p.size = size
+      p.size       = size
       p
     }
   }
@@ -32,7 +39,12 @@ object Data {
       val randoms = (0 to nextInt(10)).foldLeft("") { (ac, _) =>
         ac + rnd
       }
-      DataRow(BadgeColors(i % BadgeColors.length), i, Names(i % Names.length), rnd, randoms, RowHeights(i % RowHeights.length))
+      DataRow(BadgeColors(i % BadgeColors.length),
+              i,
+              Names(i % Names.length),
+              rnd,
+              randoms,
+              RowHeights(i % RowHeights.length))
     }).toList
 
   val BadgeColors = List(

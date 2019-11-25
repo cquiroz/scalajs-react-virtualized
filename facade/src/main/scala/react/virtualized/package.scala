@@ -56,18 +56,20 @@ package object virtualized {
     * B Column data, can be anything
     * C Row data
     */
-  type RowRenderer[C <: js.Object] = (String,
-                                      Array[VdomNode],
-                                      Int,
-                                      Boolean,
-                                      String,
-                                      C,
-                                      Option[OnRowClick],
-                                      Option[OnRowClick],
-                                      Option[OnRowClick],
-                                      Option[OnRowClick],
-                                      Option[OnRowClick],
-                                      Style) => VdomNode
+  type RowRenderer[C <: js.Object] = (
+    String,
+    Array[VdomNode],
+    Int,
+    Boolean,
+    String,
+    C,
+    Option[OnRowClick],
+    Option[OnRowClick],
+    Option[OnRowClick],
+    Option[OnRowClick],
+    Option[OnRowClick],
+    Style
+  ) => VdomNode
 
   type RowGetter = Int => js.Object
   // Types for NoRowsRenderer
@@ -104,12 +106,14 @@ package object virtualized {
       (i: raw.RawIndexParameter) => cb(i.index).runNow()
   }
 
-  val defaultHeaderRendererS = (columnData: js.Any,
-                                dataKey:       String,
-                                disableSort:   Option[Boolean],
-                                label:         VdomNode,
-                                sortBy:        Option[String],
-                                sortDirection: SortDirection) =>
+  val defaultHeaderRendererS = (
+    columnData:    js.Any,
+    dataKey:       String,
+    disableSort:   Option[Boolean],
+    label:         VdomNode,
+    sortBy:        Option[String],
+    sortDirection: SortDirection
+  ) =>
     VdomNode(
       raw.defaultHeaderRenderer(
         raw.RawHeaderRendererParameter(columnData,
@@ -117,13 +121,17 @@ package object virtualized {
                                        disableSort.orUndefined,
                                        label,
                                        sortBy.orUndefined,
-                                       sortDirection.toRaw)))
+                                       sortDirection.toRaw)
+      )
+    )
 
   val defaultCellRendererS =
     (cellData: js.Any, columnData: js.Any, dataKey: String, rowData: js.Any, rowIndex: Int) =>
       VdomNode(
         raw.defaultCellRenderer(
-          raw.RawCellRendererParameter(cellData, columnData, dataKey, rowData, rowIndex)))
+          raw.RawCellRendererParameter(cellData, columnData, dataKey, rowData, rowIndex)
+        )
+      )
 
   val defaultHeaderRowRendererS: HeaderRowRenderer =
     (className: String, columns: Array[VdomNode], style: Style) =>
@@ -131,36 +139,43 @@ package object virtualized {
         raw.defaultHeaderRowRenderer(
           raw.RawHeaderRowRendererParameter(className,
                                             columns.map(_.rawNode).toJSArray,
-                                            Style.toJsObject(style))))
+                                            Style.toJsObject(style))
+        )
+      )
 
   def defaultRowRendererS[C <: js.Object]: RowRenderer[C] =
-    (className:        String,
-     columns:          Array[VdomNode],
-     index:            Int,
-     isScrolling:      Boolean,
-     key:              String,
-     rowData:          C,
-     onRowClick:       Option[OnRowClick],
-     onRowDoubleClick: Option[OnRowClick],
-     onRowMouseOut:    Option[OnRowClick],
-     onRowMouseOver:   Option[OnRowClick],
-     onRowRightClick:  Option[OnRowClick],
-     style:            Style) =>
+    (
+      className:        String,
+      columns:          Array[VdomNode],
+      index:            Int,
+      isScrolling:      Boolean,
+      key:              String,
+      rowData:          C,
+      onRowClick:       Option[OnRowClick],
+      onRowDoubleClick: Option[OnRowClick],
+      onRowMouseOut:    Option[OnRowClick],
+      onRowMouseOver:   Option[OnRowClick],
+      onRowRightClick:  Option[OnRowClick],
+      style:            Style
+    ) =>
       VdomNode(
-        raw.defaultRowRenderer(raw.RawRowRendererParameter(
-          className,
-          columns.map(_.rawNode).toJSArray,
-          index,
-          isScrolling,
-          key,
-          rowData,
-          onRowClick.map(_.toJsCallback).orUndefined,
-          onRowDoubleClick.map(_.toJsCallback).orUndefined,
-          onRowMouseOut.map(_.toJsCallback).orUndefined,
-          onRowMouseOver.map(_.toJsCallback).orUndefined,
-          onRowRightClick.map(_.toJsCallback).orUndefined,
-          Style.toJsObject(style)
-        )))
+        raw.defaultRowRenderer(
+          raw.RawRowRendererParameter(
+            className,
+            columns.map(_.rawNode).toJSArray,
+            index,
+            isScrolling,
+            key,
+            rowData,
+            onRowClick.map(_.toJsCallback).orUndefined,
+            onRowDoubleClick.map(_.toJsCallback).orUndefined,
+            onRowMouseOut.map(_.toJsCallback).orUndefined,
+            onRowMouseOver.map(_.toJsCallback).orUndefined,
+            onRowRightClick.map(_.toJsCallback).orUndefined,
+            Style.toJsObject(style)
+          )
+        )
+      )
 }
 
 package virtualized {
@@ -202,9 +217,11 @@ package virtualized {
       var style: js.Object
     }
     object RawHeaderRowRendererParameter {
-      def apply(className: String,
-                columns:   js.Array[React.Node],
-                style:     js.Object): RawHeaderRowRendererParameter = {
+      def apply(
+        className: String,
+        columns:   js.Array[React.Node],
+        style:     js.Object
+      ): RawHeaderRowRendererParameter = {
         val p = (new js.Object).asInstanceOf[RawHeaderRowRendererParameter]
         p.className = className
         p.columns   = columns
@@ -242,11 +259,13 @@ package virtualized {
       var rowIndex: Int
     }
     object RawCellRendererParameter {
-      def apply(cellData:   js.Any,
-                columnData: js.Any,
-                dataKey:    String,
-                rowData:    js.Any,
-                rowIndex:   Int): RawCellRendererParameter = {
+      def apply(
+        cellData:   js.Any,
+        columnData: js.Any,
+        dataKey:    String,
+        rowData:    js.Any,
+        rowIndex:   Int
+      ): RawCellRendererParameter = {
         val p = (new js.Object).asInstanceOf[RawCellRendererParameter]
         p.cellData   = cellData
         p.columnData = columnData
@@ -268,12 +287,14 @@ package virtualized {
       var sortDirection: js.UndefOr[String]
     }
     object RawHeaderRendererParameter {
-      def apply(columnData:    js.Any,
-                dataKey:       String,
-                disableSort:   js.UndefOr[Boolean],
-                label:         VdomNode,
-                sortBy:        js.UndefOr[String],
-                sortDirection: js.UndefOr[String]): RawHeaderRendererParameter = {
+      def apply(
+        columnData:    js.Any,
+        dataKey:       String,
+        disableSort:   js.UndefOr[Boolean],
+        label:         VdomNode,
+        sortBy:        js.UndefOr[String],
+        sortDirection: js.UndefOr[String]
+      ): RawHeaderRendererParameter = {
         val p = (new js.Object).asInstanceOf[RawHeaderRendererParameter]
         p.columnData    = columnData
         p.dataKey       = dataKey
@@ -305,18 +326,20 @@ package virtualized {
     }
 
     object RawRowRendererParameter {
-      def apply(className:        String,
-                columns:          js.Array[React.Node],
-                index:            Int,
-                isScrolling:      Boolean,
-                key:              String,
-                rowData:          js.Object,
-                onRowClick:       js.UndefOr[RawOnRowEvent],
-                onRowDoubleClick: js.UndefOr[RawOnRowEvent],
-                onRowMouseOut:    js.UndefOr[RawOnRowEvent],
-                onRowMouseOver:   js.UndefOr[RawOnRowEvent],
-                onRowRightClick:  js.UndefOr[RawOnRowEvent],
-                style:            js.Object): RawRowRendererParameter = {
+      def apply(
+        className:        String,
+        columns:          js.Array[React.Node],
+        index:            Int,
+        isScrolling:      Boolean,
+        key:              String,
+        rowData:          js.Object,
+        onRowClick:       js.UndefOr[RawOnRowEvent],
+        onRowDoubleClick: js.UndefOr[RawOnRowEvent],
+        onRowMouseOut:    js.UndefOr[RawOnRowEvent],
+        onRowMouseOver:   js.UndefOr[RawOnRowEvent],
+        onRowRightClick:  js.UndefOr[RawOnRowEvent],
+        style:            js.Object
+      ): RawRowRendererParameter = {
         val p = (new js.Object).asInstanceOf[RawRowRendererParameter]
         p.className        = className
         p.columns          = columns
@@ -408,10 +431,12 @@ package virtualized {
       var stopIndex: Int
     }
     object RawRowsRendererParam {
-      def apply(overscanStartIndex: Int,
-                overscanStopIndex:  Int,
-                startIndex:         Int,
-                stopIndex:          Int): RawRowsRendererParam = {
+      def apply(
+        overscanStartIndex: Int,
+        overscanStopIndex:  Int,
+        startIndex:         Int,
+        stopIndex:          Int
+      ): RawRowsRendererParam = {
         val p = (new js.Object).asInstanceOf[RawRowsRendererParam]
         p.overscanStartIndex = overscanStartIndex
         p.overscanStopIndex  = overscanStopIndex
@@ -429,9 +454,11 @@ package virtualized {
       var scrollTop: JsNumber
     }
     object RawScrollParam {
-      def apply(clientHeight: JsNumber,
-                scrollHeight: JsNumber,
-                scrollTop:    JsNumber): RawScrollParam = {
+      def apply(
+        clientHeight: JsNumber,
+        scrollHeight: JsNumber,
+        scrollTop:    JsNumber
+      ): RawScrollParam = {
         val p = (new js.Object).asInstanceOf[RawScrollParam]
         p.clientHeight = clientHeight
         p.scrollHeight = scrollHeight

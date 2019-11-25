@@ -80,7 +80,9 @@ object AutoSizer {
   private val component =
     JsComponent[Props, Children.Varargs, Null](RawComponent)
 
-  def apply(p:        Props,
-            children: VdomNode*): UnmountedWithRawType[Props, Null, RawMounted[Props, Null]] =
+  def apply(
+    p:        Props,
+    children: VdomNode*
+  ): UnmountedWithRawType[Props, Null, RawMounted[Props, Null]] =
     component(p)(children: _*)
 }

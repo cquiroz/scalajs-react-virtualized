@@ -133,7 +133,8 @@ object Column {
                      r.columnData.asInstanceOf[B],
                      r.dataKey,
                      r.rowData.asInstanceOf[C],
-                     r.rowIndex).toRaw).orUndefined
+                     r.rowIndex).toRaw
+    ).orUndefined
     p.className            = (className, clazz).toJs
     p.columnData           = columnData
     p.disableSort          = disableSort
@@ -215,7 +216,8 @@ object Column {
     JsComponent[Props, Children.None, Null](RawComponent).addFacade[Column]
 
   def apply(
-    p: Props): UnmountedMapped[Id, Props, Null, RawMounted[Props, Null] with Column, Props, Null] =
+    p: Props
+  ): UnmountedMapped[Id, Props, Null, RawMounted[Props, Null] with Column, Props, Null] =
     component(p)
 
 }

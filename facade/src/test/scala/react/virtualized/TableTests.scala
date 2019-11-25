@@ -24,49 +24,56 @@ object TableTests extends TestSuite with TestUtils {
                     rowCount     = 20,
                     rowHeight    = 40,
                     width        = 500,
-                    rowGetter    = rowGetterF)).props.height ==> 200
+                    rowGetter    = rowGetterF)
+      ).props.height ==> 200
       Table(
         Table.props(headerHeight = 10,
                     height       = 200,
                     rowCount     = 20,
                     rowHeight    = 40,
                     width        = 500,
-                    rowGetter    = rowGetterF)).props.rowCount ==> 20
+                    rowGetter    = rowGetterF)
+      ).props.rowCount ==> 20
       Table(
         Table.props(headerHeight = 10,
                     height       = 200,
                     rowCount     = 20,
                     rowHeight    = 40,
                     width        = 500,
-                    rowGetter    = rowGetterF)).props.rowHeight ==> 40
+                    rowGetter    = rowGetterF)
+      ).props.rowHeight ==> 40
       Table(
         Table.props(headerHeight = 10,
                     height       = 200,
                     rowCount     = 20,
                     rowHeight    = 40,
                     width        = 500,
-                    rowGetter    = rowGetterF)).props.width ==> 500
+                    rowGetter    = rowGetterF)
+      ).props.width ==> 500
       Table(
         Table.props(headerHeight = 10.5,
                     height       = 200,
                     rowCount     = 20,
                     rowHeight    = 40,
                     width        = 500,
-                    rowGetter    = rowGetterF)).props.headerHeight ==> 10.5
+                    rowGetter    = rowGetterF)
+      ).props.headerHeight ==> 10.5
       Table(
         Table.props(headerHeight = 10,
                     height       = 200.5,
                     rowCount     = 20,
                     rowHeight    = 40,
                     width        = 500,
-                    rowGetter    = rowGetterF)).props.height ==> 200.5
+                    rowGetter    = rowGetterF)
+      ).props.height ==> 200.5
       Table(
         Table.props(headerHeight = 10,
                     height       = 200,
                     rowCount     = 20,
                     rowHeight    = 40,
                     width        = 500.5,
-                    rowGetter    = rowGetterF)).props.width ==> 500.5
+                    rowGetter    = rowGetterF)
+      ).props.width ==> 500.5
     }
     // "support rendering" - {
     //   val table = Table(Table.props(headerHeight = 10, height = 200, rowCount = 1, rowHeight = 40, width = 500, rowGetter = rowGetterF))
@@ -494,18 +501,20 @@ object TableTests extends TestSuite with TestUtils {
     }
     "support a custom rowRenderer " - {
       val columns = List(Column(Column.props(200, "key")))
-      val rowRendererF: RowRenderer[Data] = (className: String,
-                                             cols:        Array[VdomNode],
-                                             index:       Int,
-                                             isScrolling: Boolean,
-                                             key:         String,
-                                             data:        Data,
-                                             _:           Option[OnRowClick],
-                                             _:           Option[OnRowClick],
-                                             _:           Option[OnRowClick],
-                                             _:           Option[OnRowClick],
-                                             _:           Option[OnRowClick],
-                                             style:       Style) =>
+      val rowRendererF: RowRenderer[Data] = (
+        className:   String,
+        cols:        Array[VdomNode],
+        index:       Int,
+        isScrolling: Boolean,
+        key:         String,
+        data:        Data,
+        _:           Option[OnRowClick],
+        _:           Option[OnRowClick],
+        _:           Option[OnRowClick],
+        _:           Option[OnRowClick],
+        _:           Option[OnRowClick],
+        style:       Style
+      ) =>
         <<.li(^.cls := className, cols.toTagMod, ^.key := key, ^.style := Style.toJsObject(style))
       val table = Table(Table.props(rowRenderer = rowRendererF,
                                     rowHeight    = 20,
