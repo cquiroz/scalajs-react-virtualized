@@ -8,7 +8,6 @@ import react.virtualized._
 import Data.DataRow
 
 object TableStaticDemo {
-
   def datum(data:     List[DataRow])(i: Int) = data(i % data.length)
   def rowheight(data: List[DataRow])(i: Int) = datum(data)(i).size
 
@@ -56,8 +55,8 @@ object TableStaticDemo {
             className   = "exampleColumn",
             label       = "The description label is so long it will be truncated",
             flexGrow    = 1,
-            cellRenderer = (cellData: DataRow, _: js.Any, _: String, _: js.Any, _: Int) =>
-              cellData.toString
+            cellRenderer =
+              (cellData: DataRow, _: js.Any, _: String, _: js.Any, _: Int) => cellData.toString
           )
         )
       )
@@ -94,7 +93,6 @@ object TableCache {
 }
 
 object TableDynamicDemo {
-
   def datum(data:     List[DataRow])(i: Int) = data(i % data.length)
   def rowheight(data: List[DataRow])(i: Int) = datum(data)(i).size
 
@@ -207,7 +205,6 @@ object Demo {
     .build
 
   def main(args: Array[String]): Unit = {
-
     component().renderIntoDOM(document.getElementById("root"))
     ()
   }

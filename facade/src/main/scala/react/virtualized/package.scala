@@ -179,7 +179,6 @@ package object virtualized {
 }
 
 package virtualized {
-
   sealed trait ScrollToAlignment
   object ScrollToAlignment {
     case object Auto extends ScrollToAlignment
@@ -501,5 +500,4 @@ package virtualized {
       def apply(i: RawRowRendererParameter): React.Node = js.native
     }
   }
-
 }

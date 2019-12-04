@@ -24,7 +24,6 @@ object Column {
 
   @js.native
   trait Props extends js.Object {
-
     /** Optional aria-label value to set on the column header */
     var `aria-label`: js.UndefOr[String] = js.native
 
@@ -219,5 +218,4 @@ object Column {
     p: Props
   ): UnmountedMapped[Id, Props, Null, RawMounted[Props, Null] with Column, Props, Null] =
     component(p)
-
 }

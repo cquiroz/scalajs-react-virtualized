@@ -17,7 +17,6 @@ import scala.scalajs.js.annotation.JSImport
 import react.virtualized.raw._
 
 object Table {
-
   type ColumnArg = UnmountedMapped[
     Id,
     Column.Props,
@@ -43,7 +42,6 @@ object Table {
 
   @js.native
   trait Props extends js.Object {
-
     /** Optional aria-label value to set on the column header */
     var `aria-label`: js.UndefOr[String] = js.native
 
@@ -367,5 +365,4 @@ object Table {
     children: ColumnArg*
   ): UnmountedMapped[Id, Props, Null, RawMounted[Props, Null] with JsMethods, Props, Null] =
     component.apply(p)(children.map(_.vdomElement): _*)
-
 }

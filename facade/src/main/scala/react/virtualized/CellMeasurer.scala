@@ -26,7 +26,6 @@ case object FixedWidth extends FixedDirection
 case object FixedHeight extends FixedDirection
 
 object CellMeasurerCacheParams {
-
   def apply(
     fixedDirection: FixedDirection,
     defaultHeight:  js.UndefOr[JsNumber] = js.undefined,
@@ -94,7 +93,6 @@ object CellMeasurerCache {
 }
 
 object CellMeasurer {
-
   @js.native
   @JSImport("react-virtualized", "CellMeasurer")
   object RawComponent extends js.Object
@@ -123,7 +121,6 @@ object CellMeasurer {
   }
 
   object Parent {
-
     def apply(
       invalidateCellSizeAfterRender: js.UndefOr[ParentFn] = js.undefined,
       recomputeGridSize:             js.UndefOr[ParentFn] = js.undefined
@@ -172,5 +169,4 @@ object CellMeasurer {
     children: VdomNode*
   ): UnmountedMapped[Id, Props, Null, RawMounted[Props, Null], Props, Null] =
     component.apply(p)(children: _*)
-
 }

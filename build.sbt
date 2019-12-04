@@ -1,5 +1,5 @@
 val reactJS          = "16.7.0"
-val reactVirtualized = "9.21.1"
+val reactVirtualized = "9.21.2"
 val scalaJsReact     = "1.4.2"
 
 parallelExecution in (ThisBuild, Test) := false
@@ -10,7 +10,7 @@ addCommandAlias("restartWDS",
 addCommandAlias("restartWDS",
                 "; demo/fastOptJS::stopWebpackDevServer; demo/fastOptJS::startWebpackDevServer")
 
-// resolvers in Global += Resolver.sonatypeRepo("staging")
+Global / onChangedBuildSource := ReloadOnSourceChanges
 
 inThisBuild(
   List(
@@ -54,9 +54,9 @@ lazy val demo =
       webpackBundlingMode := BundlingMode.LibraryOnly(),
       webpackDevServerExtraArgs := Seq("--inline"),
       webpackConfigFile in fastOptJS := Some(baseDirectory.value / "dev.webpack.config.js"),
-      version in webpack := "4.30.0",
-      version in webpackCliVersion := "3.3.2",
-      version in startWebpackDevServer := "3.3.1",
+      version in webpack := "4.41.2",
+      version in webpackCliVersion := "3.3.10",
+      version in startWebpackDevServer := "3.9.0",
       // don't publish the demo
       publish := {},
       publishLocal := {},
@@ -75,15 +75,15 @@ lazy val facade =
       npmDependencies in Compile ++= Seq(
         "react" -> reactJS,
         "react-dom" -> reactJS,
-        "react-virtualized" -> reactVirtualized
+        "react-virtualized" -> reactVirtualized,
+        "core-js" -> "3.4.5"
       ),
       // Requires the DOM for tests
       requireJsDomEnv in Test := true,
       // Use yarn as it is faster than npm
       useYarn := true,
-      version in webpack := "4.30.0",
-      version in webpackCliVersion := "3.3.2",
-      version in startWebpackDevServer := "3.3.1",
+      version in webpack := "4.41.2",
+      version in webpackCliVersion := "3.3.10",
       scalaJSUseMainModuleInitializer := false,
       // Compile tests to JS using fast-optimisation
       scalaJSStage in Test := FastOptStage,

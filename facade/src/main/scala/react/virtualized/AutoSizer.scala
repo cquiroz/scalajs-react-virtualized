@@ -23,7 +23,6 @@ object AutoSizer {
 
   @js.native
   trait Props extends js.Object {
-
     /** Function responsible for rendering children.*/
     var children: RawChildren = js.native
 

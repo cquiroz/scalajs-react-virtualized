@@ -6,7 +6,6 @@ import react.common.TestUtils
 import utest._
 
 object SortIndicaterTests extends TestSuite with TestUtils {
-
   val tests = Tests {
     'renderNone - {
       val unmounted = <<.div(SortIndicator(SortDirection.NONE))
