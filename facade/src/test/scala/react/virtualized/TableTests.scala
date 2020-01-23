@@ -1,15 +1,14 @@
 package react
 package virtualized
 
-import japgolly.scalajs.react.test._
+// import japgolly.scalajs.react.test._
 import japgolly.scalajs.react._
-import japgolly.scalajs.react.vdom.html_<^.{ < => <<, _ }
+// import japgolly.scalajs.react.vdom.html_<^.{ < => <<, _ }
 import scala.scalajs.js
-import react.common.style._
+// import react.common.style._
 import react.common.TestUtils
-import cats.implicits._
-import raw._
-
+// import cats.implicits._
+import react.virtualized.raw._
 import utest._
 
 object TableTests extends TestSuite with TestUtils {
@@ -499,50 +498,50 @@ object TableTests extends TestSuite with TestUtils {
                          columns: _*)
       table2.props.onScroll(RawScrollParam(1, 10, 1)) ==> (())
     }
-    "support a custom rowRenderer " - {
-      val columns = List(Column(Column.props(200, "key")))
-      val rowRendererF: RowRenderer[Data] = (
-        className:   String,
-        cols:        Array[VdomNode],
-        index:       Int,
-        isScrolling: Boolean,
-        key:         String,
-        data:        Data,
-        _:           Option[OnRowClick],
-        _:           Option[OnRowClick],
-        _:           Option[OnRowClick],
-        _:           Option[OnRowClick],
-        _:           Option[OnRowClick],
-        style:       Style
-      ) =>
-        <<.li(^.cls := className, cols.toTagMod, ^.key := key, ^.style := Style.toJsObject(style))
-      val table = Table(Table.props(rowRenderer = rowRendererF,
-                                    rowHeight    = 20,
-                                    headerHeight = 10,
-                                    height       = 200,
-                                    rowCount     = 1,
-                                    width        = 500,
-                                    rowGetter    = rowGetterF),
-                        columns: _*)
-      val html =
-        """<div aria-colcount="1" aria-rowcount="1" class="ReactVirtualized__Table" role="grid">
-            |<div class="ReactVirtualized__Table__headerRow" role="row" style="height: 10px; overflow: hidden; padding-right: 0px; width: 500px;">
-              |<div aria-label="key" aria-sort="none" class="ReactVirtualized__Table__headerColumn" role="columnheader" tabindex="0">
-                |<span class="ReactVirtualized__Table__headerTruncatedText"></span>
-              |</div>
-            |</div>
-            |<div aria-label="grid" aria-readonly="true" class="ReactVirtualized__Grid ReactVirtualized__Table__Grid" role="rowgroup" style="box-sizing: border-box; direction: ltr; height: 190px; position: relative; width: 500px; overflow-x: hidden; overflow-y: hidden;" tabindex="0">
-              |<div class="ReactVirtualized__Grid__innerScrollContainer" role="rowgroup" style="width: auto; height: 20px; max-width: 500px; max-height: 20px; overflow: hidden; position: relative;">
-                |<li class="ReactVirtualized__Table__row" style="overflow: hidden; left: 0px; padding-right: 0px; height: 20px; position: absolute; width: 500px; top: 0px;">
-                    |<div aria-colindex="1" class="ReactVirtualized__Table__rowColumn" role="gridcell" style="overflow: hidden;" title="">
-                  |</div>
-                |</li>
-              |</div>
-            |</div>
-          |</div>""".stripMargin.replaceAll("[\n\r]", "")
-      ReactTestUtils.withRenderedIntoDocument(table) { m =>
-        assert(m.outerHtmlScrubbed() === html)
-      }
-    }
+    // "support a custom rowRenderer " - {
+    //   val columns = List(Column(Column.props(200, "key")))
+    //   val rowRendererF: RowRenderer[Data] = (
+    //     className:   String,
+    //     cols:        Array[VdomNode],
+    //     index:       Int,
+    //     isScrolling: Boolean,
+    //     key:         String,
+    //     data:        Data,
+    //     _:           Option[OnRowClick],
+    //     _:           Option[OnRowClick],
+    //     _:           Option[OnRowClick],
+    //     _:           Option[OnRowClick],
+    //     _:           Option[OnRowClick],
+    //     style:       Style
+    //   ) =>
+    //     <<.li(^.cls := className, cols.toTagMod, ^.key := key, ^.style := Style.toJsObject(style))
+    //   val table = Table(Table.props(rowRenderer = rowRendererF,
+    //                                 rowHeight    = 20,
+    //                                 headerHeight = 10,
+    //                                 height       = 200,
+    //                                 rowCount     = 1,
+    //                                 width        = 500,
+    //                                 rowGetter    = rowGetterF),
+    //                     columns: _*)
+    //   val html =
+    //     """<div aria-colcount="1" aria-rowcount="1" class="ReactVirtualized__Table" role="grid">
+    //         |<div class="ReactVirtualized__Table__headerRow" role="row" style="height: 10px; overflow: hidden; padding-right: 0px; width: 500px;">
+    //           |<div aria-label="key" aria-sort="none" class="ReactVirtualized__Table__headerColumn" role="columnheader" tabindex="0">
+    //             |<span class="ReactVirtualized__Table__headerTruncatedText"></span>
+    //           |</div>
+    //         |</div>
+    //         |<div aria-label="grid" aria-readonly="true" class="ReactVirtualized__Grid ReactVirtualized__Table__Grid" role="rowgroup" style="box-sizing: border-box; direction: ltr; height: 190px; position: relative; width: 500px; overflow-x: hidden; overflow-y: hidden;" tabindex="0">
+    //           |<div class="ReactVirtualized__Grid__innerScrollContainer" role="rowgroup" style="width: auto; height: 20px; max-width: 500px; max-height: 20px; overflow: hidden; position: relative;">
+    //             |<li class="ReactVirtualized__Table__row" style="overflow: hidden; left: 0px; padding-right: 0px; height: 20px; position: absolute; width: 500px; top: 0px;">
+    //                 |<div aria-colindex="1" class="ReactVirtualized__Table__rowColumn" role="gridcell" style="overflow: hidden;" title="">
+    //               |</div>
+    //             |</li>
+    //           |</div>
+    //         |</div>
+    //       |</div>""".stripMargin.replaceAll("[\n\r]", "")
+    //   ReactTestUtils.withRenderedIntoDocument(table) { m =>
+    //     assert(m.outerHtmlScrubbed() === html)
+    //   }
+    // }
   }
 }

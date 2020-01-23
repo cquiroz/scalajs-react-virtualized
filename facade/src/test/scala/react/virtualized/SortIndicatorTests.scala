@@ -8,7 +8,7 @@ import utest._
 object SortIndicaterTests extends TestSuite with TestUtils {
 
   val tests = Tests {
-    'renderNone - {
+    "renderNone" - {
       val unmounted = <<.div(SortIndicator(SortDirection.NONE))
       val html =
         """<div>
@@ -16,7 +16,7 @@ object SortIndicaterTests extends TestSuite with TestUtils {
         |""".stripMargin
       assertRender(Some(unmounted), html)
     }
-    'renderAsc - {
+    "renderAsc" - {
       val unmounted = <<.div(SortIndicator(SortDirection.DESC))
       val html =
         """<div>
@@ -24,7 +24,7 @@ object SortIndicaterTests extends TestSuite with TestUtils {
         |""".stripMargin
       assertRender(Some(unmounted), html)
     }
-    'renderDesc - {
+    "renderDesc" - {
       val unmounted = <<.div(SortIndicator(SortDirection.ASC))
       val html =
         """<div>

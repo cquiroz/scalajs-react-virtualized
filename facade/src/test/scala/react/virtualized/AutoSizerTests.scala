@@ -6,6 +6,7 @@ import japgolly.scalajs.react.test._
 import japgolly.scalajs.react.vdom.html_<^.{ < => <<, _ }
 import react.common.style._
 import react.common.TestUtils
+import react.common.Size
 import react.common.implicits._
 import scala.scalajs.js
 import scala.scalajs.js.|
@@ -15,13 +16,13 @@ import utest._
 object AutoSizerTests extends TestSuite with TestUtils {
   def children(s: Size): VdomNode =
     <<.div(
-      ^.width := s.width.px,
-      ^.height := s.height.px,
+      ^.width := s.width.toDouble.px,
+      ^.height := s.height.toDouble.px,
       <<.span("text")
     )
 
   val tests = Tests {
-    'render - {
+    "render" - {
       val autoSizer = AutoSizer(AutoSizer.props(children = children))
       ReactTestUtils.withRenderedIntoDocument(autoSizer) { m =>
         val html =
@@ -33,13 +34,13 @@ object AutoSizerTests extends TestSuite with TestUtils {
         assert(m.outerHtmlScrubbed() == html)
       }
     }
-    'supportDisableWidth - {
+    "supportDisableWidth" - {
       AutoSizer(AutoSizer.props(children = children)).props.disableWidth.toOption ==> Some(false)
       AutoSizer(AutoSizer.props(children = children, disableWidth = true)).props.disableWidth.toOption ==> Some(
         true
       )
     }
-    'clazz - {
+    "clazz" - {
       AutoSizer(AutoSizer.props(children = children, clazz = Css("class"))).props.className.toOption ==> Some(
         "class"
       )
@@ -47,22 +48,22 @@ object AutoSizerTests extends TestSuite with TestUtils {
         "class1 class2"
       )
     }
-    'supportDisableHeight - {
+    "supportDisableHeight" - {
       AutoSizer(AutoSizer.props(children = children)).props.disableHeight.toOption ==> Some(false)
       AutoSizer(AutoSizer.props(children = children, disableHeight = true)).props.disableHeight.toOption ==> Some(
         true
       )
     }
-    'supportOnResize - {
+    "supportOnResize" - {
       val size = Size(height = 10, width = 20)
       AutoSizer(AutoSizer.props(children = children, onResize = x => Callback.empty)).props
         .onResize(size) ==> (())
     }
-    'supportClassName - {
+    "supportClassName" - {
       AutoSizer(AutoSizer.props(children = children)).props.className ==> (())
       AutoSizer(AutoSizer.props(children = children, className = "classname")).props.className ==> "classname"
     }
-    'supportDefaultHeightWidth - {
+    "supportDefaultHeightWidth" - {
       AutoSizer(AutoSizer.props(children = children)).props.defaultHeight ==> (())
       AutoSizer(AutoSizer.props(children = children, defaultHeight = 43.1)).props.defaultHeight ==> 43.1
       AutoSizer(AutoSizer.props(children = children, defaultHeight = 43)).props.defaultHeight ==> 43
@@ -71,7 +72,7 @@ object AutoSizerTests extends TestSuite with TestUtils {
       AutoSizer(AutoSizer.props(children = children, defaultWidth = 43.1)).props.defaultWidth ==> 43.1
       AutoSizer(AutoSizer.props(children = children, defaultWidth = 43)).props.defaultWidth ==> 43
     }
-    'supportStyle - {
+    "supportStyle" - {
       val style    = js.Dynamic.literal(foo = 42, bar = "foobar")
       val styleMap = Map[String, String | Int]("foo" -> 42, "bar" -> "foobar")
       AutoSizer(AutoSizer.props(children = children)).props.style === new js.Object() ==> true
