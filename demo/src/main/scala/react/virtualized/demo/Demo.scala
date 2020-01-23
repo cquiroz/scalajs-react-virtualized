@@ -56,8 +56,8 @@ object TableStaticDemo {
             className   = "exampleColumn",
             label       = "The description label is so long it will be truncated",
             flexGrow    = 1,
-            cellRenderer = (cellData: DataRow, _: js.Any, _: String, _: js.Any, _: Int) =>
-              cellData.toString
+            cellRenderer =
+              (cellData: DataRow, _: js.Any, _: String, _: js.Any, _: Int) => cellData.toString
           )
         )
       )

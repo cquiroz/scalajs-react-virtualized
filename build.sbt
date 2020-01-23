@@ -11,6 +11,7 @@ addCommandAlias("restartWDS",
                 "; demo/fastOptJS::stopWebpackDevServer; demo/fastOptJS::startWebpackDevServer")
 
 // resolvers in Global += Resolver.sonatypeRepo("staging")
+Global / onChangedBuildSource := ReloadOnSourceChanges
 
 inThisBuild(
   List(
@@ -101,7 +102,8 @@ lazy val facade =
     )
 
 lazy val commonSettings = Seq(
-  scalaVersion := "2.12.10",
+  scalaVersion := "2.13.1",
+  crossScalaVersions := List("2.13.1", "2.12.10"),
   organization := "io.github.cquiroz.react",
   sonatypeProfileName := "io.github.cquiroz",
   description := "scala.js facade for react-virtualized",

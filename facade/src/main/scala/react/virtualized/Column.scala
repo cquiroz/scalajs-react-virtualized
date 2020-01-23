@@ -127,13 +127,12 @@ object Column {
       (cdp: RawCellDataParameter) =>
         cdg(cdp.columnData.asInstanceOf[B], cdp.dataKey, cdp.asInstanceOf[C])
     p.cellDataGetter = cellDataGetter.map(rawCellDataGetter).orUndefined
-    p.cellRenderer = Some[RawCellRenderer](
-      (r: raw.RawCellRendererParameter) =>
-        cellRenderer(r.cellData.asInstanceOf[A],
-                     r.columnData.asInstanceOf[B],
-                     r.dataKey,
-                     r.rowData.asInstanceOf[C],
-                     r.rowIndex).toRaw
+    p.cellRenderer = Some[RawCellRenderer]((r: raw.RawCellRendererParameter) =>
+      cellRenderer(r.cellData.asInstanceOf[A],
+                   r.columnData.asInstanceOf[B],
+                   r.dataKey,
+                   r.rowData.asInstanceOf[C],
+                   r.rowIndex).toRaw
     ).orUndefined
     p.className            = (className, clazz).toJs
     p.columnData           = columnData
