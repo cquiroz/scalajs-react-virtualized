@@ -190,21 +190,6 @@ package virtualized {
     implicit val enum: EnumValue[ScrollToAlignment] = EnumValue.toLowerCaseString
   }
 
-  @js.native
-  trait Size extends js.Object {
-    var height: Double = js.native
-    var width: Double  = js.native
-  }
-
-  object Size {
-    def apply(height: Double, width: Double): Size = {
-      val p = (new js.Object).asInstanceOf[Size]
-      p.height = height
-      p.width  = width
-      p
-    }
-  }
-
   /**
     * Raw facades
     */

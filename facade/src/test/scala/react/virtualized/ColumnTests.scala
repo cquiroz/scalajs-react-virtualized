@@ -15,7 +15,7 @@ import utest._
 object ColumnTests extends TestSuite with TestUtils {
 
   val tests = Tests {
-    'requireWidthAndDataKey - {
+    "requireWidthAndDataKey" - {
       Column(Column.props(200, "key")).props.width ==> 200
       Column(Column.props(200, "key")).props.dataKey ==> "key"
     }
