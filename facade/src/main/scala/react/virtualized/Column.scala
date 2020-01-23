@@ -4,7 +4,8 @@ package virtualized
 import scala.scalajs.js
 import js.annotation.JSImport
 import js.JSConverters._
-import japgolly.scalajs.react._
+import japgolly.scalajs.react.JsComponent
+import japgolly.scalajs.react.Children
 import japgolly.scalajs.react.component.Js.RawMounted
 import japgolly.scalajs.react.component.Js.UnmountedMapped
 import japgolly.scalajs.react.internal.Effect.Id

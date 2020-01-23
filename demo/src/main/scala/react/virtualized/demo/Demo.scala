@@ -5,6 +5,7 @@ import japgolly.scalajs.react._
 import japgolly.scalajs.react.vdom.html_<^._
 import org.scalajs.dom.document
 import react.virtualized._
+import react.common._
 import Data.DataRow
 
 object TableStaticDemo {
