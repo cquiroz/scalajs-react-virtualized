@@ -35,10 +35,8 @@ object Data {
     (for {
       i <- 0 to 1000
     } yield {
-      def rnd = LoremIpsum(i % LoremIpsum.length)
-      val randoms = (0 to nextInt(10)).foldLeft("") { (ac, _) =>
-        ac + rnd
-      }
+      def rnd     = LoremIpsum(i % LoremIpsum.length)
+      val randoms = (0 to nextInt(10)).foldLeft("")((ac, _) => ac + rnd)
       DataRow(BadgeColors(i % BadgeColors.length),
               i,
               Names(i % Names.length),
