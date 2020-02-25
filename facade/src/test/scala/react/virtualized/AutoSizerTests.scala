@@ -4,9 +4,7 @@ package virtualized
 import japgolly.scalajs.react._
 import japgolly.scalajs.react.test._
 import japgolly.scalajs.react.vdom.html_<^.{ < => <<, _ }
-import react.common.style._
-import react.common.TestUtils
-import react.common.Size
+import react.common._
 import react.common.implicits._
 import scala.scalajs.js
 import scala.scalajs.js.|

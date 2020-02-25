@@ -13,6 +13,8 @@ addCommandAlias("restartWDS",
 // resolvers in Global += Resolver.sonatypeRepo("staging")
 Global / onChangedBuildSource := ReloadOnSourceChanges
 
+Global / resolvers += Resolver.sonatypeRepo("public")
+
 inThisBuild(
   List(
     homepage := Some(url("https://github.com/cquiroz/scalajs-react-virtualized")),
@@ -91,11 +93,11 @@ lazy val facade =
       libraryDependencies ++= Seq(
         "com.github.japgolly.scalajs-react" %%% "core" % scalaJsReact,
         "com.github.japgolly.scalajs-react" %%% "test" % scalaJsReact % "test",
-        "io.github.cquiroz.react" %%% "common" % "0.5.1",
-        "io.github.cquiroz.react" %%% "test" % "0.5.1" % Test,
-        "io.github.cquiroz.react" %%% "cats" % "0.5.1",
+        "io.github.cquiroz.react" %%% "common" % "0.5.2",
+        "io.github.cquiroz.react" %%% "test" % "0.5.2" % Test,
+        "io.github.cquiroz.react" %%% "cats" % "0.5.2",
         "com.lihaoyi" %%% "utest" % "0.7.4" % Test,
-        "org.typelevel" %%% "cats-core" % "2.1.0" % Test
+        "org.typelevel" %%% "cats-core" % "2.1.1" % Test
       ),
       webpackConfigFile in Test := Some(baseDirectory.value / "test.webpack.config.js"),
       testFrameworks += new TestFramework("utest.runner.Framework")
@@ -110,12 +112,14 @@ lazy val commonSettings = Seq(
   homepage := Some(url("https://github.com/cquiroz/scalajs-react-virtualized")),
   licenses := Seq("BSD 3-Clause License" -> url("https://opensource.org/licenses/BSD-3-Clause")),
   publishArtifact in Test := false,
-  scalacOptions ~= (_.filterNot(Set(
-    // By necessity facades will have unused params
-    "-Wdead-code",
-    "-Wunused:params",
-    "-Ywarn-dead-code",
-    "-Ywarn-unused:params"
-  ))),
+  scalacOptions ~= (_.filterNot(
+    Set(
+      // By necessity facades will have unused params
+      "-Wdead-code",
+      "-Wunused:params",
+      "-Ywarn-dead-code",
+      "-Ywarn-unused:params"
+    )
+  )),
   scalacOptions += "-P:scalajs:sjsDefinedByDefault"
 )
