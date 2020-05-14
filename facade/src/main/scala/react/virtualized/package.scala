@@ -115,7 +115,7 @@ package object virtualized {
     sortDirection: SortDirection
   ) =>
     VdomNode(
-      raw.defaultHeaderRenderer(
+      defaultHeaderRenderer(
         raw.RawHeaderRendererParameter(columnData,
                                        dataKey,
                                        disableSort.orUndefined,
@@ -128,7 +128,7 @@ package object virtualized {
   val defaultCellRendererS =
     (cellData: js.Any, columnData: js.Any, dataKey: String, rowData: js.Any, rowIndex: Int) =>
       VdomNode(
-        raw.defaultCellRenderer(
+        defaultCellRenderer(
           raw.RawCellRendererParameter(cellData, columnData, dataKey, rowData, rowIndex)
         )
       )
@@ -136,7 +136,7 @@ package object virtualized {
   val defaultHeaderRowRendererS: HeaderRowRenderer =
     (className: String, columns: Array[VdomNode], style: Style) =>
       VdomNode(
-        raw.defaultHeaderRowRenderer(
+        defaultHeaderRowRenderer(
           raw.RawHeaderRowRendererParameter(className,
                                             columns.map(_.rawNode).toJSArray,
                                             Style.toJsObject(style))
@@ -159,7 +159,7 @@ package object virtualized {
       style:            Style
     ) =>
       VdomNode(
-        raw.defaultRowRenderer(
+        defaultRowRenderer(
           raw.RawRowRendererParameter(
             className,
             columns.map(_.rawNode).toJSArray,
@@ -188,6 +188,32 @@ package virtualized {
     case object Center extends ScrollToAlignment
 
     implicit val enum: EnumValue[ScrollToAlignment] = EnumValue.toLowerCaseString
+  }
+
+  // Default renderer implementations
+  @js.native
+  @JSImport("react-virtualized", "defaultTableHeaderRenderer")
+  object defaultHeaderRenderer extends js.Function1[raw.RawHeaderRendererParameter, React.Node] {
+    def apply(i: raw.RawHeaderRendererParameter): React.Node = js.native
+  }
+
+  @js.native
+  @JSImport("react-virtualized", "defaultTableCellRenderer")
+  object defaultCellRenderer extends js.Function1[raw.RawCellRendererParameter, React.Node] {
+    def apply(i: raw.RawCellRendererParameter): React.Node = js.native
+  }
+
+  @js.native
+  @JSImport("react-virtualized", "defaultTableHeaderRowRenderer")
+  object defaultHeaderRowRenderer
+      extends js.Function1[raw.RawHeaderRowRendererParameter, React.Node] {
+    def apply(i: raw.RawHeaderRowRendererParameter): React.Node = js.native
+  }
+
+  @js.native
+  @JSImport("react-virtualized", "defaultTableRowRenderer")
+  object defaultRowRenderer extends js.Function1[raw.RawRowRendererParameter, React.Node] {
+    def apply(i: raw.RawRowRendererParameter): React.Node = js.native
   }
 
   /**
@@ -460,31 +486,6 @@ package virtualized {
       val DESC: String = js.native
     }
 
-    // Default renderer implementations
-    @js.native
-    @JSImport("react-virtualized", "defaultTableHeaderRenderer", JSImport.Default)
-    object defaultHeaderRenderer extends js.Function1[RawHeaderRendererParameter, React.Node] {
-      def apply(i: RawHeaderRendererParameter): React.Node = js.native
-    }
-
-    @js.native
-    @JSImport("react-virtualized", "defaultTableCellRenderer", JSImport.Default)
-    object defaultCellRenderer extends js.Function1[RawCellRendererParameter, React.Node] {
-      def apply(i: RawCellRendererParameter): React.Node = js.native
-    }
-
-    @js.native
-    @JSImport("react-virtualized", "defaultTableHeaderRowRenderer", JSImport.Default)
-    object defaultHeaderRowRenderer
-        extends js.Function1[RawHeaderRowRendererParameter, React.Node] {
-      def apply(i: RawHeaderRowRendererParameter): React.Node = js.native
-    }
-
-    @js.native
-    @JSImport("react-virtualized", "defaultTableRowRenderer", JSImport.Default)
-    object defaultRowRenderer extends js.Function1[RawRowRendererParameter, React.Node] {
-      def apply(i: RawRowRendererParameter): React.Node = js.native
-    }
   }
 
 }

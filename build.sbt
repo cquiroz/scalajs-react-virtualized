@@ -1,6 +1,6 @@
-val reactJS          = "16.7.0"
+val reactJS          = "16.13.1"
 val reactVirtualized = "9.21.1"
-val scalaJsReact     = "1.6.0"
+val scalaJsReact     = "1.7.0"
 
 parallelExecution in (ThisBuild, Test) := false
 
@@ -93,9 +93,9 @@ lazy val facade =
       libraryDependencies ++= Seq(
         "com.github.japgolly.scalajs-react" %%% "core" % scalaJsReact,
         "com.github.japgolly.scalajs-react" %%% "test" % scalaJsReact % "test",
-        "io.github.cquiroz.react" %%% "common" % "0.7.1",
-        "io.github.cquiroz.react" %%% "test" % "0.7.1" % Test,
-        "io.github.cquiroz.react" %%% "cats" % "0.7.1",
+        "io.github.cquiroz.react" %%% "common" % "0.8.1",
+        "io.github.cquiroz.react" %%% "test" % "0.8.1" % Test,
+        "io.github.cquiroz.react" %%% "cats" % "0.8.1",
         "com.lihaoyi" %%% "utest" % "0.7.4" % Test,
         "org.typelevel" %%% "cats-core" % "2.1.1" % Test
       ),
@@ -104,8 +104,7 @@ lazy val facade =
     )
 
 lazy val commonSettings = Seq(
-  scalaVersion := "2.13.1",
-  crossScalaVersions := List("2.13.1", "2.12.11"),
+  scalaVersion := "2.13.2",
   organization := "io.github.cquiroz.react",
   sonatypeProfileName := "io.github.cquiroz",
   description := "scala.js facade for react-virtualized",
@@ -120,6 +119,5 @@ lazy val commonSettings = Seq(
       "-Ywarn-dead-code",
       "-Ywarn-unused:params"
     )
-  )),
-  scalacOptions += "-P:scalajs:sjsDefinedByDefault"
+  ))
 )
