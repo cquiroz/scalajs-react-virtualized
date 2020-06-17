@@ -13,8 +13,8 @@ object TableStaticDemo {
   def datum(data:     List[DataRow])(i: Int) = data(i % data.length)
   def rowheight(data: List[DataRow])(i: Int) = datum(data)(i).size
 
-  final case class Props(useDynamicRowHeight: Boolean, sortBy:     String, s: Size)
-  final case class State(sortDirection:       SortDirection, data: List[DataRow])
+  final case class Props(useDynamicRowHeight: Boolean, sortBy: String, s: Size)
+  final case class State(sortDirection: SortDirection, data: List[DataRow])
 
   def headerRenderer(sortBy: String)(
     columnData:              DataRow,
@@ -26,11 +26,12 @@ object TableStaticDemo {
   ): VdomNode =
     <.div("Full Name", SortIndicator(SortDirection.ASC).when(sortBy == dataKey))
 
-  def rowClassName(i: Int): String = i match {
-    case x if x < 0      => "headerRow"
-    case x if x % 2 == 0 => "evenRow"
-    case _               => "oddRow"
-  }
+  def rowClassName(i: Int): String =
+    i match {
+      case x if x < 0      => "headerRow"
+      case x if x % 2 == 0 => "evenRow"
+      case _               => "oddRow"
+    }
 
   val component = ScalaComponent
     .builder[Props]("TableStaticDemo")
@@ -39,8 +40,9 @@ object TableStaticDemo {
       def sort(index: String, sortDirection: SortDirection): Callback = {
         val sorted = state.data.sortBy(_.index)
         $.setState(
-          state.copy(data          = if (sortDirection == SortDirection.ASC) sorted else sorted.reverse,
-                     sortDirection = sortDirection)
+          state.copy(data = if (sortDirection == SortDirection.ASC) sorted else sorted.reverse,
+                     sortDirection = sortDirection
+          )
         )
       }
       val columns = List(
@@ -54,9 +56,9 @@ object TableStaticDemo {
             210,
             "random",
             disableSort = true,
-            className   = "exampleColumn",
-            label       = "The description label is so long it will be truncated",
-            flexGrow    = 1,
+            className = "exampleColumn",
+            label = "The description label is so long it will be truncated",
+            flexGrow = 1,
             cellRenderer =
               (cellData: DataRow, _: js.Any, _: String, _: js.Any, _: Int) => cellData.toString
           )
@@ -64,23 +66,23 @@ object TableStaticDemo {
       )
       Table(
         Table.props(
-          disableHeader    = false,
-          noRowsRenderer   = () => <.div(^.cls := "noRows", "No rows"),
+          disableHeader = false,
+          noRowsRenderer = () => <.div(^.cls := "noRows", "No rows"),
           overscanRowCount = 10,
-          rowClassName     = rowClassName _,
-          height           = 270,
-          rowCount         = 1000,
-          rowHeight        = if (props.useDynamicRowHeight) rowheight(state.data) _ else 40,
-          onRowClick       = x => Callback.log(x),
-          onScroll         = (c, s, t) => Callback.log(s"$c $s $t"),
-          width            = scala.math.max(1, props.s.width.toInt),
-          rowGetter        = datum(state.data),
-          headerClassName  = "headerColumn",
-          sort             = sort _,
-          sortBy           = props.sortBy,
-          sortDirection    = state.sortDirection,
-          scrollTop        = 2000,
-          headerHeight     = 30
+          rowClassName = rowClassName _,
+          height = 270,
+          rowCount = 1000,
+          rowHeight = if (props.useDynamicRowHeight) rowheight(state.data) _ else 40,
+          onRowClick = x => Callback.log(x),
+          onScroll = (c, s, t) => Callback.log(s"$c $s $t"),
+          width = scala.math.max(1, props.s.width.toInt),
+          rowGetter = datum(state.data),
+          headerClassName = "headerColumn",
+          sort = sort _,
+          sortBy = props.sortBy,
+          sortDirection = state.sortDirection,
+          scrollTop = 2000,
+          headerHeight = 30
         ),
         columns: _*
       )
@@ -99,8 +101,8 @@ object TableDynamicDemo {
   def datum(data:     List[DataRow])(i: Int) = data(i % data.length)
   def rowheight(data: List[DataRow])(i: Int) = datum(data)(i).size
 
-  final case class Props(useDynamicRowHeight: Boolean, sortBy:     String, s: Size)
-  final case class State(sortDirection:       SortDirection, data: List[DataRow])
+  final case class Props(useDynamicRowHeight: Boolean, sortBy: String, s: Size)
+  final case class State(sortDirection: SortDirection, data: List[DataRow])
 
   def headerRenderer(sortBy: String)(
     columnData:              DataRow,
@@ -112,21 +114,22 @@ object TableDynamicDemo {
   ): VdomNode =
     <.div("Full Name", SortIndicator(SortDirection.ASC).when(sortBy == dataKey))
 
-  def rowClassName(i: Int): String = i match {
-    case x if x < 0      => "headerRow"
-    case x if x % 2 == 0 => "evenRow"
-    case _               => "oddRow"
-  }
+  def rowClassName(i: Int): String =
+    i match {
+      case x if x < 0      => "headerRow"
+      case x if x % 2 == 0 => "evenRow"
+      case _               => "oddRow"
+    }
 
   val dynamicCellRenderer: CellRenderer[DataRow, js.Object, js.Object] =
     (cellData: DataRow, _: js.Object, _: String, _: js.Object, rowIndex: Int) => {
       CellMeasurer(
         CellMeasurer.props(
-          cache       = TableCache.cache,
-          parent      = CellMeasurer.Parent.Zero,
+          cache = TableCache.cache,
+          parent = CellMeasurer.Parent.Zero,
           columnIndex = 2,
-          rowIndex    = rowIndex,
-          children    = <.div(cellData.toString)
+          rowIndex = rowIndex,
+          children = <.div(cellData.toString)
         )
       )
     }
@@ -139,8 +142,9 @@ object TableDynamicDemo {
       def sort(index: String, sortDirection: SortDirection): Callback = {
         val sorted = state.data.sortBy(_.index)
         $.setState(
-          state.copy(data          = if (sortDirection == SortDirection.ASC) sorted else sorted.reverse,
-                     sortDirection = sortDirection)
+          state.copy(data = if (sortDirection == SortDirection.ASC) sorted else sorted.reverse,
+                     sortDirection = sortDirection
+          )
         )
       }
       val columns = List(
@@ -153,10 +157,10 @@ object TableDynamicDemo {
           Column.props(
             TableCache.cache.getWidth(2),
             "random",
-            disableSort  = true,
-            className    = "exampleColumn",
-            label        = "The description label is so long it will be truncated",
-            flexGrow     = 1,
+            disableSort = true,
+            className = "exampleColumn",
+            label = "The description label is so long it will be truncated",
+            flexGrow = 1,
             cellRenderer = dynamicCellRenderer
           )
         )
@@ -164,23 +168,23 @@ object TableDynamicDemo {
       val t = Table(
         Table.props(
           deferredMeasurementCache = TableCache.cache,
-          disableHeader            = false,
-          noRowsRenderer           = () => <.div(^.cls := "noRows", "No rows"),
-          overscanRowCount         = 10,
-          rowClassName             = rowClassName _,
-          height                   = 600,
-          rowCount                 = 10,
-          rowHeight                = TableCache.cache.rowHeight.toScala,
-          onRowClick               = x => Callback.log(x),
-          onScroll                 = (c, s, t) => Callback.log(s"$c $s $t"),
-          width                    = props.s.width.toInt,
-          rowGetter                = datum(state.data),
-          headerClassName          = "headerColumn",
-          sort                     = sort _,
-          sortBy                   = props.sortBy,
-          sortDirection            = state.sortDirection,
-          scrollTop                = 2000,
-          headerHeight             = 30
+          disableHeader = false,
+          noRowsRenderer = () => <.div(^.cls := "noRows", "No rows"),
+          overscanRowCount = 10,
+          rowClassName = rowClassName _,
+          height = 600,
+          rowCount = 10,
+          rowHeight = TableCache.cache.rowHeight.toScala,
+          onRowClick = x => Callback.log(x),
+          onScroll = (c, s, t) => Callback.log(s"$c $s $t"),
+          width = props.s.width.toInt,
+          rowGetter = datum(state.data),
+          headerClassName = "headerColumn",
+          sort = sort _,
+          sortBy = props.sortBy,
+          sortDirection = state.sortDirection,
+          scrollTop = 2000,
+          headerHeight = 30
         ),
         columns: _*
       )

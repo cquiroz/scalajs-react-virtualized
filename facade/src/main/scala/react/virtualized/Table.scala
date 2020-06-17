@@ -278,44 +278,45 @@ object Table {
     rowStyle:                 Style | RowStyle = Style(Map.empty)
   ): Props = {
     val p = (new js.Object).asInstanceOf[Props]
-    p.headerHeight             = headerHeight
-    p.height                   = height
-    p.rowCount                 = rowCount
-    p.rowGetter                = (i: RawIndexParameter) => rowGetter(i.index)
-    p.width                    = width
-    p.`aria-label`             = ariaLabel
-    p.autoHeight               = autoHeight
-    p.className                = (className, clazz).toJs
+    p.headerHeight = headerHeight
+    p.height = height
+    p.rowCount = rowCount
+    p.rowGetter = (i: RawIndexParameter) => rowGetter(i.index)
+    p.width = width
+    p.`aria-label` = ariaLabel
+    p.autoHeight = autoHeight
+    p.className = (className, clazz).toJs
     p.deferredMeasurementCache = deferredMeasurementCache
-    p.disableHeader            = disableHeader
-    p.estimatedRowSize         = estimatedRowSize
-    p.gridClassName            = gridClassName
-    p.gridStyle                = gridStyle.map(Style.toJsObject)
-    p.headerClassName          = headerClassName
-    p.headerStyle              = headerStyle.map(Style.toJsObject)
+    p.disableHeader = disableHeader
+    p.estimatedRowSize = estimatedRowSize
+    p.gridClassName = gridClassName
+    p.gridStyle = gridStyle.map(Style.toJsObject)
+    p.headerClassName = headerClassName
+    p.headerStyle = headerStyle.map(Style.toJsObject)
     p.headerRowRenderer = (r: RawHeaderRowRendererParameter) =>
       headerRowRenderer(r.className,
                         r.columns.map(VdomNode.apply).toArray,
-                        Style.fromJsObject(r.style)).toRaw
-    p.id               = id
-    p.noRowsRenderer   = Some[RawNoRowsRenderer](() => noRowsRenderer.apply.rawNode).orUndefined
-    p.onHeaderClick    = (x: RawHeaderClickParam) => onHeaderClick(x.columnData, x.dataKey).runNow()
-    p.onRowClick       = (x: RawIndexParameter) => onRowClick(x.index).runNow()
+                        Style.fromJsObject(r.style)
+      ).toRaw
+    p.id = id
+    p.noRowsRenderer = Some[RawNoRowsRenderer](() => noRowsRenderer.apply.rawNode).orUndefined
+    p.onHeaderClick = (x: RawHeaderClickParam) => onHeaderClick(x.columnData, x.dataKey).runNow()
+    p.onRowClick = (x: RawIndexParameter) => onRowClick(x.index).runNow()
     p.onRowDoubleClick = (x: RawIndexParameter) => onRowDoubleClick(x.index).runNow()
-    p.onRowMouseOut    = (x: RawIndexParameter) => onRowMouseOut(x.index).runNow()
-    p.onRowMouseOver   = (x: RawIndexParameter) => onRowMouseOver(x.index).runNow()
-    p.onRowRightClick  = (x: RawIndexParameter) => onRowRightClick(x.index).runNow()
+    p.onRowMouseOut = (x: RawIndexParameter) => onRowMouseOut(x.index).runNow()
+    p.onRowMouseOver = (x: RawIndexParameter) => onRowMouseOver(x.index).runNow()
+    p.onRowRightClick = (x: RawIndexParameter) => onRowRightClick(x.index).runNow()
     p.onRowsRendered = (x: RawRowsRendererParam) =>
       onRowsRendered(x.overscanStartIndex, x.overscanStopIndex, x.startIndex, x.stopIndex).runNow()
     p.onScroll = (x: RawScrollParam) =>
       onScroll(x.clientHeight, x.scrollHeight, x.scrollTop).runNow()
     p.overscanRowCount = overscanRowCount
-    p.style            = style.map(Style.toJsObject)
-    p.tabIndex         = tabIndex
-    p.sortBy           = sortBy
-    p.scrollToIndex    = scrollToIndex
-    p.scrollTop        = scrollTop
-    p.sortDirection    = sortDirection.map(_.toRaw)
+    p.style = style.map(Style.toJsObject)
+    p.tabIndex = tabIndex
+    p.sortBy = sortBy
+    p.scrollToIndex = scrollToIndex
+    p.scrollTop = scrollTop
+    p.sortDirection = sortDirection.map(_.toRaw)
     p.sort = sort.map { f => (i: RawSortParam) =>
       f(i.sortBy, SortDirection.fromRaw(i.sortDirection)).runNow()
     }

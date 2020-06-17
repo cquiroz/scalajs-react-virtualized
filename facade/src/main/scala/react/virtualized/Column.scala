@@ -121,8 +121,8 @@ object Column {
     style:                js.UndefOr[Style] = js.undefined
   ): Props = {
     val p = (new js.Object).asInstanceOf[Props]
-    p.width        = width
-    p.dataKey      = dataKey
+    p.width = width
+    p.dataKey = dataKey
     p.`aria-label` = ariaLabel
     def rawCellDataGetter(cdg: CellDataGetter[B, C, A]): RawCellDataGetter =
       (cdp: RawCellDataParameter) =>
@@ -133,15 +133,16 @@ object Column {
                    r.columnData.asInstanceOf[B],
                    r.dataKey,
                    r.rowData.asInstanceOf[C],
-                   r.rowIndex).toRaw
+                   r.rowIndex
+      ).toRaw
     ).orUndefined
-    p.className            = (className, clazz).toJs
-    p.columnData           = columnData
-    p.disableSort          = disableSort
+    p.className = (className, clazz).toJs
+    p.columnData = columnData
+    p.disableSort = disableSort
     p.defaultSortDirection = defaultSortDirection.toRaw
-    p.flexGrow             = flexGrow
-    p.flexShrink           = flexShrink
-    p.headerClassName      = headerClassName
+    p.flexGrow = flexGrow
+    p.flexShrink = flexShrink
+    p.headerClassName = headerClassName
     p.headerRenderer = (r: RawHeaderRendererParameter) =>
       headerRenderer(
         r.columnData.asInstanceOf[B],
@@ -152,11 +153,11 @@ object Column {
         SortDirection.fromRaw(r.sortDirection.getOrElse(""))
       ).toRaw
     p.headerStyle = headerStyle.map(Style.toJsObject)
-    p.id          = id
-    p.label       = label.rawNode
-    p.maxWidth    = maxWidth
-    p.minWidth    = minWidth
-    p.style       = style.map(Style.toJsObject)
+    p.id = id
+    p.label = label.rawNode
+    p.maxWidth = maxWidth
+    p.minWidth = minWidth
+    p.style = style.map(Style.toJsObject)
     p
   }
 

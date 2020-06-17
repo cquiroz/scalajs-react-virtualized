@@ -41,7 +41,8 @@ object CellMeasurerCacheParams {
              fixedDirection == FixedHeight,
              fixedDirection == FixedWidth,
              minHeight,
-             minWidth)
+             minWidth
+    )
 
   private def rawapply(
     defaultHeight: js.UndefOr[JsNumber],
@@ -53,11 +54,11 @@ object CellMeasurerCacheParams {
   ): CellMeasurerCacheParams = {
     val p = (new js.Object).asInstanceOf[CellMeasurerCacheParams]
     p.defaultHeight = defaultHeight
-    p.defaultWidth  = defaultWidth
-    p.fixedHeight   = fixedHeight
-    p.fixedWidth    = fixedWidth
-    p.minHeight     = minHeight
-    p.minWidth      = minWidth
+    p.defaultWidth = defaultWidth
+    p.fixedHeight = fixedHeight
+    p.fixedWidth = fixedWidth
+    p.minHeight = minHeight
+    p.minWidth = minWidth
     p
   }
 }
@@ -90,7 +91,8 @@ object CellMeasurerCache {
                               defaultWidth,
                               fixedWidth,
                               minHeight,
-                              minWidth)
+                              minWidth
+      )
     )
 }
 
@@ -110,7 +112,7 @@ object CellMeasurer {
     def apply(columnIndex: JsNumber, rowIndex: JsNumber): Cell = {
       val p = (new js.Object).asInstanceOf[Cell]
       p.columnIndex = columnIndex
-      p.rowIndex    = rowIndex
+      p.rowIndex = rowIndex
       p
     }
   }
@@ -131,7 +133,7 @@ object CellMeasurer {
     ): Parent = {
       val p = (new js.Object).asInstanceOf[Parent]
       p.invalidateCellSizeAfterRender = invalidateCellSizeAfterRender
-      p.recomputeGridSize             = recomputeGridSize
+      p.recomputeGridSize = recomputeGridSize
       p
     }
 
@@ -157,12 +159,12 @@ object CellMeasurer {
     children:    VdomNode
   ): Props = {
     val p = (new js.Object).asInstanceOf[Props]
-    p.cache       = cache
+    p.cache = cache
     p.columnIndex = columnIndex
-    p.index       = index
-    p.parent      = parent
-    p.rowIndex    = rowIndex
-    p.children    = children.rawNode
+    p.index = index
+    p.parent = parent
+    p.rowIndex = rowIndex
+    p.children = children.rawNode
     p
   }
 

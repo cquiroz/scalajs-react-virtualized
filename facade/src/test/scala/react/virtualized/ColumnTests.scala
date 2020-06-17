@@ -33,7 +33,8 @@ object ColumnTests extends TestSuite with TestUtils {
       Column(
         Column.props(200,
                      "key",
-                     cellDataGetter = Some((_: js.Any, _: String, _: js.Object) => cell))
+                     cellDataGetter = Some((_: js.Any, _: String, _: js.Object) => cell)
+        )
       ).props.cellDataGetter.toOption
         .map(_(RawCellDataParameter("col", "key", "row")))
         .map(_ === cell) ==> Some(true)
@@ -46,7 +47,8 @@ object ColumnTests extends TestSuite with TestUtils {
       val r = Column(
         Column.props(200,
                      "key",
-                     cellRenderer = (_: js.Any, _: js.Any, _, _: js.Any, _) => <<.div("abc"))
+                     cellRenderer = (_: js.Any, _: js.Any, _, _: js.Any, _) => <<.div("abc")
+        )
       ).props.cellRenderer.toOption
         .map(_(RawCellRendererParameter("cellData", "col", "key", "row", 1)))
       assertRenderNode(r, "<div><div>abc</div></div>")
@@ -66,7 +68,9 @@ object ColumnTests extends TestSuite with TestUtils {
     }
     "support defaultSortDirection" - {
       Column(Column.props(200, "key")).props.defaultSortDirection ==> SortDirection.ASC.toRaw
-      Column(Column.props(200, "key", defaultSortDirection = SortDirection.DESC)).props.defaultSortDirection ==> SortDirection.DESC.toRaw
+      Column(
+        Column.props(200, "key", defaultSortDirection = SortDirection.DESC)
+      ).props.defaultSortDirection ==> SortDirection.DESC.toRaw
     }
     "support flexGrow" - {
       Column(Column.props(200, "key")).props.flexGrow ==> 0
@@ -78,7 +82,9 @@ object ColumnTests extends TestSuite with TestUtils {
     }
     "support headerClassName" - {
       Column(Column.props(200, "key")).props.headerClassName ==> (())
-      Column(Column.props(200, "key", headerClassName = "my-class")).props.headerClassName ==> "my-class"
+      Column(
+        Column.props(200, "key", headerClassName = "my-class")
+      ).props.headerClassName ==> "my-class"
     }
     "have a default headerRenderer" - {
       val label = <<.div("Label")

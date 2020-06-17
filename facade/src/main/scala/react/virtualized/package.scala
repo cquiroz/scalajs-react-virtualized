@@ -121,7 +121,8 @@ package object virtualized {
                                        disableSort.orUndefined,
                                        label,
                                        sortBy.orUndefined,
-                                       sortDirection.toRaw)
+                                       sortDirection.toRaw
+        )
       )
     )
 
@@ -139,7 +140,8 @@ package object virtualized {
         defaultHeaderRowRenderer(
           raw.RawHeaderRowRendererParameter(className,
                                             columns.map(_.rawNode).toJSArray,
-                                            Style.toJsObject(style))
+                                            Style.toJsObject(style)
+          )
         )
       )
 
@@ -235,8 +237,8 @@ package virtualized {
       ): RawHeaderRowRendererParameter = {
         val p = (new js.Object).asInstanceOf[RawHeaderRowRendererParameter]
         p.className = className
-        p.columns   = columns
-        p.style     = style
+        p.columns = columns
+        p.style = style
         p
       }
     }
@@ -254,8 +256,8 @@ package virtualized {
       def apply(columnData: js.Any, dataKey: String, rowData: js.Any): RawCellDataParameter = {
         val p = (new js.Object).asInstanceOf[RawCellDataParameter]
         p.columnData = columnData
-        p.dataKey    = dataKey
-        p.rowData    = rowData
+        p.dataKey = dataKey
+        p.rowData = rowData
         p
       }
     }
@@ -278,11 +280,11 @@ package virtualized {
         rowIndex:   Int
       ): RawCellRendererParameter = {
         val p = (new js.Object).asInstanceOf[RawCellRendererParameter]
-        p.cellData   = cellData
+        p.cellData = cellData
         p.columnData = columnData
-        p.dataKey    = dataKey
-        p.rowData    = rowData
-        p.rowIndex   = rowIndex
+        p.dataKey = dataKey
+        p.rowData = rowData
+        p.rowIndex = rowIndex
         p
       }
     }
@@ -307,11 +309,11 @@ package virtualized {
         sortDirection: js.UndefOr[String]
       ): RawHeaderRendererParameter = {
         val p = (new js.Object).asInstanceOf[RawHeaderRendererParameter]
-        p.columnData    = columnData
-        p.dataKey       = dataKey
-        p.disableSort   = disableSort
-        p.label         = label.rawNode
-        p.sortBy        = sortBy
+        p.columnData = columnData
+        p.dataKey = dataKey
+        p.disableSort = disableSort
+        p.label = label.rawNode
+        p.sortBy = sortBy
         p.sortDirection = sortDirection
         p
       }
@@ -352,18 +354,18 @@ package virtualized {
         style:            js.Object
       ): RawRowRendererParameter = {
         val p = (new js.Object).asInstanceOf[RawRowRendererParameter]
-        p.className        = className
-        p.columns          = columns
-        p.index            = index
-        p.isScrolling      = isScrolling
-        p.key              = key
-        p.rowData          = rowData
-        p.onRowClick       = onRowClick
+        p.className = className
+        p.columns = columns
+        p.index = index
+        p.isScrolling = isScrolling
+        p.key = key
+        p.rowData = rowData
+        p.onRowClick = onRowClick
         p.onRowDoubleClick = onRowDoubleClick
-        p.onRowMouseOut    = onRowMouseOut
-        p.onRowMouseOver   = onRowMouseOver
-        p.onRowRightClick  = onRowRightClick
-        p.style            = style
+        p.onRowMouseOut = onRowMouseOut
+        p.onRowMouseOver = onRowMouseOver
+        p.onRowRightClick = onRowRightClick
+        p.style = style
         p
       }
     }
@@ -406,7 +408,7 @@ package virtualized {
     object RawSortParam {
       def apply(sortBy: String, sortDirection: String): RawSortParam = {
         val p = (new js.Object).asInstanceOf[RawSortParam]
-        p.sortBy        = sortBy
+        p.sortBy = sortBy
         p.sortDirection = sortDirection
         p
       }
@@ -423,7 +425,7 @@ package virtualized {
       def apply(columnData: js.Object, dataKey: String): RawHeaderClickParam = {
         val p = (new js.Object).asInstanceOf[RawHeaderClickParam]
         p.columnData = columnData
-        p.dataKey    = dataKey
+        p.dataKey = dataKey
         p
       }
     }
@@ -450,9 +452,9 @@ package virtualized {
       ): RawRowsRendererParam = {
         val p = (new js.Object).asInstanceOf[RawRowsRendererParam]
         p.overscanStartIndex = overscanStartIndex
-        p.overscanStopIndex  = overscanStopIndex
-        p.startIndex         = startIndex
-        p.stopIndex          = stopIndex
+        p.overscanStopIndex = overscanStopIndex
+        p.startIndex = startIndex
+        p.stopIndex = stopIndex
         p
       }
     }
@@ -473,7 +475,7 @@ package virtualized {
         val p = (new js.Object).asInstanceOf[RawScrollParam]
         p.clientHeight = clientHeight
         p.scrollHeight = scrollHeight
-        p.scrollTop    = scrollTop
+        p.scrollTop = scrollTop
         p
       }
     }

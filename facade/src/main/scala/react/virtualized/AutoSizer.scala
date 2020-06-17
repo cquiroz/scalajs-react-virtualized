@@ -23,10 +23,10 @@ object AutoSizer {
   @js.native
   trait Props extends js.Object {
 
-    /** Function responsible for rendering children.*/
+    /** Function responsible for rendering children. */
     var children: RawChildren = js.native
 
-    /** Optional custom CSS class name to attach to root AutoSizer element.  */
+    /** Optional custom CSS class name to attach to root AutoSizer element. */
     var className: js.UndefOr[String] = js.native
 
     /** Default height to use for initial render; useful for SSR */
@@ -64,15 +64,15 @@ object AutoSizer {
     style:         js.UndefOr[Style] = js.undefined
   ): Props = {
     val p = (new js.Object).asInstanceOf[Props]
-    p.className     = (className, clazz).toJs
+    p.className = (className, clazz).toJs
     p.defaultHeight = defaultHeight
-    p.defaultWidth  = defaultWidth
+    p.defaultWidth = defaultWidth
     p.disableHeight = disableHeight
-    p.disableWidth  = disableWidth
-    p.nonce         = nonce
-    p.onResize      = (s: Size) => onResize(s).runNow
-    p.children      = (s: Size) => children(s).toRaw
-    p.style         = style.map(Style.toJsObject).getOrElse(new js.Object())
+    p.disableWidth = disableWidth
+    p.nonce = nonce
+    p.onResize = (s: Size) => onResize(s).runNow
+    p.children = (s: Size) => children(s).toRaw
+    p.style = style.map(Style.toJsObject).getOrElse(new js.Object())
     p
   }
 

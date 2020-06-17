@@ -22,12 +22,12 @@ object Data {
       size:       Int
     ): DataRow = {
       val p = (new js.Object).asInstanceOf[DataRow]
-      p.color      = color
-      p.index      = index
-      p.name       = name
-      p.random     = random
+      p.color = color
+      p.index = index
+      p.name = name
+      p.random = random
       p.randomLong = randomLong
-      p.size       = size
+      p.size = size
       p
     }
   }
@@ -42,7 +42,8 @@ object Data {
               Names(i % Names.length),
               rnd,
               randoms,
-              RowHeights(i % RowHeights.length))
+              RowHeights(i % RowHeights.length)
+      )
     }).toList
 
   val BadgeColors = List(

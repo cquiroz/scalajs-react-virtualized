@@ -34,21 +34,29 @@ object AutoSizerTests extends TestSuite with TestUtils {
     }
     "supportDisableWidth" - {
       AutoSizer(AutoSizer.props(children = children)).props.disableWidth.toOption ==> Some(false)
-      AutoSizer(AutoSizer.props(children = children, disableWidth = true)).props.disableWidth.toOption ==> Some(
+      AutoSizer(
+        AutoSizer.props(children = children, disableWidth = true)
+      ).props.disableWidth.toOption ==> Some(
         true
       )
     }
     "clazz" - {
-      AutoSizer(AutoSizer.props(children = children, clazz = Css("class"))).props.className.toOption ==> Some(
+      AutoSizer(
+        AutoSizer.props(children = children, clazz = Css("class"))
+      ).props.className.toOption ==> Some(
         "class"
       )
-      AutoSizer(AutoSizer.props(children = children, className = "class1", clazz = Css("class2"))).props.className.toOption ==> Some(
+      AutoSizer(
+        AutoSizer.props(children = children, className = "class1", clazz = Css("class2"))
+      ).props.className.toOption ==> Some(
         "class1 class2"
       )
     }
     "supportDisableHeight" - {
       AutoSizer(AutoSizer.props(children = children)).props.disableHeight.toOption ==> Some(false)
-      AutoSizer(AutoSizer.props(children = children, disableHeight = true)).props.disableHeight.toOption ==> Some(
+      AutoSizer(
+        AutoSizer.props(children = children, disableHeight = true)
+      ).props.disableHeight.toOption ==> Some(
         true
       )
     }
@@ -59,22 +67,30 @@ object AutoSizerTests extends TestSuite with TestUtils {
     }
     "supportClassName" - {
       AutoSizer(AutoSizer.props(children = children)).props.className ==> (())
-      AutoSizer(AutoSizer.props(children = children, className = "classname")).props.className ==> "classname"
+      AutoSizer(
+        AutoSizer.props(children = children, className = "classname")
+      ).props.className ==> "classname"
     }
     "supportDefaultHeightWidth" - {
       AutoSizer(AutoSizer.props(children = children)).props.defaultHeight ==> (())
-      AutoSizer(AutoSizer.props(children = children, defaultHeight = 43.1)).props.defaultHeight ==> 43.1
+      AutoSizer(
+        AutoSizer.props(children = children, defaultHeight = 43.1)
+      ).props.defaultHeight ==> 43.1
       AutoSizer(AutoSizer.props(children = children, defaultHeight = 43)).props.defaultHeight ==> 43
 
       AutoSizer(AutoSizer.props(children = children)).props.defaultWidth ==> (())
-      AutoSizer(AutoSizer.props(children = children, defaultWidth = 43.1)).props.defaultWidth ==> 43.1
+      AutoSizer(
+        AutoSizer.props(children = children, defaultWidth = 43.1)
+      ).props.defaultWidth ==> 43.1
       AutoSizer(AutoSizer.props(children = children, defaultWidth = 43)).props.defaultWidth ==> 43
     }
     "supportStyle" - {
       val style    = js.Dynamic.literal(foo = 42, bar = "foobar")
       val styleMap = Map[String, String | Int]("foo" -> 42, "bar" -> "foobar")
       AutoSizer(AutoSizer.props(children = children)).props.style === new js.Object() ==> true
-      AutoSizer(AutoSizer.props(children = children, style = Style(styleMap))).props.style === style ==> true
+      AutoSizer(
+        AutoSizer.props(children = children, style = Style(styleMap))
+      ).props.style === style ==> true
     }
   }
 }

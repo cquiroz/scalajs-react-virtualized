@@ -19,59 +19,66 @@ object TableTests extends TestSuite with TestUtils {
     "have some required properties" - {
       Table(
         Table.props(headerHeight = 10,
-                    height       = 200,
-                    rowCount     = 20,
-                    rowHeight    = 40,
-                    width        = 500,
-                    rowGetter    = rowGetterF)
+                    height = 200,
+                    rowCount = 20,
+                    rowHeight = 40,
+                    width = 500,
+                    rowGetter = rowGetterF
+        )
       ).props.height ==> 200
       Table(
         Table.props(headerHeight = 10,
-                    height       = 200,
-                    rowCount     = 20,
-                    rowHeight    = 40,
-                    width        = 500,
-                    rowGetter    = rowGetterF)
+                    height = 200,
+                    rowCount = 20,
+                    rowHeight = 40,
+                    width = 500,
+                    rowGetter = rowGetterF
+        )
       ).props.rowCount ==> 20
       Table(
         Table.props(headerHeight = 10,
-                    height       = 200,
-                    rowCount     = 20,
-                    rowHeight    = 40,
-                    width        = 500,
-                    rowGetter    = rowGetterF)
+                    height = 200,
+                    rowCount = 20,
+                    rowHeight = 40,
+                    width = 500,
+                    rowGetter = rowGetterF
+        )
       ).props.rowHeight ==> 40
       Table(
         Table.props(headerHeight = 10,
-                    height       = 200,
-                    rowCount     = 20,
-                    rowHeight    = 40,
-                    width        = 500,
-                    rowGetter    = rowGetterF)
+                    height = 200,
+                    rowCount = 20,
+                    rowHeight = 40,
+                    width = 500,
+                    rowGetter = rowGetterF
+        )
       ).props.width ==> 500
       Table(
         Table.props(headerHeight = 10.5,
-                    height       = 200,
-                    rowCount     = 20,
-                    rowHeight    = 40,
-                    width        = 500,
-                    rowGetter    = rowGetterF)
+                    height = 200,
+                    rowCount = 20,
+                    rowHeight = 40,
+                    width = 500,
+                    rowGetter = rowGetterF
+        )
       ).props.headerHeight ==> 10.5
       Table(
         Table.props(headerHeight = 10,
-                    height       = 200.5,
-                    rowCount     = 20,
-                    rowHeight    = 40,
-                    width        = 500,
-                    rowGetter    = rowGetterF)
+                    height = 200.5,
+                    rowCount = 20,
+                    rowHeight = 40,
+                    width = 500,
+                    rowGetter = rowGetterF
+        )
       ).props.height ==> 200.5
       Table(
         Table.props(headerHeight = 10,
-                    height       = 200,
-                    rowCount     = 20,
-                    rowHeight    = 40,
-                    width        = 500.5,
-                    rowGetter    = rowGetterF)
+                    height = 200,
+                    rowCount = 20,
+                    rowHeight = 40,
+                    width = 500.5,
+                    rowGetter = rowGetterF
+        )
       ).props.width ==> 500.5
     }
     // "support rendering" - {
@@ -342,160 +349,192 @@ object TableTests extends TestSuite with TestUtils {
       val columns = List(Column(Column.props(200, "key")))
       val table = Table(Table.props(rowHeight = 20,
                                     headerHeight = 10,
-                                    height       = 200,
-                                    rowCount     = 1,
-                                    width        = 500,
-                                    rowGetter    = rowGetterF),
-                        columns: _*)
+                                    height = 200,
+                                    rowCount = 1,
+                                    width = 500,
+                                    rowGetter = rowGetterF
+                        ),
+                        columns: _*
+      )
       table.props.onRowClick(RawIndexParameter(1)) ==> (())
       val table2 = Table(Table.props(onRowClick = x => Callback.empty,
-                                     rowHeight    = 20,
+                                     rowHeight = 20,
                                      headerHeight = 10,
-                                     height       = 200,
-                                     rowCount     = 1,
-                                     width        = 500,
-                                     rowGetter    = rowGetterF),
-                         columns: _*)
+                                     height = 200,
+                                     rowCount = 1,
+                                     width = 500,
+                                     rowGetter = rowGetterF
+                         ),
+                         columns: _*
+      )
       table2.props.onRowClick(RawIndexParameter(1)) ==> (())
     }
     "support a row double click callback" - {
       val columns = List(Column(Column.props(200, "key")))
       val table = Table(Table.props(rowHeight = 20,
                                     headerHeight = 10,
-                                    height       = 200,
-                                    rowCount     = 1,
-                                    width        = 500,
-                                    rowGetter    = rowGetterF),
-                        columns: _*)
+                                    height = 200,
+                                    rowCount = 1,
+                                    width = 500,
+                                    rowGetter = rowGetterF
+                        ),
+                        columns: _*
+      )
       table.props.onRowDoubleClick(RawIndexParameter(1)) ==> (())
       val table2 = Table(Table.props(onRowDoubleClick = x => Callback.empty,
-                                     rowHeight    = 20,
+                                     rowHeight = 20,
                                      headerHeight = 10,
-                                     height       = 200,
-                                     rowCount     = 1,
-                                     width        = 500,
-                                     rowGetter    = rowGetterF),
-                         columns: _*)
+                                     height = 200,
+                                     rowCount = 1,
+                                     width = 500,
+                                     rowGetter = rowGetterF
+                         ),
+                         columns: _*
+      )
       table2.props.onRowDoubleClick(RawIndexParameter(1)) ==> (())
     }
     "support a row mouse out callback" - {
       val columns = List(Column(Column.props(200, "key")))
       val table = Table(Table.props(rowHeight = 20,
                                     headerHeight = 10,
-                                    height       = 200,
-                                    rowCount     = 1,
-                                    width        = 500,
-                                    rowGetter    = rowGetterF),
-                        columns: _*)
+                                    height = 200,
+                                    rowCount = 1,
+                                    width = 500,
+                                    rowGetter = rowGetterF
+                        ),
+                        columns: _*
+      )
       table.props.onRowMouseOut(RawIndexParameter(1)) ==> (())
       val table2 = Table(Table.props(onRowMouseOut = x => Callback.empty,
-                                     rowHeight    = 20,
+                                     rowHeight = 20,
                                      headerHeight = 10,
-                                     height       = 200,
-                                     rowCount     = 1,
-                                     width        = 500,
-                                     rowGetter    = rowGetterF),
-                         columns: _*)
+                                     height = 200,
+                                     rowCount = 1,
+                                     width = 500,
+                                     rowGetter = rowGetterF
+                         ),
+                         columns: _*
+      )
       table2.props.onRowMouseOut(RawIndexParameter(1)) ==> (())
     }
     "support a row mouse over callback" - {
       val columns = List(Column(Column.props(200, "key")))
       val table = Table(Table.props(rowHeight = 20,
                                     headerHeight = 10,
-                                    height       = 200,
-                                    rowCount     = 1,
-                                    width        = 500,
-                                    rowGetter    = rowGetterF),
-                        columns: _*)
+                                    height = 200,
+                                    rowCount = 1,
+                                    width = 500,
+                                    rowGetter = rowGetterF
+                        ),
+                        columns: _*
+      )
       table.props.onRowMouseOver(RawIndexParameter(1)) ==> (())
       val table2 = Table(Table.props(onRowMouseOver = x => Callback.empty,
-                                     rowHeight    = 20,
+                                     rowHeight = 20,
                                      headerHeight = 10,
-                                     height       = 200,
-                                     rowCount     = 1,
-                                     width        = 500,
-                                     rowGetter    = rowGetterF),
-                         columns: _*)
+                                     height = 200,
+                                     rowCount = 1,
+                                     width = 500,
+                                     rowGetter = rowGetterF
+                         ),
+                         columns: _*
+      )
       table2.props.onRowMouseOver(RawIndexParameter(1)) ==> (())
     }
     "support a row right click callback" - {
       val columns = List(Column(Column.props(200, "key")))
       val table = Table(Table.props(rowHeight = 20,
                                     headerHeight = 10,
-                                    height       = 200,
-                                    rowCount     = 1,
-                                    width        = 500,
-                                    rowGetter    = rowGetterF),
-                        columns: _*)
+                                    height = 200,
+                                    rowCount = 1,
+                                    width = 500,
+                                    rowGetter = rowGetterF
+                        ),
+                        columns: _*
+      )
       table.props.onRowRightClick(RawIndexParameter(1)) ==> (())
       val table2 = Table(Table.props(onRowRightClick = x => Callback.empty,
-                                     rowHeight    = 20,
+                                     rowHeight = 20,
                                      headerHeight = 10,
-                                     height       = 200,
-                                     rowCount     = 1,
-                                     width        = 500,
-                                     rowGetter    = rowGetterF),
-                         columns: _*)
+                                     height = 200,
+                                     rowCount = 1,
+                                     width = 500,
+                                     rowGetter = rowGetterF
+                         ),
+                         columns: _*
+      )
       table2.props.onRowRightClick(RawIndexParameter(1)) ==> (())
     }
     "support a header click callback" - {
       val columns = List(Column(Column.props(200, "key")))
       val table = Table(Table.props(rowHeight = 20,
                                     headerHeight = 10,
-                                    height       = 200,
-                                    rowCount     = 1,
-                                    width        = 500,
-                                    rowGetter    = rowGetterF),
-                        columns: _*)
+                                    height = 200,
+                                    rowCount = 1,
+                                    width = 500,
+                                    rowGetter = rowGetterF
+                        ),
+                        columns: _*
+      )
       table.props.onHeaderClick(RawHeaderClickParam(js.Object(), "key")) ==> (())
       val table2 = Table(Table.props(onHeaderClick = (_, _) => Callback.empty,
-                                     rowHeight    = 20,
+                                     rowHeight = 20,
                                      headerHeight = 10,
-                                     height       = 200,
-                                     rowCount     = 1,
-                                     width        = 500,
-                                     rowGetter    = rowGetterF),
-                         columns: _*)
+                                     height = 200,
+                                     rowCount = 1,
+                                     width = 500,
+                                     rowGetter = rowGetterF
+                         ),
+                         columns: _*
+      )
       table2.props.onHeaderClick(RawHeaderClickParam(js.Object(), "key")) ==> (())
     }
     "support on rows renderer callback" - {
       val columns = List(Column(Column.props(200, "key")))
       val table = Table(Table.props(rowHeight = 20,
                                     headerHeight = 10,
-                                    height       = 200,
-                                    rowCount     = 1,
-                                    width        = 500,
-                                    rowGetter    = rowGetterF),
-                        columns: _*)
+                                    height = 200,
+                                    rowCount = 1,
+                                    width = 500,
+                                    rowGetter = rowGetterF
+                        ),
+                        columns: _*
+      )
       table.props.onRowsRendered(RawRowsRendererParam(1, 10, 1, 10)) ==> (())
       val table2 = Table(Table.props(onRowsRendered = (_, _, _, _) => Callback.empty,
-                                     rowHeight    = 20,
+                                     rowHeight = 20,
                                      headerHeight = 10,
-                                     height       = 200,
-                                     rowCount     = 1,
-                                     width        = 500,
-                                     rowGetter    = rowGetterF),
-                         columns: _*)
+                                     height = 200,
+                                     rowCount = 1,
+                                     width = 500,
+                                     rowGetter = rowGetterF
+                         ),
+                         columns: _*
+      )
       table2.props.onRowsRendered(RawRowsRendererParam(1, 10, 1, 10)) ==> (())
     }
     "support on scroll callback" - {
       val columns = List(Column(Column.props(200, "key")))
       val table = Table(Table.props(rowHeight = 20,
                                     headerHeight = 10,
-                                    height       = 200,
-                                    rowCount     = 1,
-                                    width        = 500,
-                                    rowGetter    = rowGetterF),
-                        columns: _*)
+                                    height = 200,
+                                    rowCount = 1,
+                                    width = 500,
+                                    rowGetter = rowGetterF
+                        ),
+                        columns: _*
+      )
       table.props.onScroll(RawScrollParam(1, 10, 1)) ==> (())
       val table2 = Table(Table.props(onScroll = (_, _, _) => Callback.empty,
-                                     rowHeight    = 20,
+                                     rowHeight = 20,
                                      headerHeight = 10,
-                                     height       = 200,
-                                     rowCount     = 1,
-                                     width        = 500,
-                                     rowGetter    = rowGetterF),
-                         columns: _*)
+                                     height = 200,
+                                     rowCount = 1,
+                                     width = 500,
+                                     rowGetter = rowGetterF
+                         ),
+                         columns: _*
+      )
       table2.props.onScroll(RawScrollParam(1, 10, 1)) ==> (())
     }
     // "support a custom rowRenderer " - {
