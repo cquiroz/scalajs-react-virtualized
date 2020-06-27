@@ -117,7 +117,8 @@ lazy val commonSettings = Seq(
       "-Wdead-code",
       "-Wunused:params",
       "-Ywarn-dead-code",
-      "-Ywarn-unused:params"
+      "-Ywarn-unused:params",
+      "-Wunused:explicits"
     )
   ))
 )
