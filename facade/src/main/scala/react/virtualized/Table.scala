@@ -299,7 +299,7 @@ object Table {
                         Style.fromJsObject(r.style)
       ).toRaw
     p.id = id
-    p.noRowsRenderer = Some[RawNoRowsRenderer](() => noRowsRenderer.apply.rawNode).orUndefined
+    p.noRowsRenderer = Some[RawNoRowsRenderer](() => noRowsRenderer.apply().rawNode).orUndefined
     p.onHeaderClick = (x: RawHeaderClickParam) => onHeaderClick(x.columnData, x.dataKey).runNow()
     p.onRowClick = (x: RawIndexParameter) => onRowClick(x.index).runNow()
     p.onRowDoubleClick = (x: RawIndexParameter) => onRowDoubleClick(x.index).runNow()

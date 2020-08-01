@@ -13,8 +13,8 @@ import react.common.EnumValue
 
 package object virtualized {
   implicit class TableJsMethodsOps(val m: virtualized.Table.JsMethods) extends AnyVal {
-    def forceUpdateGridCB: Callback = Callback(m.forceUpdateGrid)
-    def measureAllRowsCB: Callback  = Callback(m.measureAllRows)
+    def forceUpdateGridCB: Callback = Callback(m.forceUpdateGrid())
+    def measureAllRowsCB: Callback  = Callback(m.measureAllRows())
     def recomputeRowHeightsCB(index: Int): Callback =
       Callback(m.recomputeRowHeights(index))
     def recomputeRowsHeightsCB(indexes: Int*): Callback =
