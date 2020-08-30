@@ -96,7 +96,7 @@ lazy val facade =
         "io.github.cquiroz.react" %%% "common" % "0.9.7",
         "io.github.cquiroz.react" %%% "test" % "0.9.7" % Test,
         "io.github.cquiroz.react" %%% "cats" % "0.9.7",
-        "com.lihaoyi" %%% "utest" % "0.7.4" % Test,
+        "com.lihaoyi" %%% "utest" % "0.7.5" % Test,
         "org.typelevel" %%% "cats-core" % "2.1.1" % Test
       ),
       webpackConfigFile in Test := Some(baseDirectory.value / "test.webpack.config.js"),
