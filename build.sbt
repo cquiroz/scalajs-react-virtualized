@@ -5,10 +5,12 @@ val scalaJsReact     = "1.7.5"
 parallelExecution in (ThisBuild, Test) := false
 
 addCommandAlias("restartWDS",
-                "; demo/fastOptJS::stopWebpackDevServer; demo/fastOptJS::startWebpackDevServer")
+                "; demo/fastOptJS::stopWebpackDevServer; demo/fastOptJS::startWebpackDevServer"
+)
 
 addCommandAlias("restartWDS",
-                "; demo/fastOptJS::stopWebpackDevServer; demo/fastOptJS::startWebpackDevServer")
+                "; demo/fastOptJS::stopWebpackDevServer; demo/fastOptJS::startWebpackDevServer"
+)
 
 // resolvers in Global += Resolver.sonatypeRepo("staging")
 Global / onChangedBuildSource := ReloadOnSourceChanges
@@ -23,11 +25,13 @@ inThisBuild(
       Developer("cquiroz",
                 "Carlos Quiroz",
                 "carlos.m.quiroz@gmail.com",
-                url("https://github.com/cquiroz"))
+                url("https://github.com/cquiroz")
+      )
     ),
     scmInfo := Some(
       ScmInfo(url("https://github.com/cquiroz/scalajs-react-virtualized"),
-              "scm:git:git@github.com:cquiroz/scalajs-react-virtualized.git")
+              "scm:git:git@github.com:cquiroz/scalajs-react-virtualized.git"
+      )
     )
   )
 )
@@ -84,23 +88,23 @@ lazy val facade =
       requireJsDomEnv in Test := true,
       // Use yarn as it is faster than npm
       useYarn := true,
-      version in webpack := "4.30.0",
-      version in webpackCliVersion := "3.3.2",
-      version in startWebpackDevServer := "3.3.1",
+      webpack / version := "4.44.1",
+      webpackCliVersion / version := "3.3.11",
+      startWebpackDevServer / version := "3.11.0",
       scalaJSUseMainModuleInitializer := false,
       // Compile tests to JS using fast-optimisation
       scalaJSStage in Test := FastOptStage,
       libraryDependencies ++= Seq(
         "com.github.japgolly.scalajs-react" %%% "core" % scalaJsReact,
         "com.github.japgolly.scalajs-react" %%% "test" % scalaJsReact % "test",
-        "io.github.cquiroz.react" %%% "common" % "0.9.8",
-        "io.github.cquiroz.react" %%% "test" % "0.9.8" % Test,
-        "io.github.cquiroz.react" %%% "cats" % "0.9.8",
-        "com.lihaoyi" %%% "utest" % "0.7.5" % Test,
+        "io.github.cquiroz.react" %%% "common" % "0.10.0",
+        "io.github.cquiroz.react" %%% "test" % "0.10.0" % Test,
+        "io.github.cquiroz.react" %%% "cats" % "0.10.0",
+        "org.scalameta" %%% "munit" % "0.7.12" % Test,
         "org.typelevel" %%% "cats-core" % "2.2.0" % Test
       ),
       webpackConfigFile in Test := Some(baseDirectory.value / "test.webpack.config.js"),
-      testFrameworks += new TestFramework("utest.runner.Framework")
+      testFrameworks += new TestFramework("munit.Framework")
     )
 
 lazy val commonSettings = Seq(
