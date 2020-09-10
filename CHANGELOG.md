@@ -1,5 +1,11 @@
 # Changes
 
+## 0.10.0
+
+* Upgrade to react-common 0.10.0
+* Upgrade to scalajs 1.2.0
+* Switch to munit
+
 ## 0.9.5
 
 * Upgrade to react-common 0.9.8
