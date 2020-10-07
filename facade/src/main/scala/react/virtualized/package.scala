@@ -32,8 +32,7 @@ package object virtualized {
   // Column types
   //
 
-  /**
-    * Types
+  /** Types
     * A Cell data, some js object with row entries
     * B Column data, can be anything
     * C Row data
@@ -50,8 +49,7 @@ package object virtualized {
 
   // Table types
   //
-  /**
-    * Types
+  /** Types
     * A Cell data, some js object with row entries
     * B Column data, can be anything
     * C Row data
@@ -218,8 +216,7 @@ package virtualized {
     def apply(i: raw.RawRowRendererParameter): React.Node = js.native
   }
 
-  /**
-    * Raw facades
+  /** Raw facades
     */
   object raw {
     // Column types

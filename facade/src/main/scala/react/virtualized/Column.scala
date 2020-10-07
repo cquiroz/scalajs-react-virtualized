@@ -29,14 +29,12 @@ object Column {
     /** Optional aria-label value to set on the column header */
     var `aria-label`: js.UndefOr[String] = js.native
 
-    /**
-      * Callback responsible for returning a cell's data, given its :dataKey
+    /** Callback responsible for returning a cell's data, given its :dataKey
       * ({ columnData: any, dataKey: string, rowData: any }): any
       */
     var cellDataGetter: js.UndefOr[RawCellDataGetter] = js.native
 
-    /**
-      * Callback responsible for rendering a cell's contents.
+    /** Callback responsible for rendering a cell's contents.
       * ({ cellData: any, columnData: any, dataKey: string, rowData: any, rowIndex: number }): node
       */
     var cellRenderer: js.UndefOr[RawCellRenderer] = js.native
@@ -65,8 +63,7 @@ object Column {
     /** Optional CSS class to apply to this column's header */
     var headerClassName: js.UndefOr[String] = js.native
 
-    /**
-      * Optional callback responsible for rendering a column header contents.
+    /** Optional callback responsible for rendering a column header contents.
       * ({ columnData: object, dataKey: string, disableSort: boolean, label: node, sortBy: string, sortDirection: string }): PropTypes.node
       */
     var headerRenderer: RawHeaderRenderer = js.native
@@ -93,8 +90,7 @@ object Column {
     var width: JsNumber = js.native
   }
 
-  /**
-    * A Cell data
+  /** A Cell data
     * B Column data
     * C Row data
     */
@@ -161,8 +157,7 @@ object Column {
     p
   }
 
-  /**
-    * Create a column with flexGrow/flexShrink as 0 by default
+  /** Create a column with flexGrow/flexShrink as 0 by default
     *
     * A Cell data
     * B Column data
