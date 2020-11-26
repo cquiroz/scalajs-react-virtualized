@@ -12,3 +12,6 @@ yarn.lock
 facade/yarn.lock
 travis/secrets.tar
 project/metals.sbt
+.bsp/
+.hydra/
+project/project/

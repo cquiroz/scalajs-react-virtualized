@@ -97,9 +97,9 @@ lazy val facade =
       libraryDependencies ++= Seq(
         "com.github.japgolly.scalajs-react" %%% "core" % scalaJsReact,
         "com.github.japgolly.scalajs-react" %%% "test" % scalaJsReact % "test",
-        "io.github.cquiroz.react" %%% "common" % "0.11.1",
-        "io.github.cquiroz.react" %%% "test" % "0.11.1" % Test,
-        "io.github.cquiroz.react" %%% "cats" % "0.11.1",
+        "io.github.cquiroz.react" %%% "common" % "0.11.2",
+        "io.github.cquiroz.react" %%% "test" % "0.11.2" % Test,
+        "io.github.cquiroz.react" %%% "cats" % "0.11.2",
         "org.scalameta" %%% "munit" % "0.7.19" % Test,
         "org.typelevel" %%% "cats-core" % "2.3.0" % Test
       ),
@@ -108,7 +108,7 @@ lazy val facade =
     )
 
 lazy val commonSettings = Seq(
-  scalaVersion := "2.13.3",
+  scalaVersion := "2.13.4",
   organization := "io.github.cquiroz.react",
   sonatypeProfileName := "io.github.cquiroz",
   description := "scala.js facade for react-virtualized",
