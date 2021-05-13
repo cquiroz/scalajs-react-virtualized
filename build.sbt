@@ -98,8 +98,8 @@ lazy val facade =
         "io.github.cquiroz.react" %%% "common" % "0.11.3",
         "io.github.cquiroz.react" %%% "test" % "0.11.3" % Test,
         "io.github.cquiroz.react" %%% "cats" % "0.11.3",
-        "org.scalameta" %%% "munit" % "0.7.25" % Test,
-        "org.typelevel" %%% "cats-core" % "2.6.1" % Test
+        "org.scalameta" %%% "munit" % "0.7.26" % Test,
+        "org.typelevel" %%% "cats-core" % "2.6.0" % Test
       ),
       Test / webpackConfigFile := Some(baseDirectory.value / "test.webpack.config.js"),
       testFrameworks += new TestFramework("munit.Framework")
