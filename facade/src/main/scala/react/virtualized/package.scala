@@ -32,10 +32,7 @@ package object virtualized {
   // Column types
   //
 
-  /** Types
-    * A Cell data, some js object with row entries
-    * B Column data, can be anything
-    * C Row data
+  /** Types A Cell data, some js object with row entries B Column data, can be anything C Row data
     */
   type CellRenderer[A <: js.Object, B <: js.Any, C <: js.Object] =
     (A, B, String, C, Int) => VdomNode
@@ -49,10 +46,7 @@ package object virtualized {
 
   // Table types
   //
-  /** Types
-    * A Cell data, some js object with row entries
-    * B Column data, can be anything
-    * C Row data
+  /** Types A Cell data, some js object with row entries B Column data, can be anything C Row data
     */
   type RowRenderer[C <: js.Object] = (
     String,

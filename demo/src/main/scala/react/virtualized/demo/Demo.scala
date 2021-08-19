@@ -122,7 +122,7 @@ object TableDynamicDemo {
     }
 
   val dynamicCellRenderer: CellRenderer[DataRow, js.Object, js.Object] =
-    (cellData: DataRow, _: js.Object, _: String, _: js.Object, rowIndex: Int) => {
+    (cellData: DataRow, _: js.Object, _: String, _: js.Object, rowIndex: Int) =>
       CellMeasurer(
         CellMeasurer.props(
           cache = TableCache.cache,
@@ -132,7 +132,6 @@ object TableDynamicDemo {
           children = <.div(cellData.toString)
         )
       )
-    }
 
   val component = ScalaComponent
     .builder[Props]("TableDynamicDemo")
