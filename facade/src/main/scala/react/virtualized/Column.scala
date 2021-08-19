@@ -29,13 +29,13 @@ object Column {
     /** Optional aria-label value to set on the column header */
     var `aria-label`: js.UndefOr[String] = js.native
 
-    /** Callback responsible for returning a cell's data, given its :dataKey
-      * ({ columnData: any, dataKey: string, rowData: any }): any
+    /** Callback responsible for returning a cell's data, given its :dataKey ({ columnData: any,
+      * dataKey: string, rowData: any }): any
       */
     var cellDataGetter: js.UndefOr[RawCellDataGetter] = js.native
 
-    /** Callback responsible for rendering a cell's contents.
-      * ({ cellData: any, columnData: any, dataKey: string, rowData: any, rowIndex: number }): node
+    /** Callback responsible for rendering a cell's contents. ({ cellData: any, columnData: any,
+      * dataKey: string, rowData: any, rowIndex: number }): node
       */
     var cellRenderer: js.UndefOr[RawCellRenderer] = js.native
 
@@ -63,8 +63,9 @@ object Column {
     /** Optional CSS class to apply to this column's header */
     var headerClassName: js.UndefOr[String] = js.native
 
-    /** Optional callback responsible for rendering a column header contents.
-      * ({ columnData: object, dataKey: string, disableSort: boolean, label: node, sortBy: string, sortDirection: string }): PropTypes.node
+    /** Optional callback responsible for rendering a column header contents. ({ columnData: object,
+      * dataKey: string, disableSort: boolean, label: node, sortBy: string, sortDirection: string
+      * }): PropTypes.node
       */
     var headerRenderer: RawHeaderRenderer = js.native
 
@@ -86,13 +87,13 @@ object Column {
     /** Optional inline style to apply to cell */
     var style: js.UndefOr[js.Object] = js.native
 
-    /** Flex basis (width) for this column; This value can grow or shrink based on :flexGrow and :flexShrink properties. */
+    /** Flex basis (width) for this column; This value can grow or shrink based on :flexGrow and
+      * :flexShrink properties.
+      */
     var width: JsNumber = js.native
   }
 
-  /** A Cell data
-    * B Column data
-    * C Row data
+  /** A Cell data B Column data C Row data
     */
   def props[A <: js.Object, B <: js.Object, C <: js.Object](
     width:                JsNumber,
@@ -159,9 +160,7 @@ object Column {
 
   /** Create a column with flexGrow/flexShrink as 0 by default
     *
-    * A Cell data
-    * B Column data
-    * C Row data
+    * A Cell data B Column data C Row data
     */
   def propsNoFlex[A <: js.Object, B <: js.Object, C <: js.Object](
     width:                JsNumber,

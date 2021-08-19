@@ -47,8 +47,8 @@ object Table {
     /** Optional aria-label value to set on the column header */
     var `aria-label`: js.UndefOr[String] = js.native
 
-    /** Removes fixed height from the scrollingContainer so that the total height
-      * of rows can stretch the window. Intended for use with WindowScroller
+    /** Removes fixed height from the scrollingContainer so that the total height of rows can
+      * stretch the window. Intended for use with WindowScroller
       */
     var autoHeight: js.UndefOr[Boolean] = js.native
 
@@ -63,8 +63,8 @@ object Table {
 
     var deferredMeasurementCache: js.UndefOr[CellMeasurerCache] = js.native
 
-    /** Used to estimate the total height of a Table before all of its rows have actually been measured.
-      * The estimated total height is adjusted as rows are rendered.
+    /** Used to estimate the total height of a Table before all of its rows have actually been
+      * measured. The estimated total height is adjusted as rows are rendered.
       */
     var estimatedRowSize: JsNumber = js.native
 
@@ -80,12 +80,8 @@ object Table {
     /** Fixed height of header row */
     var headerHeight: JsNumber = js.native
 
-    /** Responsible for rendering a table row given an array of columns:
-      * Should implement the following interface: ({
-      *   className: string,
-      *   columns: any[],
-      *   style: any
-      * }): PropTypes.node
+    /** Responsible for rendering a table row given an array of columns: Should implement the
+      * following interface: ({ className: string, columns: any[], style: any }): PropTypes.node
       */
     var headerRowRenderer: RawHeaderRowRenderer = js.native
 
@@ -101,87 +97,72 @@ object Table {
     /** Optional renderer to be used in place of table body rows when rowCount is 0 */
     var noRowsRenderer: js.UndefOr[RawNoRowsRenderer] = js.native
 
-    /** Optional callback when a column's header is clicked.
-      * ({ columnData: any, dataKey: string }): void
+    /** Optional callback when a column's header is clicked. ({ columnData: any, dataKey: string }):
+      * void
       */
     var onHeaderClick: RawHeaderClickEvent = js.native
 
-    /** Callback invoked when a user clicks on a table row.
-      * ({ index: number }): void
+    /** Callback invoked when a user clicks on a table row. ({ index: number }): void
       */
     var onRowClick: RawOnRowEvent = js.native
 
-    /** Callback invoked when a user double-clicks on a table row.
-      * ({ index: number }): void
+    /** Callback invoked when a user double-clicks on a table row. ({ index: number }): void
       */
     var onRowDoubleClick: RawOnRowEvent = js.native
 
-    /** Callback invoked when the mouse leaves a table row.
-      * ({ index: number }): void
+    /** Callback invoked when the mouse leaves a table row. ({ index: number }): void
       */
     var onRowMouseOut: RawOnRowEvent = js.native
 
-    /** Callback invoked when a user moves the mouse over a table row.
-      * ({ index: number }): void
+    /** Callback invoked when a user moves the mouse over a table row. ({ index: number }): void
       */
     var onRowMouseOver: RawOnRowEvent = js.native
 
-    /** Callback invoked when a user right-clicks on a table row.
-      * ({ index: number }): void
+    /** Callback invoked when a user right-clicks on a table row. ({ index: number }): void
       */
     var onRowRightClick: RawOnRowEvent = js.native
 
-    /** Callback invoked with information about the slice of rows that were just rendered.
-      * ({ startIndex, stopIndex }): void
+    /** Callback invoked with information about the slice of rows that were just rendered. ({
+      * startIndex, stopIndex }): void
       */
     var onRowsRendered: RawRowsRendererEvent = js.native
 
-    /** Callback invoked whenever the scroll offset changes within the inner scrollable region.
-      * This callback can be used to sync scrolling between lists, tables, or grids.
-      * ({ clientHeight, scrollHeight, scrollTop }): void
+    /** Callback invoked whenever the scroll offset changes within the inner scrollable region. This
+      * callback can be used to sync scrolling between lists, tables, or grids. ({ clientHeight,
+      * scrollHeight, scrollTop }): void
       */
     var onScroll: RawScrollEvent = js.native
 
     /** See Grid#overscanIndicesGetter */
     // overscanIndicesGetter: PropTypes.func.isRequired,
 
-    /** Number of rows to render above/below the visible bounds of the list.
-      * These rows can help for smoother scrolling on touch devices.
+    /** Number of rows to render above/below the visible bounds of the list. These rows can help for
+      * smoother scrolling on touch devices.
       */
     var overscanRowCount: Int = js.native
 
-    /** Optional CSS class to apply to all table rows (including the header row).
-      * This property can be a CSS class name (string) or a function that returns a class name.
-      * If a function is provided its signature should be: ({ index: number }): string
+    /** Optional CSS class to apply to all table rows (including the header row). This property can
+      * be a CSS class name (string) or a function that returns a class name. If a function is
+      * provided its signature should be: ({ index: number }): string
       */
     var rowClassName: RawRowClassNameParam = js.native
 
-    /** Callback responsible for returning a data row given an index.
-      * ({ index: number }): any
+    /** Callback responsible for returning a data row given an index. ({ index: number }): any
       */
     var rowGetter: RawRowGetter = js.native
 
-    /** Either a fixed row height (number) or a function that returns the height of a row given its index.
-      * ({ index: number }): number
+    /** Either a fixed row height (number) or a function that returns the height of a row given its
+      * index. ({ index: number }): number
       */
     var rowHeight: RawRowHeightParam = js.native
 
     /** Number of rows in table. */
     var rowCount: Int = js.native
 
-    /** Responsible for rendering a table row given an array of columns:
-      * Should implement the following interface: ({
-      *   className: string,
-      *   columns: Array,
-      *   index: number,
-      *   isScrolling: boolean,
-      *   onRowClick: ?Function,
-      *   onRowDoubleClick: ?Function,
-      *   onRowMouseOver: ?Function,
-      *   onRowMouseOut: ?Function,
-      *   rowData: any,
-      *   style: any
-      * }): PropTypes.node
+    /** Responsible for rendering a table row given an array of columns: Should implement the
+      * following interface: ({ className: string, columns: Array, index: number, isScrolling:
+      * boolean, onRowClick: ?Function, onRowDoubleClick: ?Function, onRowMouseOver: ?Function,
+      * onRowMouseOut: ?Function, rowData: any, style: any }): PropTypes.node
       */
     var rowRenderer: RawRowRenderer = js.native
 
@@ -197,8 +178,8 @@ object Table {
     /** Vertical offset. */
     var scrollTop: js.UndefOr[JsNumber] = js.native
 
-    /** Sort function to be called if a sortable header is clicked.
-      * ({ sortBy: string, sortDirection: SortDirection }): void
+    /** Sort function to be called if a sortable header is clicked. ({ sortBy: string,
+      * sortDirection: SortDirection }): void
       */
     var sort: js.UndefOr[RawSort] = js.native
 
