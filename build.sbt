@@ -95,9 +95,9 @@ lazy val facade =
       libraryDependencies ++= Seq(
         "com.github.japgolly.scalajs-react" %%% "core" % scalaJsReact,
         "com.github.japgolly.scalajs-react" %%% "test" % scalaJsReact % "test",
-        "io.github.cquiroz.react" %%% "common" % "0.11.3",
-        "io.github.cquiroz.react" %%% "test" % "0.11.3" % Test,
-        "io.github.cquiroz.react" %%% "cats" % "0.11.3",
+        "io.github.cquiroz.react" %%% "common" % "0.11.5-S1",
+        "io.github.cquiroz.react" %%% "test" % "0.11.5-S1" % Test,
+        "io.github.cquiroz.react" %%% "cats" % "0.11.5-S1",
         "org.scalameta" %%% "munit" % "0.7.29" % Test,
         "org.typelevel" %%% "cats-core" % "2.6.1" % Test
       ),
