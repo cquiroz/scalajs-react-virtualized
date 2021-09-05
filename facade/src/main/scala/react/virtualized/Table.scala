@@ -334,7 +334,10 @@ object Table {
   def apply(
     p:        Props,
     children: ColumnArg*
-  ): UnmountedMapped[Id, DefaultEffects.Async, Props, Null, RawMounted[Props, Null] with JsMethods, Props, Null] =
+  ): UnmountedMapped[Id, DefaultEffects.Async, Props, Null, RawMounted[
+    Props,
+    Null
+  ] with JsMethods, Props, Null] =
     component.apply(p)(children.map(_.vdomElement): _*)
 
 }
