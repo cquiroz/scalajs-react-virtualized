@@ -8,12 +8,12 @@ import japgolly.scalajs.react.JsComponent
 import japgolly.scalajs.react.Children
 import japgolly.scalajs.react.component.Js.RawMounted
 import japgolly.scalajs.react.component.Js.UnmountedMapped
-import japgolly.scalajs.react.internal.Effect.Id
-import japgolly.scalajs.react.raw.JsNumber
-import japgolly.scalajs.react.raw.React
+import japgolly.scalajs.react.util.Effect.Id
+import japgolly.scalajs.react.facade.JsNumber
+import japgolly.scalajs.react.facade.React
+import japgolly.scalajs.react.util.DefaultEffects
 import japgolly.scalajs.react.vdom.VdomNode
 import react.common.style._
-import react.common.syntax._
 import raw._
 
 trait Column extends js.Object
@@ -131,7 +131,7 @@ object Column {
                    r.dataKey,
                    r.rowData.asInstanceOf[C],
                    r.rowIndex
-      ).toRaw
+      ).rawNode
     ).orUndefined
     p.className = (className, clazz).toJs
     p.columnData = columnData
@@ -148,7 +148,7 @@ object Column {
         VdomNode(r.label),
         r.sortBy.toOption,
         SortDirection.fromRaw(r.sortDirection.getOrElse(""))
-      ).toRaw
+      ).rawNode
     p.headerStyle = headerStyle.map(Style.toJsObject)
     p.id = id
     p.label = label.rawNode
@@ -212,7 +212,7 @@ object Column {
 
   def apply(
     p: Props
-  ): UnmountedMapped[Id, Props, Null, RawMounted[Props, Null] with Column, Props, Null] =
+  ): UnmountedMapped[Id, DefaultEffects.Async, Props, Null, RawMounted[Props, Null] with Column, Props, Null] =
     component(p)
 
 }

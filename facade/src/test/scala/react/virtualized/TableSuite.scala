@@ -2,7 +2,7 @@ package react
 package virtualized
 
 import japgolly.scalajs.react._
-import japgolly.scalajs.react.raw.JsNumber
+import japgolly.scalajs.react.facade.JsNumber
 import scala.scalajs.js
 import react.common.TestUtils
 import react.virtualized.raw._

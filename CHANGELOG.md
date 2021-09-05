@@ -1,5 +1,11 @@
 # Changes
 
+## 0.11.4
+
+* Upgrade to scalajs-react 2.0.0-RC3
+* Upgrade to react-common 0.13.1
+* Upgrade to react 17.0.2
+
 ## 0.11.3
 
 * Update to scala.js 1.4.0

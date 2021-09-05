@@ -4,15 +4,18 @@ package virtualized
 import japgolly.scalajs.react._
 import japgolly.scalajs.react.vdom.html_<^.EmptyVdom
 import japgolly.scalajs.react.vdom.VdomNode
-import japgolly.scalajs.react.raw.JsNumber
+import japgolly.scalajs.react.facade.JsNumber
 import japgolly.scalajs.react.component.Js.RawMounted
 import japgolly.scalajs.react.component.Js.UnmountedMapped
-import japgolly.scalajs.react.internal.Effect.Id
+import japgolly.scalajs.react.util.DefaultEffects
+import japgolly.scalajs.react.util.Effect.Id
+
 import scala.scalajs.js
 import scala.scalajs.js.|
 import scala.scalajs.js.JSConverters._
 import react.common.style._
-import react.common.syntax._
+import react.common.syntax.all._
+
 import scala.scalajs.js.annotation.JSImport
 import react.virtualized.raw._
 
@@ -20,6 +23,7 @@ object Table {
 
   type ColumnArg = UnmountedMapped[
     Id,
+    DefaultEffects.Async,
     Column.Props,
     Null,
     RawMounted[Column.Props, Null] with Column,
@@ -261,7 +265,7 @@ object Table {
       headerRowRenderer(r.className,
                         r.columns.map(VdomNode.apply).toArray,
                         Style.fromJsObject(r.style)
-      ).toRaw
+      ).rawNode
     p.id = id
     p.noRowsRenderer = Some[RawNoRowsRenderer](() => noRowsRenderer.apply().rawNode).orUndefined
     p.onHeaderClick = (x: RawHeaderClickParam) => onHeaderClick(x.columnData, x.dataKey).runNow()
@@ -305,7 +309,7 @@ object Table {
         r.onRowMouseOver.map(_.toCallback).toOption,
         r.onRowRightClick.map(_.toCallback).toOption,
         Style.fromJsObject(r.style)
-      ).toRaw
+      ).rawNode
     (rowClassName: Any) match {
       case null =>
       case s: String =>
@@ -330,7 +334,7 @@ object Table {
   def apply(
     p:        Props,
     children: ColumnArg*
-  ): UnmountedMapped[Id, Props, Null, RawMounted[Props, Null] with JsMethods, Props, Null] =
+  ): UnmountedMapped[Id, DefaultEffects.Async, Props, Null, RawMounted[Props, Null] with JsMethods, Props, Null] =
     component.apply(p)(children.map(_.vdomElement): _*)
 
 }

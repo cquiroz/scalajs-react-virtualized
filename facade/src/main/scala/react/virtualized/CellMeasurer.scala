@@ -7,11 +7,13 @@ import japgolly.scalajs.react.Children
 import japgolly.scalajs.react.vdom.VdomNode
 import japgolly.scalajs.react.component.Js.RawMounted
 import japgolly.scalajs.react.component.Js.UnmountedMapped
-import japgolly.scalajs.react.internal.Effect.Id
-import japgolly.scalajs.react.raw.React
+import japgolly.scalajs.react.util.Effect.Id
+import japgolly.scalajs.react.facade.React
+
 import scala.scalajs.js
 import js.annotation.JSImport
-import japgolly.scalajs.react.raw.JsNumber
+import japgolly.scalajs.react.facade.JsNumber
+import japgolly.scalajs.react.util.DefaultEffects
 
 trait CellMeasurerCacheParams extends js.Object {
   var defaultHeight: js.UndefOr[JsNumber]
@@ -173,7 +175,7 @@ object CellMeasurer {
   def apply(
     p:        Props,
     children: VdomNode*
-  ): UnmountedMapped[Id, Props, Null, RawMounted[Props, Null], Props, Null] =
+  ): UnmountedMapped[Id, DefaultEffects.Async, Props, Null, RawMounted[Props, Null], Props, Null] =
     component.apply(p)(children: _*)
 
 }
