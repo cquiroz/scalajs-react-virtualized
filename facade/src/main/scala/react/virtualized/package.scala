@@ -5,8 +5,8 @@ import scala.scalajs.js.|
 import js.annotation.JSImport
 import js.JSConverters._
 import japgolly.scalajs.react.Callback
-import japgolly.scalajs.react.raw.JsNumber
-import japgolly.scalajs.react.raw.React
+import japgolly.scalajs.react.facade.JsNumber
+import japgolly.scalajs.react.facade.React
 import japgolly.scalajs.react.vdom.VdomNode
 import react.common.style._
 import react.common.EnumValue

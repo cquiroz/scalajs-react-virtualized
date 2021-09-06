@@ -6,13 +6,13 @@ import scala.scalajs.js
 import scala.scalajs.js.|
 import js.JSConverters._
 import japgolly.scalajs.react.vdom.html_<^.{ < => <<, _ }
-import japgolly.scalajs.react.raw.JsNumber
+import japgolly.scalajs.react.facade.JsNumber
 import react.common.style._
 import react.common.TestUtils
 import react.common.implicits._
 import raw._
 import munit._
-import japgolly.scalajs.react.raw.React
+import japgolly.scalajs.react.facade.React
 
 class ColumnSuite extends FunSuite with TestUtils {
 

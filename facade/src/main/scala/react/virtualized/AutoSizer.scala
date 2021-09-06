@@ -3,8 +3,8 @@ package virtualized
 
 import japgolly.scalajs.react._
 import japgolly.scalajs.react.vdom.VdomNode
-import japgolly.scalajs.react.raw.JsNumber
-import japgolly.scalajs.react.raw.React
+import japgolly.scalajs.react.facade.JsNumber
+import japgolly.scalajs.react.facade.React
 import japgolly.scalajs.react.component.Js.RawMounted
 import japgolly.scalajs.react.component.Js.UnmountedWithRawType
 import react.common._

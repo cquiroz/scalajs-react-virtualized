@@ -1,6 +1,4 @@
-val reactJS          = "16.13.1"
-val reactVirtualized = "9.21.1"
-val scalaJsReact     = "1.7.7"
+import Settings.LibraryVersions
 
 addCommandAlias("restartWDS",
                 "; demo/fastOptJS::stopWebpackDevServer; demo/fastOptJS::startWebpackDevServer"
@@ -78,9 +76,9 @@ lazy val facade =
     .settings(
       name := "react-virtualized",
       Compile / npmDependencies ++= Seq(
-        "react" -> reactJS,
-        "react-dom" -> reactJS,
-        "react-virtualized" -> reactVirtualized
+        "react" -> LibraryVersions.reactJS,
+        "react-dom" -> LibraryVersions.reactJS,
+        "react-virtualized" -> LibraryVersions.reactVirtualized
       ),
       // Requires the DOM for tests
       Test / requireJsDomEnv := true,
@@ -93,13 +91,13 @@ lazy val facade =
       // Compile tests to JS using fast-optimisation
       Test / scalaJSStage := FastOptStage,
       libraryDependencies ++= Seq(
-        "com.github.japgolly.scalajs-react" %%% "core" % scalaJsReact,
-        "com.github.japgolly.scalajs-react" %%% "test" % scalaJsReact % "test",
-        "io.github.cquiroz.react" %%% "common" % "0.11.3",
-        "io.github.cquiroz.react" %%% "test" % "0.11.3" % Test,
-        "io.github.cquiroz.react" %%% "cats" % "0.11.3",
-        "org.scalameta" %%% "munit" % "0.7.29" % Test,
-        "org.typelevel" %%% "cats-core" % "2.6.1" % Test
+        "com.github.japgolly.scalajs-react" %%% "core" % LibraryVersions.scalaJsReact,
+        "com.github.japgolly.scalajs-react" %%% "test" % LibraryVersions.scalaJsReact % "test",
+        "io.github.cquiroz.react" %%% "common" % LibraryVersions.react,
+        "io.github.cquiroz.react" %%% "test" % LibraryVersions.react % Test,
+        "io.github.cquiroz.react" %%% "cats" % LibraryVersions.react,
+        "org.scalameta" %%% "munit" % LibraryVersions.munit % Test,
+        "org.typelevel" %%% "cats-core" % LibraryVersions.cats % Test
       ),
       Test / webpackConfigFile := Some(baseDirectory.value / "test.webpack.config.js"),
       testFrameworks += new TestFramework("munit.Framework")
