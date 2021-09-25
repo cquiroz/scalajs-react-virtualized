@@ -21,7 +21,7 @@ package object virtualized {
       Callback.sequence(indexes.map(recomputeRowHeightsCB))
     def scrollToPositionCB(scrollTop: Int): Callback =
       Callback(m.scrollToPosition(scrollTop))
-    def scrollToRowCB(index:    Int): Callback = Callback(m.scrollToRow(index))
+    def scrollToRowCB(index: Int): Callback = Callback(m.scrollToRow(index))
     def offsetForRow(alignment: String): JsNumber =
       m.getOffsetForRow(js.Dynamic.literal(alignment = alignment))
     def offsetForRow(index: Int): JsNumber =

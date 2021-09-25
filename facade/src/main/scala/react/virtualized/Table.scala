@@ -37,12 +37,12 @@ object Table {
 
   @js.native
   trait JsMethods extends js.Object {
-    def forceUpdateGrid(): Unit = js.native
+    def forceUpdateGrid(): Unit                 = js.native
     def getOffsetForRow(o: js.Object): JsNumber = js.native
-    def measureAllRows(): Unit = js.native
-    def recomputeRowHeights(index:  Int): Unit = js.native
-    def scrollToPosition(scrollTop: Int): Unit = js.native
-    def scrollToRow(index:          Int): Unit = js.native
+    def measureAllRows(): Unit                  = js.native
+    def recomputeRowHeights(index: Int): Unit   = js.native
+    def scrollToPosition(scrollTop: Int): Unit  = js.native
+    def scrollToRow(index: Int): Unit           = js.native
   }
 
   @js.native
@@ -334,10 +334,17 @@ object Table {
   def apply(
     p:        Props,
     children: ColumnArg*
-  ): UnmountedMapped[Id, DefaultEffects.Async, Props, Null, RawMounted[
-    Props,
-    Null
-  ] with JsMethods, Props, Null] =
+  ): UnmountedMapped[Id,
+                     DefaultEffects.Async,
+                     Props,
+                     Null,
+                     RawMounted[
+                       Props,
+                       Null
+                     ] with JsMethods,
+                     Props,
+                     Null
+  ] =
     component.apply(p)(children.map(_.vdomElement): _*)
 
 }

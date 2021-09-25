@@ -212,10 +212,17 @@ object Column {
 
   def apply(
     p: Props
-  ): UnmountedMapped[Id, DefaultEffects.Async, Props, Null, RawMounted[
-    Props,
-    Null
-  ] with Column, Props, Null] =
+  ): UnmountedMapped[Id,
+                     DefaultEffects.Async,
+                     Props,
+                     Null,
+                     RawMounted[
+                       Props,
+                       Null
+                     ] with Column,
+                     Props,
+                     Null
+  ] =
     component(p)
 
 }
