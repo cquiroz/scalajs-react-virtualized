@@ -4,7 +4,7 @@ object Settings {
     val reactVirtualized = "9.21.1"
 
     val scalaJsReact = "2.0.0-RC5"
-    val react        = "0.14.6"
+    val react        = "3.3.11"
     val cats         = "2.6.1"
     val munit        = "0.7.29"
   }
