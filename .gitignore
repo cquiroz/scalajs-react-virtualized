@@ -5,13 +5,15 @@ target/
 react-virtualized
 .metals/
 .bloop/
+.bsp/
+.vscode/
 local.*
 node_modules/
 package-lock.json
 yarn.lock
 facade/yarn.lock
 travis/secrets.tar
-project/metals.sbt
+metals.sbt
 .bsp/
 .hydra/
 project/project/
