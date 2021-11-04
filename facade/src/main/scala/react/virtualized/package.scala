@@ -181,7 +181,7 @@ package virtualized {
     case object Start extends ScrollToAlignment
     case object Center extends ScrollToAlignment
 
-    implicit val enum: EnumValue[ScrollToAlignment] = EnumValue.toLowerCaseString
+    implicit val enumValue: EnumValue[ScrollToAlignment] = EnumValue.toLowerCaseString
   }
 
   // Default renderer implementations
