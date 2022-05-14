@@ -105,7 +105,7 @@ class AutoSizerSuite extends munit.FunSuite with TestUtils {
   test("supportStyle") {
     val style    = js.Dynamic.literal(foo = 42, bar = "foobar")
     val styleMap = Map[String, String | Int]("foo" -> 42, "bar" -> "foobar")
-    assertEquals(AutoSizer(AutoSizer.props(children = children)).props.style === new js.Object(),
+    assertEquals(AutoSizer(AutoSizer.props(children = children)).props.style === new js.Object,
                  true
     )
     assertEquals(AutoSizer(

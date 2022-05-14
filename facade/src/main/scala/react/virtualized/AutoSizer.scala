@@ -72,7 +72,7 @@ object AutoSizer {
     p.nonce = nonce
     p.onResize = (s: Size) => onResize(s).runNow()
     p.children = (s: Size) => children(s).toRaw
-    p.style = style.map(Style.toJsObject).getOrElse(new js.Object())
+    p.style = style.map(Style.toJsObject).getOrElse(new js.Object)
     p
   }
 

@@ -9,7 +9,7 @@ import react.virtualized.raw._
 
 class TableSuite extends munit.FunSuite with TestUtils {
   trait Data extends js.Object
-  val rowGetterF = (x: Int) => new js.Object()
+  val rowGetterF = (x: Int) => new js.Object
 
   test("have some required properties") {
     assertEquals(Table(
