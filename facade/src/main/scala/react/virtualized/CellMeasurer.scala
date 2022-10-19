@@ -68,13 +68,13 @@ object CellMeasurerCacheParams {
 @js.native
 @JSImport("react-virtualized", "CellMeasurerCache")
 class CellMeasurerCache(params: CellMeasurerCacheParams) extends js.Object {
-  def clear(rowIndex: Int, columnIndex: Int = 0): Unit                    = js.native
-  def clearAll(): Unit                                                    = js.native
-  def columnWidth: js.Function1[raw.RawIndexParameter, Int]               = js.native
-  def getHeight(rowIndex: Int, columnIndex: Int = 0): Int                 = js.native
-  def getWidth(rowIndex: Int, columnIndex: Int = 0): Int                  = js.native
-  def has(rowIndex: Int, columnIndex: Int = 0): Boolean                   = js.native
-  def rowHeight: js.Function1[raw.RawIndexParameter, Int]                 = js.native
+  def clear(rowIndex: Int, columnIndex: Int = 0): Unit = js.native
+  def clearAll(): Unit                                      = js.native
+  def columnWidth: js.Function1[raw.RawIndexParameter, Int] = js.native
+  def getHeight(rowIndex: Int, columnIndex: Int = 0): Int     = js.native
+  def getWidth(rowIndex:  Int, columnIndex: Int = 0): Int     = js.native
+  def has(rowIndex:       Int, columnIndex: Int = 0): Boolean = js.native
+  def rowHeight: js.Function1[raw.RawIndexParameter, Int] = js.native
   def set(rowIndex: Int, columnIndex: Int, width: Int, height: Int): Unit = js.native
 }
 
