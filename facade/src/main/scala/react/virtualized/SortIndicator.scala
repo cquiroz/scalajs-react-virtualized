@@ -24,6 +24,6 @@ object SortIndicator {
     p
   }
 
-  private val component                         = JsFnComponent[Props, Children.None](RawComp)
+  private val component = JsFnComponent[Props, Children.None](RawComp)
   def apply(p: SortDirection): Unmounted[Props] = component(props(p))
 }

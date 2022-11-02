@@ -10,7 +10,7 @@ import Data.DataRow
 
 object TableStaticDemo {
 
-  def datum(data: List[DataRow])(i: Int)     = data(i % data.length)
+  def datum(data:     List[DataRow])(i: Int) = data(i % data.length)
   def rowheight(data: List[DataRow])(i: Int) = datum(data)(i).size
 
   final case class Props(useDynamicRowHeight: Boolean, sortBy: String, s: Size)
@@ -98,7 +98,7 @@ object TableCache {
 
 object TableDynamicDemo {
 
-  def datum(data: List[DataRow])(i: Int)     = data(i % data.length)
+  def datum(data:     List[DataRow])(i: Int) = data(i % data.length)
   def rowheight(data: List[DataRow])(i: Int) = datum(data)(i).size
 
   final case class Props(useDynamicRowHeight: Boolean, sortBy: String, s: Size)
