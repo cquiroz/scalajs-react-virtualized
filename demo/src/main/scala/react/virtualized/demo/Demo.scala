@@ -10,19 +10,19 @@ import Data.DataRow
 
 object TableStaticDemo {
 
-  def datum(data: List[DataRow])(i: Int)     = data(i % data.length)
+  def datum(data:     List[DataRow])(i: Int) = data(i % data.length)
   def rowheight(data: List[DataRow])(i: Int) = datum(data)(i).size
 
   final case class Props(useDynamicRowHeight: Boolean, sortBy: String, s: Size)
   final case class State(sortDirection: SortDirection, data: List[DataRow])
 
   def headerRenderer(sortBy: String)(
-    columnData:              DataRow,
-    dataKey:                 String,
-    disableSort:             Option[Boolean],
-    label:                   VdomNode,
-    sortByParam:             Option[String],
-    sortDirection:           SortDirection
+    columnData:    DataRow,
+    dataKey:       String,
+    disableSort:   Option[Boolean],
+    label:         VdomNode,
+    sortByParam:   Option[String],
+    sortDirection: SortDirection
   ): VdomNode =
     <.div("Full Name", SortIndicator(SortDirection.ASC).when(sortBy == dataKey))
 
@@ -98,19 +98,19 @@ object TableCache {
 
 object TableDynamicDemo {
 
-  def datum(data: List[DataRow])(i: Int)     = data(i % data.length)
+  def datum(data:     List[DataRow])(i: Int) = data(i % data.length)
   def rowheight(data: List[DataRow])(i: Int) = datum(data)(i).size
 
   final case class Props(useDynamicRowHeight: Boolean, sortBy: String, s: Size)
   final case class State(sortDirection: SortDirection, data: List[DataRow])
 
   def headerRenderer(sortBy: String)(
-    columnData:              DataRow,
-    dataKey:                 String,
-    disableSort:             Option[Boolean],
-    label:                   VdomNode,
-    sortByParam:             Option[String],
-    sortDirection:           SortDirection
+    columnData:    DataRow,
+    dataKey:       String,
+    disableSort:   Option[Boolean],
+    label:         VdomNode,
+    sortByParam:   Option[String],
+    sortDirection: SortDirection
   ): VdomNode =
     <.div("Full Name", SortIndicator(SortDirection.ASC).when(sortBy == dataKey))
 
